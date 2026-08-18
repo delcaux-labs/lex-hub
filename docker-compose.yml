@@ -14,7 +14,7 @@ services:
       # ponytail: infra ports bind loopback only — reachable from the host for
       # debugging, never from the internet. Compose networking is unaffected, so
       # the other services still reach these by service name.
-      - "127.0.0.1:${DB_PORT:-54322}:5432"   # psql from host if needed
+      - "127.0.0.1:${DB_PORT:-54322}:5432" # psql from host if needed
     environment:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: postgres
@@ -24,7 +24,7 @@ services:
       - db_data:/var/lib/postgresql/data
       - ./docker/db-init/roles.sql:/docker-entrypoint-initdb.d/zz-roles.sql:ro
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
       interval: 5s
       timeout: 5s
       retries: 20
@@ -112,7 +112,7 @@ services:
       DB: postgres://postgres:postgres@db:5432/postgres
     volumes:
       - ./backend/schema.sql:/schema.sql:ro
-    entrypoint: ["bash", "-c"]
+    entrypoint: [ "bash", "-c" ]
     command:
       - |
         until psql "$$DB" -tAc "select to_regclass('auth.users')" | grep -q auth; do
@@ -133,8 +133,8 @@ services:
     image: axllent/mailpit:latest
     ports:
       # Loopback only: the inbox exposes auth + password-reset links.
-      - "127.0.0.1:${MAILPIT_PORT:-8025}:8025"   # web inbox
-      - "127.0.0.1:${MAILPIT_SMTP_PORT:-1025}:1025"   # SMTP
+      - "127.0.0.1:${MAILPIT_PORT:-8025}:8025" # web inbox
+      - "127.0.0.1:${MAILPIT_SMTP_PORT:-1025}:1025" # SMTP
     environment:
       MP_SMTP_AUTH_ACCEPT_ANY: "1"
       MP_SMTP_AUTH_ALLOW_INSECURE: "1"
@@ -197,8 +197,14 @@ services:
       - R2_ACCESS_KEY_ID=rustfsadmin
       - R2_SECRET_ACCESS_KEY=rustfsadmin
       - R2_BUCKET_NAME=mike
+      - USER_API_KEYS_ENCRYPTION_SECRET=${USER_API_KEYS_ENCRYPTION_SECRET}
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
       # Local Ollama running on the host. Override OLLAMA_MODEL to change the tag.
-      - OLLAMA_BASE_URL=${OLLAMA_BASE_URL:-http://host.docker.internal:11434/v1}
+      - OLLAMA_BASE_URL=https://openrouter.ai/api/v1
+      - OLLAMA_API_KEY=${OPENROUTER_API_KEY}
     extra_hosts:
       - "host.docker.internal:host-gateway"
     depends_on:

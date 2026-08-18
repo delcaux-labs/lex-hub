@@ -1,13 +1,6 @@
 // Shared TypeScript types for Mike AI legal assistant
 
-import type {
-    SourceDocument,
-    SourceDocumentAction,
-    SourceDocumentMetadata,
-    SourceDocumentQuote,
-    SourceDocumentType,
-    SourceSubdocument,
-} from "../../../../../backend/src/lib/sourceDocuments";
+
 
 export interface Folder {
     id: string;
@@ -73,12 +66,68 @@ export interface Document {
     latest_version_number?: number | null;
 }
 
-export type PanelDocumentType = SourceDocumentType;
-export type PanelDocumentMetadata = SourceDocumentMetadata;
-export type PanelDocumentAction = SourceDocumentAction;
-export type PanelDocumentQuote = SourceDocumentQuote;
-export type PanelSubdocument = SourceSubdocument;
-export type PanelDocument = SourceDocument;
+export type PanelDocumentType =
+    | "docx"
+    | "pdf"
+    | "spreadsheet"
+    | "case"
+    | "legislation";
+
+export type PanelDocumentMetadata = {
+    label: string;
+    value: string;
+    format?: "date";
+};
+
+export type PanelDocumentAction = {
+    type: "download" | "link";
+    url: string;
+    label: string;
+    title?: string;
+};
+
+export type PanelDocumentQuote = {
+    quote: string;
+    verification?: {
+        verified: boolean;
+        source_excerpt?: string;
+        start_char?: number;
+        end_char?: number;
+    };
+    target: {
+        page?: number | string;
+        sheet?: string;
+        cell?: string;
+        subdocument_id?: string;
+    };
+};
+
+export type PanelSubdocument = {
+    document_id: string;
+    title: string;
+    type: "html";
+    html?: string | null;
+    text?: string | null;
+};
+
+export type PanelDocument = {
+    document_id: string;
+    title: string;
+    type: PanelDocumentType;
+    metadata: PanelDocumentMetadata[];
+    actions?: PanelDocumentAction[];
+    quotes: PanelDocumentQuote[];
+    subdocuments?: PanelSubdocument[];
+    version_id?: string | null;
+    version_number?: number | null;
+};
+
+export type SourceDocumentType = PanelDocumentType;
+export type SourceDocumentMetadata = PanelDocumentMetadata;
+export type SourceDocumentAction = PanelDocumentAction;
+export type SourceDocumentQuote = PanelDocumentQuote;
+export type SourceSubdocument = PanelSubdocument;
+export type SourceDocument = PanelDocument;
 
 export function isPanelDocument(value: unknown): value is PanelDocument {
     if (!value || typeof value !== "object" || Array.isArray(value)) {
