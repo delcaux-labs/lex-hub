@@ -115,8 +115,8 @@ development, sideloading, and troubleshooting instructions.
 ## System Workflows
 
 Mike's system assistant and tabular review workflows are maintained in the
-[`Open-Legal-Products/mike-workflows`](https://github.com/Open-Legal-Products/mike-workflows)
-repository.
+[`delcaux-labs/mike-workflows`](https://github.com/delcaux-labs/mike-workflows)
+repository and included as a Git submodule under `mike-workflows/`.
 
 ## Manual or production deployment
 

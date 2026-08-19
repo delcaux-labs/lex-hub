@@ -117,7 +117,7 @@ jobs:
 
       - uses: actions/checkout@v4
         with:
-          repository: Open-Legal-Products/mike-workflows
+          repository: delcaux-labs/mike-workflows
           ref: ${{ steps.source.outputs.commit }}
           path: mike-workflows
 

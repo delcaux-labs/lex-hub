@@ -15,7 +15,7 @@ type OpenSourceContributorMode = "named" | "anonymous";
 type OpenSourceStatus = "idle" | "loading" | "complete";
 
 const WORKFLOWS_REPO_URL =
-    "https://github.com/Open-Legal-Products/mike-workflows";
+    "https://github.com/delcaux-labs/mike-workflows";
 
 interface OpenSourceWorkflowModalProps {
     open: boolean;
@@ -184,7 +184,7 @@ export function OpenSourceWorkflowModal({
                             rel="noopener noreferrer"
                             className="font-medium text-gray-950 underline decoration-gray-300 underline-offset-4 transition-colors hover:text-gray-600"
                         >
-                            Open-Legal-Products/mike-workflows
+                            delcaux-labs/mike-workflows
                         </a>
                         . Vous serez averti par e-mail si votre workflow est
                         accepté.
@@ -312,7 +312,7 @@ export function OpenSourceWorkflowModal({
                                             rel="noopener noreferrer"
                                             className="font-medium text-gray-900 underline decoration-gray-300 underline-offset-4 transition-colors hover:text-gray-600"
                                         >
-                                            Open-Legal-Products/mike-workflows
+                                            delcaux-labs/mike-workflows
                                         </a>{" "}
                                         <label
                                             htmlFor="open-source-disclosure-consent"

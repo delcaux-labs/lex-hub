@@ -22,9 +22,9 @@ Thanks for helping improve Mike. Please keep contributions small, focused, and e
 
 ## System Workflows
 
-System workflows live in the sibling
-[`Open-Legal-Products/mike-workflows`](https://github.com/Open-Legal-Products/mike-workflows)
-repository under `assistant-workflows/` and `tabular-review-workflows/`. Put
+System workflows live in the
+[`delcaux-labs/mike-workflows`](https://github.com/delcaux-labs/mike-workflows)
+repository (included as a Git submodule under `mike-workflows/`) under `assistant-workflows/` and `tabular-review-workflows/`. Put
 structured metadata in the YAML frontmatter at the top of `SKILL.md`, put
 workflow instructions in the body of `SKILL.md`, and use `table-columns.yaml`
 for tabular review columns.

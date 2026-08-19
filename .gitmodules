@@ -1,0 +1,3 @@
+[submodule "mike-workflows"]
+	path = mike-workflows
+	url = git@github.com:delcaux-labs/mike-workflows.git
