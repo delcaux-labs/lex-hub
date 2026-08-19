@@ -55,13 +55,18 @@ export function initTelemetry(): void {
 }
 
 function parseOtelHeaders(headerStr?: string): Record<string, string> {
-    if (!headerStr?.trim()) return {};
     const headers: Record<string, string> = {};
-    for (const part of headerStr.split(",")) {
-        const [k, ...v] = part.split("=");
-        if (k && v.length > 0) {
-            headers[k.trim()] = v.join("=").trim();
+    if (headerStr?.trim()) {
+        for (const part of headerStr.split(",")) {
+            const [k, ...v] = part.split("=");
+            if (k && v.length > 0) {
+                headers[k.trim()] = v.join("=").trim();
+            }
         }
+    }
+    // Default to experiment 0 for MLflow trace ingestion if not explicitly set
+    if (!headers["x-mlflow-experiment-id"]) {
+        headers["x-mlflow-experiment-id"] = "0";
     }
     return headers;
 }
