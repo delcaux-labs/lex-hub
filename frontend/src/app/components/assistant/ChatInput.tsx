@@ -8,6 +8,7 @@ import {
     forwardRef,
     useImperativeHandle,
 } from "react";
+import { useTranslations } from "next-intl";
 import {
     ArrowRight,
     Check,
@@ -95,6 +96,8 @@ export const ChatInput = forwardRef<ChatInputHandle, Props>(function ChatInput(
     }: Props,
     ref,
 ) {
+    const tAssistant = useTranslations("assistant");
+    const tCommon = useTranslations("common");
     const [value, setValue] = useState("");
     const [attachedDocs, setAttachedDocs] = useState<Document[]>([]);
     const [selectedWorkflow, setSelectedWorkflow] = useState<{
@@ -517,7 +520,7 @@ export const ChatInput = forwardRef<ChatInputHandle, Props>(function ChatInput(
                         <textarea
                             ref={textareaRef}
                             rows={1}
-                            placeholder="Comment puis-je vous aider ?"
+                            placeholder={tAssistant("howCanIHelp")}
                             value={value}
                             onChange={handleChange}
                             onKeyDown={handleKeyDown}

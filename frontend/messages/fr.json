@@ -119,6 +119,7 @@
         "startConversation": "Démarrer une nouvelle analyse",
         "askAnything": "Posez une question ou demandez une analyse juridique...",
         "greeting": "Comment puis-je vous aider dans vos dossiers aujourd'hui ?",
+        "howCanIHelp": "Comment puis-je vous aider ?",
         "attachDocument": "Joindre un document",
         "selectModel": "Modèle d'IA",
         "selectWorkflow": "Sélectionner un workflow",
@@ -211,6 +212,8 @@
         },
         "exportCsv": "Exporter en CSV",
         "exportExcel": "Exporter en Excel",
+        "howCanIHelp": "Comment puis-je vous aider ?",
+        "searchChats": "Rechercher des discussions…",
         "deleteReviewConfirm": "Êtes-vous sûr de vouloir supprimer cette revue tabulaire ?"
     },
     "workflows": {

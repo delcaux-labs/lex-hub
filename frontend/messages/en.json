@@ -119,6 +119,7 @@
         "startConversation": "Start a new analysis",
         "askAnything": "Ask a question or request a legal analysis...",
         "greeting": "How can I assist with your matters today?",
+        "howCanIHelp": "How can I help?",
         "attachDocument": "Attach a document",
         "selectModel": "AI Model",
         "selectWorkflow": "Select a workflow",
@@ -211,6 +212,8 @@
         },
         "exportCsv": "Export to CSV",
         "exportExcel": "Export to Excel",
+        "howCanIHelp": "How can I help?",
+        "searchChats": "Search chats…",
         "deleteReviewConfirm": "Are you sure you want to delete this tabular review?"
     },
     "workflows": {

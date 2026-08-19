@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { createPortal } from "react-dom";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { useTranslations } from "next-intl";
 import {
     MoreHorizontal,
     Pencil,
@@ -448,6 +449,7 @@ function TRChatInput({
     apiKeys?: ApiKeyState;
     onHeightChange: (height: number) => void;
 }) {
+    const tTabular = useTranslations("tabular");
     const [value, setValue] = useState("");
     const rootRef = useRef<HTMLDivElement>(null);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -511,7 +513,7 @@ function TRChatInput({
                 <textarea
                     ref={textareaRef}
                     rows={1}
-                    placeholder="Comment puis-je vous aider ?"
+                    placeholder={tTabular("howCanIHelp")}
                     value={value}
                     onChange={(e) => {
                         setValue(e.target.value);
@@ -581,6 +583,7 @@ function HistoryDropdown({
     } | null>(null);
     const [renamingChatId, setRenamingChatId] = useState<string | null>(null);
     const [renameValue, setRenameValue] = useState("");
+    const tTabular = useTranslations("tabular");
     const filtered = chats
         .filter((c) => c.id !== currentChatId)
         .filter((c) => {
@@ -601,7 +604,7 @@ function HistoryDropdown({
                 <input
                     autoFocus
                     type="text"
-                    placeholder="Rechercher des chats…"
+                    placeholder={tTabular("searchChats")}
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
                     className="flex-1 text-xs bg-transparent outline-none placeholder:text-gray-400 text-gray-700"
@@ -615,12 +618,12 @@ function HistoryDropdown({
                     <p className="px-2 py-1.5 text-xs text-gray-400">
                         {chats.filter((c) => c.id !== currentChatId).length ===
                         0
-                            ? "Aucun chat précédent."
+                            ? "Aucune discussion précédente."
                             : "Aucun résultat."}
                     </p>
                 ) : (
                     filtered.map((chat) => {
-                        const label = chat.title ?? "Chat";
+                        const label = chat.title ?? "Discussion";
                         if (renamingChatId === chat.id) {
                             return (
                                 <input

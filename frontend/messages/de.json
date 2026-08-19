@@ -119,6 +119,7 @@
         "startConversation": "Eine neue Analyse starten",
         "askAnything": "Stellen Sie eine Frage oder fordern Sie eine Rechtsanalyse an...",
         "greeting": "Wie kann ich Sie heute bei Ihren Angelegenheiten unterstützen?",
+        "howCanIHelp": "Wie kann ich Ihnen helfen?",
         "attachDocument": "Dokument anhängen",
         "selectModel": "KI-Modell",
         "selectWorkflow": "Workflow auswählen",
@@ -211,6 +212,8 @@
         },
         "exportCsv": "Als CSV exportieren",
         "exportExcel": "Als Excel exportieren",
+        "howCanIHelp": "Wie kann ich Ihnen helfen?",
+        "searchChats": "Chats durchsuchen…",
         "deleteReviewConfirm": "Möchten Sie diese tabellarische Prüfung wirklich löschen?"
     },
     "workflows": {
