@@ -80,8 +80,8 @@ export function TableToolbar<T extends string>({
                     <DropdownMenuTrigger asChild>
                         <button
                             type="button"
-                            title="Toolbar actions"
-                            aria-label="Toolbar actions"
+                            title="Actions de la barre d'outils"
+                            aria-label="Actions de la barre d'outils"
                             className="ml-auto inline-flex h-7 w-7 items-center justify-center rounded-full border border-white/70 bg-white/65 text-gray-700 shadow-[0_3px_9px_rgba(15,23,42,0.05),inset_0_1px_0_rgba(255,255,255,0.86),inset_0_-1px_0_rgba(255,255,255,0.58)] backdrop-blur-xl transition-colors hover:bg-white hover:text-gray-900 active:scale-[0.98]"
                         >
                             <Settings2 className="h-3.5 w-3.5" />

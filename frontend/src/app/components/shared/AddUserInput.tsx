@@ -26,9 +26,9 @@ export function AddUserInput({
     onAdd,
     validateEmail,
     busy = false,
-    placeholder = "Add by email...",
+    placeholder = "Ajouter par e-mail...",
     autoFocus = false,
-    submitLabel = "Add user",
+    submitLabel = "Ajouter l'utilisateur",
     className,
 }: AddUserInputProps) {
     const [input, setInput] = useState("");
@@ -42,7 +42,7 @@ export function AddUserInput({
         const email = trimmedEmail;
         if (!email || busy || checking) return;
         if (!EMAIL_RE.test(email)) {
-            setError("Enter a valid email.");
+            setError("Entrez une adresse e-mail valide.");
             return;
         }
 
@@ -57,7 +57,7 @@ export function AddUserInput({
 
             const user = await lookupUserByEmail(email);
             if (!user.exists) {
-                setError(`${email} does not belong to a Mike user.`);
+                setError(`${email} ne correspond à aucun utilisateur LexHub.`);
                 return;
             }
 
@@ -67,7 +67,7 @@ export function AddUserInput({
             setError(
                 err instanceof Error
                     ? err.message
-                    : "Could not add this user. Try again.",
+                    : "Impossible d'ajouter cet utilisateur. Réessayez.",
             );
         } finally {
             setChecking(false);
@@ -116,7 +116,7 @@ export function AddUserInput({
                         {(busy || checking) && (
                             <Loader2 className="h-3 w-3 animate-spin" />
                         )}
-                        Add
+                        Ajouter
                     </PillButton>
                 )}
             </div>

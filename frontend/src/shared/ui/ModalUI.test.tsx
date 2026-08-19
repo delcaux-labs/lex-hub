@@ -26,7 +26,7 @@ describe("ModalUI", () => {
         expect(screen.getByText("Select documents")).toBeVisible();
         expect(screen.getByRole("button", { name: "Confirm" })).toBeVisible();
 
-        await user.click(screen.getByRole("button", { name: "Close" }));
+        await user.click(screen.getByRole("button", { name: "Fermer" }));
         expect(onClose).toHaveBeenCalledOnce();
     });
 

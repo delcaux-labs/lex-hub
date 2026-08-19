@@ -89,7 +89,7 @@ export function NewProjectModal({ open, onClose, onCreated }: Props) {
             resetForm();
             onClose();
         } catch (err: unknown) {
-            setError((err as Error).message || "Failed to create project");
+            setError((err as Error).message || "Échec de la création du projet");
         } finally {
             setLoading(false);
         }
@@ -113,14 +113,14 @@ export function NewProjectModal({ open, onClose, onCreated }: Props) {
 
     function validateShareUser(email: string) {
         if (ownEmail && email === ownEmail) {
-            return "You cannot share a project with yourself.";
+            return "Vous ne pouvez pas partager un projet avec vous-même.";
         }
         if (
             sharedUsers.some(
                 (user) => user.email.trim().toLowerCase() === email,
             )
         ) {
-            return `${email} already has access.`;
+            return `${email} a déjà accès.`;
         }
         return null;
     }
@@ -150,14 +150,14 @@ export function NewProjectModal({ open, onClose, onCreated }: Props) {
             open={open}
             onClose={handleClose}
             breadcrumbs={[
-                "Projects",
-                "New project",
-                step === "details" ? "Details" : "Add Documents",
+                "Projets",
+                "Nouveau projet",
+                step === "details" ? "Détails" : "Ajouter des documents",
             ]}
             secondaryAction={
                 step === "documents"
                     ? {
-                          label: `Upload${pendingFiles.length > 0 ? ` (${pendingFiles.length})` : ""}`,
+                          label: `Téléverser${pendingFiles.length > 0 ? ` (${pendingFiles.length})` : ""}`,
                           icon: <Upload className="h-3.5 w-3.5" />,
                           onClick: () => fileInputRef.current?.click(),
                           disabled: loading,
@@ -167,7 +167,7 @@ export function NewProjectModal({ open, onClose, onCreated }: Props) {
             cancelAction={
                 step === "documents"
                     ? {
-                          label: "Back",
+                          label: "Retour",
                           onClick: () => setStep("details"),
                           disabled: loading,
                       }
@@ -176,7 +176,7 @@ export function NewProjectModal({ open, onClose, onCreated }: Props) {
             primaryAction={
                 step === "details"
                     ? {
-                          label: "Next",
+                          label: "Suivant",
                           type: "button",
                           onClick: (event) => {
                               event.preventDefault();
@@ -185,7 +185,7 @@ export function NewProjectModal({ open, onClose, onCreated }: Props) {
                           disabled: !name.trim() || loading,
                       }
                     : {
-                          label: loading ? "Creating…" : "Create project",
+                          label: loading ? "Création en cours…" : "Créer le projet",
                           type: "submit",
                           form: formId,
                           name: "modalAction",
@@ -210,14 +210,14 @@ export function NewProjectModal({ open, onClose, onCreated }: Props) {
                     <div className="space-y-6">
                         <div>
                             <FieldLabel htmlFor="new-project-name">
-                                Project name
+                                Nom du projet
                             </FieldLabel>
                             <FormTextInput
                                 id="new-project-name"
                                 type="text"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
-                                placeholder="Add project name"
+                                placeholder="Ajouter un nom de projet"
                                 variant="minimal"
                                 autoFocus
                             />
@@ -225,14 +225,14 @@ export function NewProjectModal({ open, onClose, onCreated }: Props) {
 
                         <div>
                             <FieldLabel htmlFor="new-project-cm-number">
-                                CM number
+                                Numéro CM
                             </FieldLabel>
                             <FormTextInput
                                 id="new-project-cm-number"
                                 type="text"
                                 value={cmNumber}
                                 onChange={(e) => setCmNumber(e.target.value)}
-                                placeholder="Add a CM number..."
+                                placeholder="Ajouter un numéro CM..."
                                 variant="minimal"
                                 className="text-xl text-gray-600"
                             />
@@ -240,7 +240,7 @@ export function NewProjectModal({ open, onClose, onCreated }: Props) {
 
                         <div>
                             <FieldLabel htmlFor="new-project-practice">
-                                Practice
+                                Domaine de pratique
                             </FieldLabel>
                             <ProjectPracticeField
                                 id="new-project-practice"
@@ -251,19 +251,19 @@ export function NewProjectModal({ open, onClose, onCreated }: Props) {
 
                         <div className="space-y-2">
                             <FieldLabel as="p">
-                                Share with
+                                Partager avec
                             </FieldLabel>
                             <AddUserInput
                                 onAdd={handleAddShareUser}
                                 validateEmail={validateShareUser}
-                                placeholder="Add colleagues by email..."
+                                placeholder="Ajouter des collègues par e-mail..."
                             />
                             {sharedUsers.length > 0 && (
                                 <ul className="space-y-1 pt-1">
                                     {sharedUsers.map((entry) => {
                                         const displayName =
                                             entry.display_name?.trim();
-                                        const primary = displayName || "User";
+                                        const primary = displayName || "Utilisateur";
                                         const initial = displayName
                                             ?.charAt(0)
                                             .toUpperCase();
@@ -298,7 +298,7 @@ export function NewProjectModal({ open, onClose, onCreated }: Props) {
                                                         )
                                                     }
                                                     className="self-center inline-flex items-center rounded-full px-2 py-1 text-xs text-gray-500 transition-colors hover:text-red-600"
-                                                    aria-label={`Remove ${entry.email}`}
+                                                    aria-label={`Retirer ${entry.email}`}
                                                 >
                                                     <X className="h-3 w-3" />
                                                 </button>

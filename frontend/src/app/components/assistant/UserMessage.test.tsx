@@ -21,7 +21,7 @@ describe("UserMessage", () => {
         );
 
         await user.click(
-            screen.getByRole("button", { name: "Open agreement.docx" }),
+            screen.getByRole("button", { name: "Ouvrir agreement.docx" }),
         );
         expect(onFileClick).toHaveBeenCalledWith(file);
     });

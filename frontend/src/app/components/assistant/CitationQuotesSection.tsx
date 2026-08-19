@@ -53,7 +53,7 @@ export function documentQuoteId(documentId: string, index: number): string {
 function formatCellTarget(quote: PanelDocumentQuote): string | null {
     const { sheet, cell } = quote.target;
     if (!cell) return sheet ?? null;
-    const cellWord = cell.includes(":") ? "cells" : "cell";
+    const cellWord = cell.includes(":") ? "cellules" : "cellule";
     const cellPart = `${cellWord} ${cell}`;
     return sheet ? `${sheet}, ${cellPart}` : cellPart;
 }
@@ -117,7 +117,7 @@ export function CitationQuotesSection({
                         {hasMultipleQuotes && (
                             <div className="flex items-center gap-1">
                                 <span className="mr-0.5 text-xs font-medium text-gray-500">
-                                    Quotes
+                                    Extraits
                                 </span>
                                 {quotes.map((quote, index) => {
                                     const isUnverified =
@@ -170,7 +170,7 @@ export function CitationQuotesSection({
                         />
                     ) : (
                         <RelevantQuoteMessage>
-                            No relevant quotes.
+                            Aucun extrait pertinent.
                         </RelevantQuoteMessage>
                     )}
                 </div>
@@ -267,7 +267,7 @@ function QuoteItem({
                     disabled={isUnverified}
                     onClick={onView}
                 >
-                    View
+                    Afficher
                 </PillButton>
             </div>
         </div>

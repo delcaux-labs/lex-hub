@@ -371,7 +371,7 @@ export function NewWorkflowModal({
             resetForm();
             onClose();
         } catch (err: unknown) {
-            setError((err as Error).message || `Failed to ${isEditing ? "update" : "create"} workflow`);
+            setError((err as Error).message || `Échec de la ${isEditing ? "mise à jour" : "création"} du workflow`);
         } finally {
             setLoading(false);
         }
@@ -396,7 +396,7 @@ export function NewWorkflowModal({
         ) {
             setImportedSkillMd("");
             setImportedSkillName(null);
-            setMarkdownImportError("Choose a .md or .markdown file.");
+            setMarkdownImportError("Choisissez un fichier .md ou .markdown.");
             e.target.value = "";
             return;
         }
@@ -408,7 +408,7 @@ export function NewWorkflowModal({
         } catch {
             setImportedSkillMd("");
             setImportedSkillName(null);
-            setMarkdownImportError("Could not read that markdown file.");
+            setMarkdownImportError("Impossible de lire ce fichier markdown.");
             e.target.value = "";
         }
     }
@@ -419,7 +419,7 @@ export function NewWorkflowModal({
             onClose={handleClose}
             breadcrumbs={[
                 "Workflows",
-                isEditing ? "View and Edit details" : "New workflow",
+                isEditing ? "Afficher et modifier les détails" : "Nouveau workflow",
             ]}
             primaryAction={
                 viewOnly
@@ -427,11 +427,11 @@ export function NewWorkflowModal({
                     : {
                           label: loading
                               ? isEditing
-                                  ? "Saving…"
-                                  : "Creating…"
+                                  ? "Enregistrement en cours…"
+                                  : "Création en cours…"
                               : isEditing
-                                ? "Save changes"
-                                : "Create workflow",
+                                ? "Enregistrer les modifications"
+                                : "Créer le workflow",
                           type: "submit",
                           form: formId,
                           disabled: !title.trim() || loading,
@@ -440,7 +440,7 @@ export function NewWorkflowModal({
             secondaryAction={
                 !isEditing && type === "assistant"
                     ? {
-                          label: importedSkillName ?? "Upload markdown",
+                          label: importedSkillName ?? "Téléverser un fichier markdown",
                           icon: <Upload className="h-3.5 w-3.5" />,
                           onClick: () => markdownInputRef.current?.click(),
                           disabled: loading,
@@ -456,14 +456,14 @@ export function NewWorkflowModal({
                 <div className="space-y-6">
                     <div>
                         <FieldLabel htmlFor="workflow-title">
-                            Title
+                            Titre
                         </FieldLabel>
                         <FormTextInput
                             id="workflow-title"
                             type="text"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
-                            placeholder="Add workflow name"
+                            placeholder="Ajouter un nom de workflow"
                             variant="minimal"
                             disabled={viewOnly}
                             autoFocus={!viewOnly}
@@ -484,7 +484,7 @@ export function NewWorkflowModal({
                                     },
                                     {
                                         value: "tabular",
-                                        label: "Tabular",
+                                        label: "Tabulaire",
                                         icon: Table2,
                                     },
                                 ]}
@@ -495,7 +495,7 @@ export function NewWorkflowModal({
                     <div className="grid gap-5 md:grid-cols-2">
                         <div>
                             <FieldLabel htmlFor="workflow-language">
-                                Language
+                                Langue
                             </FieldLabel>
                             <ModalSelect
                                 id="workflow-language"
@@ -529,7 +529,7 @@ export function NewWorkflowModal({
                                     onChange={(e) =>
                                         setCustomLanguage(e.target.value)
                                     }
-                                    placeholder="Enter language…"
+                                    placeholder="Saisir une langue…"
                                     className="mt-2"
                                 />
                             )}
@@ -537,7 +537,7 @@ export function NewWorkflowModal({
 
                         <div>
                             <FieldLabel htmlFor="workflow-practice">
-                                Practice area
+                                Domaine d'expertise
                             </FieldLabel>
                             <ModalSelect
                                 id="workflow-practice"
@@ -571,7 +571,7 @@ export function NewWorkflowModal({
                                     onChange={(e) =>
                                         setCustomPractice(e.target.value)
                                     }
-                                    placeholder="Enter practice area…"
+                                    placeholder="Saisir un domaine d'expertise…"
                                     className="mt-2"
                                 />
                             )}
@@ -580,7 +580,7 @@ export function NewWorkflowModal({
 
                     <div>
                         <FieldLabel htmlFor="workflow-jurisdiction">
-                            Jurisdiction
+                            Juridiction
                         </FieldLabel>
                         <ModalSelect
                             id="workflow-jurisdiction"
@@ -615,8 +615,8 @@ export function NewWorkflowModal({
                                 disabled={viewOnly}
                                 placeholder={
                                     jurisdiction === "United States"
-                                        ? "Select state..."
-                                        : "Select province..."
+                                        ? "Sélectionner un État..."
+                                        : "Sélectionner une province..."
                                 }
                                 open={openDropdown === "jurisdictionRegion"}
                                 onOpenChange={(nextOpen) =>
@@ -643,7 +643,7 @@ export function NewWorkflowModal({
                                 onChange={(e) =>
                                     setCustomJurisdiction(e.target.value)
                                 }
-                                placeholder="Enter jurisdiction…"
+                                placeholder="Saisir une juridiction…"
                                 className="mt-2"
                             />
                         )}

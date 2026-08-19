@@ -43,10 +43,10 @@ describe("QuickActionsModal", () => {
         fireEvent.click(
             screen.getByRole("button", { name: /Proofread agreement/ }),
         );
-        const save = screen.getByRole("button", { name: "Save" });
+        const save = screen.getByRole("button", { name: "Enregistrer" });
         expect(save).toBeDisabled();
 
-        fireEvent.change(screen.getByLabelText("Name"), {
+        fireEvent.change(screen.getByLabelText("Nom"), {
             target: { value: "Proofread contract" },
         });
         expect(save).toBeEnabled();

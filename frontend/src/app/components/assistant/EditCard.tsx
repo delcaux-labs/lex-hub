@@ -257,8 +257,8 @@ export function EditCard({
                 versionId: annotation.version_id ?? null,
                 message:
                     verb === "accept"
-                        ? "Couldn't save accept — reverted."
-                        : "Couldn't save reject — reverted.",
+                        ? "Impossible d'enregistrer l'acceptation — annulé."
+                        : "Impossible d'enregistrer le refus — annulé.",
             });
         } finally {
             setBusy(false);
@@ -274,23 +274,23 @@ export function EditCard({
             status={status}
             className={`${RESPONSE_GLASS_SURFACE} p-2`}
             acceptAction={{
-                label: status === "accepted" ? "Accepted" : "Accept",
+                label: status === "accepted" ? "Accepté" : "Accepter",
                 onClick: () => handle("accept"),
                 disabled: inFlight || resolved,
             }}
             rejectAction={{
-                label: status === "rejected" ? "Rejected" : "Reject",
+                label: status === "rejected" ? "Refusé" : "Refuser",
                 onClick: () => handle("reject"),
                 disabled: inFlight || resolved,
             }}
             viewAction={
                 onViewClick
                     ? {
-                          label: "View",
+                          label: "Afficher",
                           onClick: () => onViewClick(annotation),
                           disabled: resolved,
                           title: resolved
-                              ? "This change has been resolved and is no longer in the document."
+                              ? "Cette modification a été traitée et ne figure plus dans le document."
                               : undefined,
                       }
                     : undefined

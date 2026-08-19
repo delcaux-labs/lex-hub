@@ -27,14 +27,14 @@ export function WFColumnViewModal({ col, onClose }: Props) {
             onClose={onClose}
             breadcrumbs={["Workflows", col.name]}
             primaryAction={{
-                label: "Close",
+                label: "Fermer",
                 onClick: onClose,
             }}
             cancelAction={false}
         >
             <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto">
                 <div>
-                    <FieldLabel as="p" className="text-gray-500">Column Title</FieldLabel>
+                    <FieldLabel as="p" className="text-gray-500">Titre de la colonne</FieldLabel>
                     <p className="text-sm text-gray-800">{col.name}</p>
                 </div>
                 <div>
@@ -57,7 +57,7 @@ export function WFColumnViewModal({ col, onClose }: Props) {
                 <div>
                     <FieldLabel as="p" className="text-gray-500">Prompt</FieldLabel>
                     <div className="text-base text-gray-700 leading-relaxed font-serif prose prose-base max-w-none">
-                        <ReactMarkdown remarkPlugins={[remarkGfm]}>{col.prompt || "_No prompt defined._"}</ReactMarkdown>
+                        <ReactMarkdown remarkPlugins={[remarkGfm]}>{col.prompt || "_Aucun prompt défini._"}</ReactMarkdown>
                     </div>
                 </div>
             </div>

@@ -25,9 +25,9 @@ export function ConfirmPopup({
     open,
     title,
     message,
-    confirmLabel = "Confirm",
+    confirmLabel = "Confirmer",
     confirmStatus = "idle",
-    cancelLabel = "Cancel",
+    cancelLabel = "Annuler",
     onConfirm,
     onCancel,
     confirmDisabled = false,
@@ -37,8 +37,10 @@ export function ConfirmPopup({
     const confirmBusy = confirmStatus === "loading";
     const resolvedConfirmDisabled = confirmDisabled || confirmStatus !== "idle";
     const normalizedConfirmLabel =
-        typeof confirmLabel === "string" ? confirmLabel : "Confirm";
-    const isDeleteAction = normalizedConfirmLabel.toLowerCase() === "delete";
+        typeof confirmLabel === "string" ? confirmLabel : "Confirmer";
+    const isDeleteAction =
+        normalizedConfirmLabel.toLowerCase() === "delete" ||
+        normalizedConfirmLabel.toLowerCase() === "supprimer";
     const resolvedConfirmLabel =
         confirmStatus === "loading" ? (
             <span className="inline-flex h-full items-center gap-1.5">
@@ -103,12 +105,18 @@ export function ConfirmPopup({
 
 function progressiveLabel(label: string) {
     const lower = label.toLowerCase();
+    if (lower === "supprimer") return "Suppression en cours...";
+    if (lower === "confirmer") return "Confirmation en cours...";
+    if (lower === "enregistrer") return "Enregistrement en cours...";
     if (lower.endsWith("e")) return `${label.slice(0, -1)}ing...`;
     return `${label}ing...`;
 }
 
 function completedLabel(label: string) {
     const lower = label.toLowerCase();
+    if (lower === "supprimer") return "Supprimé";
+    if (lower === "confirmer") return "Confirmé";
+    if (lower === "enregistrer") return "Enregistré";
     if (lower.endsWith("e")) return `${label}d`;
     return `${label}ed`;
 }

@@ -57,7 +57,7 @@ export function TabularReviewDetailsModal({
                           project.name +
                           (project.cm_number ? ` (#${project.cm_number})` : ""),
                   }))
-                : [{ value: "", label: "No projects found" }],
+                : [{ value: "", label: "Aucun projet trouvé" }],
         [projects],
     );
     const hasChanges = useMemo(() => {
@@ -90,7 +90,7 @@ export function TabularReviewDetailsModal({
             });
             setSaved(true);
         } catch {
-            setError("Could not update tabular review details.");
+            setError("Impossible de mettre à jour les détails de la revue tabulaire.");
         } finally {
             setSaving(false);
         }
@@ -101,21 +101,21 @@ export function TabularReviewDetailsModal({
             open={open}
             onClose={onClose}
             breadcrumbs={[
-                "Tabular Reviews",
-                review.title || "Untitled Review",
-                "Details",
+                "Revues tabulaires",
+                review.title || "Revue sans titre",
+                "Détails",
             ]}
             footerStatus={
                 error ? (
                     <span className="text-sm text-red-600">{error}</span>
                 ) : saved ? (
-                    <span className="text-sm text-gray-400">Updated</span>
+                    <span className="text-sm text-gray-400">Mis à jour</span>
                 ) : null
             }
             primaryAction={
                 canEdit
                     ? {
-                          label: saving ? "Saving..." : "Save changes",
+                          label: saving ? "Enregistrement en cours..." : "Enregistrer les modifications",
                           onClick: () => void handleSave(),
                           disabled:
                               saving ||
@@ -130,7 +130,7 @@ export function TabularReviewDetailsModal({
             <div className="space-y-6">
                 <div>
                     <FieldLabel htmlFor="tabular-review-details-title">
-                        Review name
+                        Nom de la revue
                     </FieldLabel>
                     <FormTextInput
                         id="tabular-review-details-title"
@@ -141,7 +141,7 @@ export function TabularReviewDetailsModal({
                             setSaved(false);
                             setError(null);
                         }}
-                        placeholder="Review name"
+                        placeholder="Nom de la revue"
                         variant="minimal"
                         className="placeholder:text-gray-400"
                         disabled={!canEdit || saving}
@@ -151,7 +151,7 @@ export function TabularReviewDetailsModal({
 
                 {!lockProject && (
                     <div className="space-y-3">
-                        <FieldLabel as="p">Project</FieldLabel>
+                        <FieldLabel as="p">Projet</FieldLabel>
                         <ToggleSwitch
                             checked={underProject}
                             disabled={!canEdit || saving}
@@ -162,7 +162,7 @@ export function TabularReviewDetailsModal({
                                 setError(null);
                             }}
                         >
-                            Move under a project
+                            Déplacer dans un projet
                         </ToggleSwitch>
 
                         {underProject && (
@@ -175,7 +175,7 @@ export function TabularReviewDetailsModal({
                                     setSaved(false);
                                     setError(null);
                                 }}
-                                placeholder="Select project..."
+                                placeholder="Sélectionner un projet..."
                                 disabled={
                                     !canEdit || saving || projects.length === 0
                                 }

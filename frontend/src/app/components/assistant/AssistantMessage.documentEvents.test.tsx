@@ -181,7 +181,7 @@ describe("AssistantMessage document events", () => {
             />,
         );
 
-        const viewButtons = screen.getAllByRole("button", { name: "View" });
+        const viewButtons = screen.getAllByRole("button", { name: "Afficher" });
         fireEvent.click(viewButtons[0]);
         expect(onOpenDocument).toHaveBeenCalledWith({
             documentId: "document-1",

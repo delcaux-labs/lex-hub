@@ -34,8 +34,8 @@ import type {
 } from "@/app/hooks/usePaginatedTabularReviews";
 
 const SORT_OPTIONS: TableFilterOption<TableSortDirection>[] = [
-    { value: "asc", label: "Ascending" },
-    { value: "desc", label: "Descending" },
+    { value: "asc", label: "Croissant" },
+    { value: "desc", label: "Décroissant" },
 ];
 
 export function ProjectReviewsTable({
@@ -124,9 +124,9 @@ export function ProjectReviewsTable({
         sort?.key === "created" ? sort.direction : null;
     const nameFilterButton = (
         <TableFilters
-            label="Sort by review name"
+            label="Trier par nom de revue"
             value={nameSortDirection}
-            allLabel="Default Order"
+            allLabel="Ordre par défaut"
             widthClassName="w-40"
             align="right"
             options={SORT_OPTIONS}
@@ -135,9 +135,9 @@ export function ProjectReviewsTable({
     );
     const columnsFilterButton = (
         <TableFilters
-            label="Sort by columns"
+            label="Trier par colonnes"
             value={columnsSortDirection}
-            allLabel="Default Order"
+            allLabel="Ordre par défaut"
             widthClassName="w-40"
             options={SORT_OPTIONS}
             onChange={(direction) => handleSortChange("columns", direction)}
@@ -145,9 +145,9 @@ export function ProjectReviewsTable({
     );
     const documentsFilterButton = (
         <TableFilters
-            label="Sort by documents"
+            label="Trier par documents"
             value={documentsSortDirection}
-            allLabel="Default Order"
+            allLabel="Ordre par défaut"
             widthClassName="w-40"
             options={SORT_OPTIONS}
             onChange={(direction) => handleSortChange("documents", direction)}
@@ -155,9 +155,9 @@ export function ProjectReviewsTable({
     );
     const createdFilterButton = (
         <TableFilters
-            label="Sort by created date"
+            label="Trier par date de création"
             value={createdSortDirection}
-            allLabel="Default Order"
+            allLabel="Ordre par défaut"
             widthClassName="w-40"
             options={SORT_OPTIONS}
             onChange={(direction) => handleSortChange("created", direction)}
@@ -196,12 +196,12 @@ export function ProjectReviewsTable({
                                 className={TABLE_CHECKBOX_CLASS}
                             />
                         )}
-                        <span className="mr-1">Name</span>
+                        <span className="mr-1">Nom</span>
                         {!loading && nameFilterButton}
                     </TableStickyCell>
                     <TableHeaderCell className="ml-auto w-24">
                         <div className="flex items-center gap-1">
-                            <span>Columns</span>
+                            <span>Colonnes</span>
                             {!loading && columnsFilterButton}
                         </div>
                     </TableHeaderCell>
@@ -213,7 +213,7 @@ export function ProjectReviewsTable({
                     </TableHeaderCell>
                     <TableHeaderCell className="w-32">
                         <div className="flex items-center gap-1">
-                            <span>Created</span>
+                            <span>Créé</span>
                             {!loading && createdFilterButton}
                         </div>
                     </TableHeaderCell>
@@ -226,10 +226,10 @@ export function ProjectReviewsTable({
             ) : error ? (
                 <TableEmptyState>
                     <p className="text-lg font-medium font-serif text-gray-900">
-                        Unable to load reviews
+                        Impossible de charger les revues
                     </p>
                     <p className="mt-1 text-xs text-gray-400">
-                        Check your connection and try again.
+                        Vérifiez votre connexion et réessayez.
                     </p>
                     <PillButton
                         tone="black"
@@ -237,24 +237,23 @@ export function ProjectReviewsTable({
                         onClick={onRetry}
                         className="mt-4 px-3"
                     >
-                        Try again
+                        Réessayer
                     </PillButton>
                 </TableEmptyState>
             ) : reviews.length === 0 ? (
                 <TableEmptyState>
                     {hasActiveSearch ? (
                         <p className="text-sm text-gray-400">
-                            No reviews found
+                            Aucune revue trouvée
                         </p>
                     ) : (
                         <>
                             <TabularReviewSkeuoIcon className="mb-4 h-8 w-8" />
                             <p className="text-2xl font-medium font-serif text-gray-900">
-                                Tabular Reviews
+                                Revues tabulaires
                             </p>
                             <p className="mt-1 text-xs text-gray-400 max-w-xs">
-                                Extract data from project documents into tables
-                                using AI.
+                                Extrayez des données des documents du projet dans des tableaux grâce à l'IA.
                             </p>
                             <PillButton
                                 tone="black"
@@ -264,7 +263,7 @@ export function ProjectReviewsTable({
                                 className="mt-4 px-3"
                             >
                                 <Plus className="h-3.5 w-3.5" />
-                                Create
+                                Créer
                             </PillButton>
                         </>
                     )}
@@ -295,7 +294,7 @@ export function ProjectReviewsTable({
                                                               currentUserId
                                                       ) {
                                                           onOwnerOnlyAction(
-                                                              "edit tabular review details",
+                                                              "modifier les détails de la revue tabulaire",
                                                           );
                                                           return;
                                                       }
@@ -333,11 +332,11 @@ export function ProjectReviewsTable({
                                             prev.includes(review.id)
                                                 ? prev.filter(
                                                       (x) => x !== review.id,
-                                                  )
+                                                   )
                                                 : [...prev, review.id],
                                         )
                                     }
-                                    label={review.title ?? "Untitled Review"}
+                                    label={review.title ?? "Revue sans titre"}
                                 />
                                 <TableCell className="ml-auto w-24">
                                     {review.columns_config?.length ?? 0}
@@ -363,7 +362,7 @@ export function ProjectReviewsTable({
                                                 review.user_id !== currentUserId
                                             ) {
                                                 onOwnerOnlyAction(
-                                                    "edit tabular review details",
+                                                    "modifier les détails de la revue tabulaire",
                                                 );
                                                 return;
                                             }

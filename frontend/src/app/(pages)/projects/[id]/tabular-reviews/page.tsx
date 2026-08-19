@@ -51,7 +51,7 @@ function SelectedReviewActions({
                         onClick={onDelete}
                         className="w-full px-3 py-1.5 text-left text-xs text-red-600 transition-colors hover:bg-red-50"
                     >
-                        Delete
+                        Supprimer
                     </button>
                 </div>
             )}
@@ -112,7 +112,7 @@ export default function ProjectTabularReviewsPage({ params }: Props) {
 
     function handleOpenDetails(review: TabularReview) {
         if (user?.id && review.user_id !== user.id) {
-            setOwnerOnlyAction("edit tabular review details");
+            setOwnerOnlyAction("modifier les détails de la revue tabulaire");
             return;
         }
         setDetailsReview(review);
@@ -124,7 +124,7 @@ export default function ProjectTabularReviewsPage({ params }: Props) {
     }) {
         if (!detailsReview) return;
         if (user?.id && detailsReview.user_id !== user.id) {
-            setOwnerOnlyAction("edit tabular review details");
+            setOwnerOnlyAction("modifier les détails de la revue tabulaire");
             return;
         }
         const updated = await updateTabularReview(detailsReview.id, {
@@ -153,7 +153,7 @@ export default function ProjectTabularReviewsPage({ params }: Props) {
 
     async function handleDeleteReviewRow(review: TabularReview) {
         if (user?.id && review.user_id !== user.id) {
-            setOwnerOnlyAction("delete this tabular review");
+            setOwnerOnlyAction("supprimer cette revue tabulaire");
             return;
         }
         setDeletingReviewIds((current) => new Set(current).add(review.id));
@@ -200,10 +200,10 @@ export default function ProjectTabularReviewsPage({ params }: Props) {
         );
         const notices = [
             blocked > 0
-                ? `${blocked} selected review${blocked === 1 ? " was" : "s were"} skipped because only the review creator can delete them.`
+                ? `${blocked} revue${blocked === 1 ? "" : "s"} sélectionnée${blocked === 1 ? " a été ignorée" : "s ont été ignorées"} car seul le créateur de la revue peut la supprimer.`
                 : null,
             failedIds.length > 0
-                ? `${failedIds.length} review${failedIds.length === 1 ? " was" : "s were"} not deleted because the request failed. ${failedIds.length === 1 ? "It remains" : "They remain"} selected so you can try again.`
+                ? `${failedIds.length} revue${failedIds.length === 1 ? " n'a" : "s n'ont"} pas été supprimée${failedIds.length === 1 ? "" : "s"} en raison d'une erreur. ${failedIds.length === 1 ? "Elle reste sélectionnée" : "Elles restent sélectionnées"} pour que vous puissiez réessayer.`
                 : null,
         ].filter((notice): notice is string => notice !== null);
         if (notices.length > 0) setBulkDeleteNotice(notices.join(" "));
@@ -276,7 +276,7 @@ export default function ProjectTabularReviewsPage({ params }: Props) {
             />
             <WarningPopup
                 open={!!bulkDeleteNotice}
-                title="Some reviews were not deleted"
+                title="Certaines revues n'ont pas été supprimées"
                 message={bulkDeleteNotice}
                 onClose={() => setBulkDeleteNotice(null)}
             />

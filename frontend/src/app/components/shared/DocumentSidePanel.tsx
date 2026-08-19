@@ -264,7 +264,7 @@ export function DocumentSidePanel({
         if (!selectedVersionId) return;
         const trimmed = nameDraft.trim();
         if (!trimmed) {
-            setNameError("Name is required.");
+            setNameError("Le nom est obligatoire.");
             return;
         }
         if (hasExtensionChange(selectedFilename, trimmed)) {
@@ -284,7 +284,7 @@ export function DocumentSidePanel({
             setEditingName(false);
         } catch (err) {
             console.error("rename version failed", err);
-            setNameError("Could not save name.");
+            setNameError("Impossible d'enregistrer le nom.");
         } finally {
             setSavingName(false);
         }
@@ -300,7 +300,7 @@ export function DocumentSidePanel({
             await onUploadNewVersion(doc, file, file.name);
         } catch (err) {
             console.error("upload new version failed", err);
-            setUploadError("Could not upload the new version.");
+            setUploadError("Impossible de téléverser la nouvelle version.");
         } finally {
             setUploading(false);
         }
@@ -308,7 +308,7 @@ export function DocumentSidePanel({
 
     async function handleDeleteVersion(versionIdToDelete: string) {
         if (!canDelete) {
-            onOwnerOnlyAction?.("delete this document version");
+            onOwnerOnlyAction?.("supprimer cette version de document");
             return;
         }
         setDeletingVersionId(versionIdToDelete);
@@ -355,7 +355,7 @@ export function DocumentSidePanel({
             setReplaceFile(null);
         } catch (err) {
             console.error("replace version failed", err);
-            setUploadError("Could not replace this version.");
+            setUploadError("Impossible de remplacer cette version.");
         } finally {
             setReplacingVersionId(null);
         }
@@ -383,7 +383,7 @@ export function DocumentSidePanel({
 
     function requestDeleteDocument() {
         if (!canDelete) {
-            onOwnerOnlyAction?.("delete this document");
+            onOwnerOnlyAction?.("supprimer ce document");
             return;
         }
         if (versions.length > 1) {
@@ -468,7 +468,7 @@ export function DocumentSidePanel({
             <div
                 onMouseDown={handlePanelResizeMouseDown}
                 className="absolute inset-y-0 left-0 z-20 hidden w-1 cursor-col-resize bg-transparent transition-colors hover:bg-blue-400/60 md:block"
-                title="Resize document view"
+                title="Redimensionner l'aperçu du document"
             />
             <div className="mx-3 flex min-h-11 shrink-0 items-center justify-between gap-3 py-2 md:h-11 md:py-0">
                 <div className="flex min-w-0 items-center gap-2">
@@ -504,14 +504,14 @@ export function DocumentSidePanel({
                                     : "text-gray-500 hover:text-gray-800",
                             )}
                         >
-                            Details
+                            Détails
                         </button>
                     </div>
                     <button
                         type="button"
                         onClick={onClose}
                         className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-white/70 bg-white/55 text-gray-500 shadow-[inset_0_1px_0_rgba(255,255,255,0.75),inset_0_-1px_0_rgba(255,255,255,0.55),0_6px_18px_rgba(15,23,42,0.08)] backdrop-blur-xl transition-colors hover:bg-white/75 hover:text-gray-700"
-                        aria-label="Close"
+                        aria-label="Fermer"
                     >
                         <X className="h-3.5 w-3.5" />
                     </button>
@@ -563,7 +563,7 @@ export function DocumentSidePanel({
                         "relative z-10 hidden w-1.5 -translate-x-1/2 cursor-col-resize transition-colors md:block",
                         "bg-transparent hover:bg-blue-400/60",
                     )}
-                    title="Resize document panel"
+                    title="Redimensionner le panneau du document"
                 />
 
                 <aside
@@ -574,7 +574,7 @@ export function DocumentSidePanel({
                 >
                     <div className="mb-4 shrink-0">
                         <div className="mb-3 text-xs font-medium text-gray-900">
-                            Name
+                            Nom
                         </div>
                         {editingName ? (
                             <div className="space-y-1.5">
@@ -603,7 +603,7 @@ export function DocumentSidePanel({
                                         onClick={() => void handleSaveName()}
                                         disabled={savingName}
                                         className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-gray-500 transition-colors hover:bg-white/65 hover:text-gray-900 disabled:cursor-not-allowed disabled:opacity-40"
-                                        title="Save name"
+                                        title="Enregistrer le nom"
                                     >
                                         {savingName ? (
                                             <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -632,7 +632,7 @@ export function DocumentSidePanel({
                                             setNameError(null);
                                         }}
                                         className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-gray-500 transition-colors hover:bg-white/65 hover:text-gray-900"
-                                        title="Edit name"
+                                        title="Modifier le nom"
                                     >
                                         <Pencil className="h-3.5 w-3.5" />
                                     </button>
@@ -642,7 +642,7 @@ export function DocumentSidePanel({
                     </div>
 
                     <div className="mb-3 shrink-0 text-xs font-medium text-gray-900">
-                        Document Data
+                        Données du document
                     </div>
                     <div className="shrink-0 rounded-xl py-2">
                         <div className="space-y-1.5">
@@ -651,7 +651,7 @@ export function DocumentSidePanel({
                                 value={selectedFileType ?? "—"}
                             />
                             <DataRow
-                                label="Size"
+                                label="Taille"
                                 value={
                                     selectedSizeBytes != null
                                         ? formatBytes(selectedSizeBytes)
@@ -666,9 +666,9 @@ export function DocumentSidePanel({
                                         : "—"
                                 }
                             />
-                            <DataRow label="Owner" value={ownerLabel} />
+                            <DataRow label="Propriétaire" value={ownerLabel} />
                             <DataRow
-                                label="Uploaded"
+                                label="Date d'import"
                                 value={
                                     selectedUploadedAt
                                         ? formatDateTime(selectedUploadedAt)
@@ -710,7 +710,7 @@ export function DocumentSidePanel({
                                 </div>
                             ) : orderedVersions.length === 0 ? (
                                 <div className="py-2 text-xs text-gray-400">
-                                    No version history.
+                                    Aucun historique de versions.
                                 </div>
                             ) : (
                                 <div className="space-y-1.5">
@@ -807,7 +807,7 @@ export function DocumentSidePanel({
                                                     >
                                                         {deleted ? (
                                                             <span className="text-[11px] font-medium text-gray-800">
-                                                                Deleted
+                                                                Supprimé
                                                             </span>
                                                         ) : (
                                                             <>
@@ -828,8 +828,8 @@ export function DocumentSidePanel({
                                                                             null
                                                                     }
                                                                     className="inline-flex h-5 w-5 items-center justify-center rounded-full text-blue-500 transition-colors hover:bg-blue-50 hover:text-blue-600 disabled:cursor-not-allowed disabled:opacity-40"
-                                                                    aria-label={`Replace ${title}`}
-                                                                    title="Replace version file"
+                                                                    aria-label={`Remplacer ${title}`}
+                                                                    title="Remplacer le fichier de version"
                                                                 >
                                                                     {versionReplacing ? (
                                                                         <Loader2 className="h-3 w-3 animate-spin" />
@@ -850,8 +850,8 @@ export function DocumentSidePanel({
                                                                         );
                                                                     }}
                                                                     className="inline-flex h-5 w-5 items-center justify-center rounded-full text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-900"
-                                                                    aria-label={`Download ${title}`}
-                                                                    title="Download version"
+                                                                    aria-label={`Télécharger ${title}`}
+                                                                    title="Télécharger la version"
                                                                 >
                                                                     <Download className="h-3 w-3" />
                                                                 </button>
@@ -877,11 +877,11 @@ export function DocumentSidePanel({
                                                                         !canDelete &&
                                                                             "cursor-not-allowed opacity-40 hover:bg-transparent hover:text-red-500",
                                                                     )}
-                                                                    aria-label={`Delete ${title}`}
+                                                                    aria-label={`Supprimer ${title}`}
                                                                     title={
                                                                         canDelete
-                                                                            ? "Delete version"
-                                                                            : "Only the document owner can delete versions"
+                                                                            ? "Supprimer la version"
+                                                                            : "Seul le propriétaire du document peut supprimer des versions"
                                                                     }
                                                                 >
                                                                     {versionDeleting ? (
@@ -941,8 +941,8 @@ export function DocumentSidePanel({
                             )}
                             title={
                                 canDelete
-                                    ? "Delete document"
-                                    : "Only the document owner can delete this document"
+                                    ? "Supprimer le document"
+                                    : "Seul le propriétaire du document peut supprimer ce document"
                             }
                         >
                             {deletingDocument ? (
@@ -950,7 +950,7 @@ export function DocumentSidePanel({
                             ) : (
                                 <Trash2 className="h-3.5 w-3.5 shrink-0" />
                             )}
-                            Delete
+                            Supprimer
                         </PillButton>
                         <PillButton
                             tone="blue"
@@ -964,7 +964,7 @@ export function DocumentSidePanel({
                             ) : (
                                 <Upload className="h-3.5 w-3.5 shrink-0" />
                             )}
-                            Upload new version
+                            Téléverser une nouvelle version
                         </PillButton>
                     </div>
                 </aside>
@@ -974,17 +974,17 @@ export function DocumentSidePanel({
                 onClose={() => setExtensionWarningOpen(false)}
                 message={
                     selectedExtension
-                        ? `File extensions cannot be changed here. Keep ${selectedExtension} at the end of the name.`
-                        : "File extensions cannot be changed here."
+                        ? `L'extension de fichier ne peut pas être modifiée ici. Conservez ${selectedExtension} à la fin du nom.`
+                        : "L'extension de fichier ne peut pas être modifiée ici."
                 }
             />
             <ConfirmPopup
                 open={replaceConfirmOpen}
-                title="Replace version?"
-                message={`This will wipe ${versionTitleFor(replaceTargetVersion)} and replace it with ${replaceFile?.name ?? "the selected file"}. Save as a new version instead if you want to keep both copies.`}
-                confirmLabel="Replace"
+                title="Remplacer la version ?"
+                message={`Cette action va écraser ${versionTitleFor(replaceTargetVersion)} et la remplacer par ${replaceFile?.name ?? "le fichier sélectionné"}. Enregistrez-la plutôt comme une nouvelle version si vous souhaitez conserver les deux copies.`}
+                confirmLabel="Remplacer"
                 confirmStatus={replacingVersionId != null ? "loading" : "idle"}
-                cancelLabel="Cancel"
+                cancelLabel="Annuler"
                 onCancel={() => {
                     if (replacingVersionId != null) return;
                     setReplaceConfirmOpen(false);
@@ -995,9 +995,9 @@ export function DocumentSidePanel({
             />
             <ConfirmPopup
                 open={confirmDeleteDocumentOpen}
-                title="Delete document?"
-                message={`${selectedFilename} has ${versions.length} versions. Deleting this document will delete all of its versions.`}
-                confirmLabel="Delete"
+                title="Supprimer le document ?"
+                message={`${selectedFilename} a ${versions.length} ${versions.length > 1 ? "versions" : "version"}. Supprimer ce document supprimera toutes ses versions.`}
+                confirmLabel="Supprimer"
                 confirmStatus={
                     deleteDocumentStatus === "deleting"
                         ? "loading"
@@ -1005,7 +1005,7 @@ export function DocumentSidePanel({
                           ? "complete"
                           : "idle"
                 }
-                cancelLabel="Cancel"
+                cancelLabel="Annuler"
                 onCancel={() => {
                     if (deleteDocumentStatus === "deleting") return;
                     setConfirmDeleteDocumentOpen(false);

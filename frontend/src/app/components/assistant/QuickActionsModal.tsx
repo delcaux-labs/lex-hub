@@ -48,7 +48,7 @@ export function QuickActionsModal({
     if (!open || workflows.length > 0) return;
     void listWorkflows("assistant")
       .then((rows) => setWorkflows(rows))
-      .catch(() => setError("Could not load assistant workflows."));
+      .catch(() => setError("Impossible de charger les workflows de l'assistant."));
   }, [open, workflows.length]);
 
   const availableWorkflows = useMemo(() => {
@@ -105,7 +105,7 @@ export function QuickActionsModal({
       setError(
         reason instanceof Error
           ? reason.message
-          : "Could not save quick action.",
+          : "Impossible d'enregistrer l'action rapide.",
       );
     } finally {
       setSaving(false);
@@ -128,7 +128,7 @@ export function QuickActionsModal({
       setError(
         reason instanceof Error
           ? reason.message
-          : "Could not create quick action.",
+          : "Impossible de créer l'action rapide.",
       );
     } finally {
       setSaving(false);
@@ -137,13 +137,13 @@ export function QuickActionsModal({
 
   const breadcrumbs =
     screen === "list"
-      ? ["Assistant", "Quick Actions"]
+      ? ["Assistant", "Actions rapides"]
       : [
           "Assistant",
-          "Quick Actions",
+          "Actions rapides",
           screen === "create"
-            ? "New Quick Action"
-            : (selected?.name ?? "Quick Action"),
+            ? "Nouvelle action rapide"
+            : (selected?.name ?? "Action rapide"),
         ];
 
   return (
@@ -155,7 +155,7 @@ export function QuickActionsModal({
       secondaryAction={
         screen !== "list"
           ? {
-              label: "Back",
+              label: "Retour",
               variant: "primary",
               onClick: resetToList,
               disabled: saving,
@@ -166,7 +166,7 @@ export function QuickActionsModal({
       primaryAction={
         screen === "list"
           ? {
-              label: "Add",
+              label: "Ajouter",
               icon: <Plus className="h-3.5 w-3.5" />,
               variant: "blue",
               onClick: () => setScreen("create"),
@@ -174,13 +174,13 @@ export function QuickActionsModal({
             }
           : screen === "create"
             ? {
-                label: saving ? "Creating…" : "Create",
+                label: saving ? "Création en cours…" : "Créer",
                 variant: "blue",
                 disabled: saving || !workflowId || !name.trim(),
                 onClick: () => void create(),
               }
             : {
-                label: saving ? "Saving…" : "Save",
+                label: saving ? "Enregistrement en cours…" : "Enregistrer",
                 variant: "blue",
                 disabled:
                   saving || !selectedHasChanges || !selected?.name.trim(),
@@ -194,7 +194,7 @@ export function QuickActionsModal({
             <SearchBar
               value={search}
               onValueChange={setSearch}
-              placeholder="Search quick actions..."
+              placeholder="Rechercher des actions rapides..."
               autoFocus
             />
           </div>
@@ -206,7 +206,7 @@ export function QuickActionsModal({
             )}
             {filteredActions.length === 0 ? (
               <p className="py-10 text-center text-sm text-gray-400">
-                No quick actions found.
+                Aucune action rapide trouvée.
               </p>
             ) : (
               filteredActions.map((action) => (
@@ -229,7 +229,7 @@ export function QuickActionsModal({
                         : "text-xs text-gray-400"
                     }
                   >
-                    {action.enabled ? "Active" : "Inactive"}
+                    {action.enabled ? "Actif" : "Inactif"}
                   </span>
                 </button>
               ))
@@ -333,22 +333,22 @@ function QuickActionForm({
   return (
     <div className="flex min-h-0 flex-1 flex-col gap-6 overflow-y-auto px-2 pt-1 pb-5">
       <div>
-        <FieldLabel htmlFor="quick-action-name">Name</FieldLabel>
+        <FieldLabel htmlFor="quick-action-name">Nom</FieldLabel>
         <FormTextInput
           id="quick-action-name"
           value={name}
           onChange={(event) => onNameChange(event.target.value)}
-          placeholder="Quick action name"
+          placeholder="Nom de l'action rapide"
           variant="minimal"
           autoFocus
         />
       </div>
       <div>
-        <FieldLabel htmlFor="quick-action-workflow">Workflow used</FieldLabel>
+        <FieldLabel htmlFor="quick-action-workflow">Workflow utilisé</FieldLabel>
         <ModalSelect
           id="quick-action-workflow"
           value={workflowId}
-          placeholder="Select an assistant workflow"
+          placeholder="Sélectionner un workflow d'assistant"
           options={workflowOptions}
           onChange={onWorkflowChange}
         />
@@ -360,19 +360,19 @@ function QuickActionForm({
           value={prompt}
           onChange={(event) => onPromptChange(event.target.value)}
           className="h-28 min-h-28"
-          placeholder="Prompt placed in the Assistant composer"
+          placeholder="Invite placée dans la zone de texte de l'Assistant"
         />
       </div>
       <ToggleRow
-        label="Request document upload"
-        caption="Ask for source documents before launching this workflow."
+        label="Demander le téléversement de documents"
+        caption="Demander des documents sources avant de lancer ce workflow."
         checked={documentUpload}
         onChange={onDocumentUploadChange}
       />
       {enabled !== undefined && onEnabledChange && (
         <ToggleRow
-          label="Active"
-          caption="Show this action in the Assistant initial view."
+          label="Actif"
+          caption="Afficher cette action dans la vue initiale de l'Assistant."
           checked={enabled}
           onChange={onEnabledChange}
         />

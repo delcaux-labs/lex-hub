@@ -65,7 +65,7 @@ export function ModelToggle({ value, onChange, apiKeys }: Props) {
     const ollamaModels = useOllamaModels();
     const models = [...MODELS, ...ollamaModels];
     const selected = models.find((m) => m.id === value);
-    const selectedLabel = selected?.label ?? "Model";
+    const selectedLabel = selected?.label ?? "Modèle";
     const selectedAvailable = apiKeys
         ? isModelAvailable(value, apiKeys)
         : true;
@@ -78,8 +78,8 @@ export function ModelToggle({ value, onChange, apiKeys }: Props) {
                     className={`flex h-8 cursor-pointer items-center gap-1.5 rounded-full px-2 text-sm text-gray-400 transition-colors hover:text-gray-700 ${isOpen ? "text-gray-700" : ""}`}
                     title={
                         !selectedAvailable
-                            ? "API key missing for selected model"
-                            : "Choose model"
+                            ? "Clé API manquante pour le modèle sélectionné"
+                            : "Choisir un modèle"
                     }
                 >
                     {!selectedAvailable && (
@@ -125,7 +125,7 @@ export function ModelToggle({ value, onChange, apiKeys }: Props) {
                                         {!available && (
                                             <AlertCircle
                                                 className="h-3.5 w-3.5 text-red-500 ml-1"
-                                                aria-label="API key missing"
+                                                aria-label="Clé API manquante"
                                             />
                                         )}
                                         {m.id === value && available && (

@@ -22,8 +22,8 @@ export function AddDocButton({
                     ? "text-gray-700 hover:text-gray-900"
                     : "text-gray-400 hover:text-gray-700"
             }`}
-            title="Add documents"
-            aria-label="Add documents"
+            title="Ajouter des documents"
+            aria-label="Ajouter des documents"
         >
             {selectedDocIds.length > 0 ? (
                 <span className="font-medium tabular-nums">

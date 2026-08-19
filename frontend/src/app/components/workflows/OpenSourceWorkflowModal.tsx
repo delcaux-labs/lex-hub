@@ -116,7 +116,7 @@ export function OpenSourceWorkflowModal({
             setError(
                 err instanceof Error
                     ? err.message
-                    : "Failed to submit workflow for review.",
+                    : "Échec de la soumission du workflow pour examen.",
             );
         }
     }
@@ -132,9 +132,9 @@ export function OpenSourceWorkflowModal({
             breadcrumbs={[
                 "Workflows",
                 submitted
-                    ? "Submitted"
+                    ? "Soumis"
                     : pending
-                      ? "Update open-source submission"
+                      ? "Mettre à jour la soumission open source"
                       : "Open source",
             ]}
             primaryAction={
@@ -143,11 +143,11 @@ export function OpenSourceWorkflowModal({
                     : {
                           label: loading
                               ? pending
-                                  ? "Updating..."
-                                  : "Submitting..."
+                                  ? "Mise à jour en cours..."
+                                  : "Envoi en cours..."
                               : pending
-                                ? "Update submission"
-                                : "Submit for review",
+                                ? "Mettre à jour la soumission"
+                                : "Soumettre pour examen",
                           onClick: () => void handleSubmit(),
                           disabled: loading || needsConsent,
                       }
@@ -159,25 +159,25 @@ export function OpenSourceWorkflowModal({
                         <Check className="h-6 w-6" />
                     </div>
                     <h3 className="text-2xl font-serif text-gray-950">
-                        Workflow submitted
+                        Workflow soumis
                     </h3>
                     <p className="mt-3 max-w-sm text-xs leading-6 text-gray-600">
-                        Your workflow snapshot has been submitted for review.
-                        You&apos;ll be notified by email if it is accepted.
+                        L'instantané de votre workflow a été soumis pour examen.
+                        Vous serez averti par e-mail s'il est accepté.
                     </p>
                     <p className="mt-6 text-xs font-medium text-gray-500">
-                        Closing in {closeCountdown}
+                        Fermeture dans {closeCountdown}s
                     </p>
                 </div>
             ) : (
                 <div className="space-y-4 pb-2 text-sm text-gray-700">
                     <h3 className="text-2xl font-serif text-gray-950">
-                        Contribute to open source legal
+                        Contribuer au legal open source
                     </h3>
                     <p className="leading-6 text-xs text-gray-600">
-                        Submit a snapshot of this workflow for review. If
-                        accepted, it will be shared under the Apache License 2.0
-                        in the{" "}
+                        Soumettez un instantané de ce workflow pour examen. S'il
+                        est accepté, il sera partagé sous licence Apache 2.0
+                        dans le dépôt{" "}
                         <a
                             href={WORKFLOWS_REPO_URL}
                             target="_blank"
@@ -185,20 +185,20 @@ export function OpenSourceWorkflowModal({
                             className="font-medium text-gray-950 underline decoration-gray-300 underline-offset-4 transition-colors hover:text-gray-600"
                         >
                             Open-Legal-Products/mike-workflows
-                        </a>{" "}
-                        repo. You&apos;ll be notified by email if your workflow
-                        is accepted.
+                        </a>
+                        . Vous serez averti par e-mail si votre workflow est
+                        accepté.
                     </p>
                     {pending && (
                         <p className="rounded-xl border border-white/70 bg-white/55 px-3 py-2 text-xs leading-5 text-gray-600 shadow-[0_8px_24px_rgba(15,23,42,0.07),inset_0_1px_0_rgba(255,255,255,0.9),inset_0_-1px_0_rgba(255,255,255,0.55)] backdrop-blur-xl">
-                            You already have a pending submission. This will
-                            replace that pending snapshot.
+                            Vous avez déjà une soumission en attente. Ceci
+                            remplacera cet instantané en attente.
                         </p>
                     )}
 
                     <div className="space-y-2 pt-2">
                         <FieldLabel as="p">
-                            Contributor attribution
+                            Attribution du contributeur
                         </FieldLabel>
                         <ModalSegmentedToggle
                             value={contributorMode}
@@ -207,12 +207,12 @@ export function OpenSourceWorkflowModal({
                             options={[
                                 {
                                     value: "anonymous",
-                                    label: "Anonymous",
+                                    label: "Anonyme",
                                     icon: EyeOff,
                                 },
                                 {
                                     value: "named",
-                                    label: "Disclose details",
+                                    label: "Divulguer les détails",
                                     icon: User,
                                 },
                             ]}
@@ -221,7 +221,7 @@ export function OpenSourceWorkflowModal({
                             <div className="grid gap-x-4 gap-y-5 pt-4 sm:grid-cols-2">
                                 <div>
                                     <FieldLabel htmlFor="open-source-contributor-name">
-                                        Full Name
+                                        Nom complet
                                     </FieldLabel>
                                     <FormTextInput
                                         id="open-source-contributor-name"
@@ -253,7 +253,7 @@ export function OpenSourceWorkflowModal({
                                 </div>
                                 <div>
                                     <FieldLabel htmlFor="open-source-contributor-role">
-                                        Role
+                                        Rôle
                                     </FieldLabel>
                                     <FormTextInput
                                         id="open-source-contributor-role"
@@ -263,7 +263,7 @@ export function OpenSourceWorkflowModal({
                                                 event.target.value,
                                             )
                                         }
-                                        placeholder="Senior Associate"
+                                        placeholder="Avocat collaborateur"
                                         disabled={loading}
                                     />
                                 </div>
@@ -302,8 +302,9 @@ export function OpenSourceWorkflowModal({
                                             htmlFor="open-source-disclosure-consent"
                                             className="cursor-pointer"
                                         >
-                                            I consent to disclosing the personal
-                                            information above in the public
+                                            Je consens à la divulgation des
+                                            informations personnelles ci-dessus
+                                            dans le dépôt GitHub public
                                         </label>{" "}
                                         <a
                                             href={WORKFLOWS_REPO_URL}
@@ -317,8 +318,7 @@ export function OpenSourceWorkflowModal({
                                             htmlFor="open-source-disclosure-consent"
                                             className="cursor-pointer"
                                         >
-                                            GitHub repository and on the
-                                            mikeoss.com website.
+                                            et sur le site mikeoss.com.
                                         </label>
                                     </p>
                                 </div>

@@ -311,7 +311,7 @@ export function TabularCell({
                             className="flex items-center gap-1 text-xs text-gray-400 hover:text-gray-700 transition-colors"
                         >
                             <Expand className="h-3 w-3" />
-                            See details
+                            Afficher les détails
                         </button>
                     </div>
                 </TRExpandedCellSurface>

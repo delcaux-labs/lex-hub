@@ -18,7 +18,7 @@ describe("DocumentEventBlocksUI", () => {
 
         await user.click(screen.getByRole("button", { name: "agreement.docx" }));
         expect(onClick).toHaveBeenCalledOnce();
-        expect(screen.getByText("Read")).toBeVisible();
+        expect(screen.getByText("Lu")).toBeVisible();
     });
 
     it("renders document-find progress and match counts", () => {
@@ -31,7 +31,7 @@ describe("DocumentEventBlocksUI", () => {
             />,
         );
 
-        expect(screen.getByText("Finding")).toBeVisible();
+        expect(screen.getByText("Recherche en cours")).toBeVisible();
         expect(screen.getByText("agreement.docx").parentElement).toHaveTextContent(
             "agreement.docx...",
         );
@@ -44,7 +44,7 @@ describe("DocumentEventBlocksUI", () => {
             />,
         );
         expect(screen.getByText("agreement.docx").parentElement).toHaveTextContent(
-            "2 matches",
+            "2 correspondances",
         );
     });
 

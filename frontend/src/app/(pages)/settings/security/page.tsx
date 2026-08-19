@@ -116,7 +116,7 @@ function VerificationCodeInput({
         <div
             className="flex justify-center gap-2"
             role="group"
-            aria-label="Six digit verification code"
+            aria-label="Code de vérification à six chiffres"
         >
             {digits.map((digit, index) => (
                 <input
@@ -135,7 +135,7 @@ function VerificationCodeInput({
                     onPaste={handlePaste}
                     onKeyDown={(event) => handleKeyDown(event, index)}
                     className="h-11 w-10 rounded-lg border border-transparent bg-gray-100 text-center text-lg font-medium text-gray-950 shadow-none outline-none transition-colors focus:border-gray-200 focus:ring-2 focus:ring-gray-300/45 disabled:cursor-not-allowed disabled:opacity-45"
-                    aria-label={`Verification code digit ${index + 1}`}
+                    aria-label={`Chiffre du code de vérification ${index + 1}`}
                     maxLength={1}
                 />
             ))}
@@ -261,7 +261,7 @@ export default function SecurityPage() {
                 error = retry.error;
             }
             if (error) throw error;
-            if (!data) throw new Error("Failed to start MFA setup.");
+            if (!data) throw new Error("Impossible de démarrer la configuration de l'authentification à deux facteurs.");
             traceMfa("[security/mfa] enrollment created", {
                 factorId: data.id,
             });
@@ -287,7 +287,7 @@ export default function SecurityPage() {
             setStatus(
                 error instanceof Error
                     ? error.message
-                    : "Failed to start MFA setup.",
+                    : "Impossible de démarrer la configuration de l'authentification à deux facteurs.",
             );
         } finally {
             setBusy(false);
@@ -334,13 +334,13 @@ export default function SecurityPage() {
             setSetupModalOpen(false);
             setVerificationCode("");
             setSetupKeyCopied(false);
-            setStatus("MFA enabled.");
+            setStatus("Authentification à deux facteurs activée.");
             await refreshMfaState();
         } catch (error) {
             setStatus(
                 error instanceof Error
                     ? error.message
-                    : "Failed to verify MFA code.",
+                    : "Code de vérification invalide.",
             );
         } finally {
             setBusy(false);
@@ -400,7 +400,7 @@ export default function SecurityPage() {
             return;
         }
 
-        setStatus("MFA disabled.");
+        setStatus("Authentification à deux facteurs désactivée.");
         if (profile?.mfaOnLogin) {
             void updateMfaOnLogin(false);
         }
@@ -422,7 +422,7 @@ export default function SecurityPage() {
             setStatus(
                 error instanceof Error
                     ? error.message
-                    : "Failed to update login authentication preference.",
+                    : "Impossible de mettre à jour les préférences d'authentification à la connexion.",
             );
         } finally {
             setSavingLoginPreference(false);
@@ -435,7 +435,7 @@ export default function SecurityPage() {
         try {
             const success = await updateMfaOnLogin(enabled);
             if (!success) {
-                setStatus("Failed to update login authentication preference.");
+                setStatus("Impossible de mettre à jour les préférences d'authentification à la connexion.");
             }
         } catch (error) {
             if (isMfaRequiredError(error)) {
@@ -444,7 +444,7 @@ export default function SecurityPage() {
                 setStatus(
                     error instanceof Error
                         ? error.message
-                        : "Failed to update login authentication preference.",
+                        : "Impossible de mettre à jour les préférences d'authentification à la connexion.",
                 );
             }
         } finally {
@@ -460,7 +460,7 @@ export default function SecurityPage() {
         <div className="space-y-8">
             <section className="space-y-3">
                 <h2 className="text-2xl font-medium font-serif text-gray-900">
-                    Multi-Factor Authentication
+                    Authentification multi-facteurs
                 </h2>
                 <SettingsSection>
                     {loading ? (
@@ -470,19 +470,19 @@ export default function SecurityPage() {
                             <div className="flex flex-col gap-3 px-4 py-5 sm:flex-row sm:items-center sm:justify-between">
                                 <div className="min-w-0 space-y-1">
                                     <p className="text-sm font-medium text-gray-700">
-                                        Verification method
+                                        Méthode de vérification
                                     </p>
                                     <p className="text-sm text-gray-500">
                                         {hasVerifiedFactor
                                             ? sessionVerified
-                                                ? "Authenticator app is saved on your account. Sensitive actions are unlocked for this session."
-                                                : "Authenticator app is saved on your account. Sensitive actions require a verification code."
-                                            : "Add an authenticator app to protect sensitive actions such as exporting data, deleting data, deleting your account, and changing API keys."}
+                                                ? "L'application d'authentification est configurée sur votre compte. Les actions sensibles sont déverrouillées pour cette session."
+                                                : "L'application d'authentification est configurée sur votre compte. Les actions sensibles nécessitent un code de vérification."
+                                            : "Ajoutez une application d'authentification pour protéger les actions sensibles telles que l'exportation ou la suppression de données, la suppression de compte et la modification des clés API."}
                                     </p>
                                 </div>
                                 {hasVerifiedFactor ? (
                                     <span className="shrink-0 text-xs font-medium text-green-700">
-                                        Enabled
+                                        Activé
                                     </span>
                                 ) : !enrollment ? (
                                     <PillButton
@@ -495,10 +495,10 @@ export default function SecurityPage() {
                                         {busy ? (
                                             <>
                                                 <Loader2 className="h-4 w-4 animate-spin" />
-                                                Starting...
+                                                Démarrage en cours...
                                             </>
                                         ) : (
-                                            "Set up"
+                                            "Configurer"
                                         )}
                                     </PillButton>
                                 ) : null}
@@ -509,12 +509,12 @@ export default function SecurityPage() {
                                     <div className="flex flex-col gap-3 px-4 py-5 sm:flex-row sm:items-center sm:justify-between">
                                         <div className="space-y-1">
                                             <p className="text-sm font-medium text-gray-700">
-                                                Login verification
+                                                Vérification à la connexion
                                             </p>
                                             <p className="text-sm text-gray-500">
-                                                Ask for an authenticator code
-                                                after each new login, instead of
-                                                only before sensitive actions.
+                                                Demander un code d'authentification
+                                                après chaque nouvelle connexion, au lieu
+                                                de seulement avant les actions sensibles.
                                             </p>
                                         </div>
                                         <SettingsToggle
@@ -538,7 +538,7 @@ export default function SecurityPage() {
                                             disabled={busy || !factors[0]?.id}
                                             className="text-xs font-medium text-red-600 transition-colors hover:text-red-700 disabled:cursor-not-allowed disabled:text-red-300"
                                         >
-                                            Remove authenticator app
+                                            Supprimer l'application d'authentification
                                         </button>
                                     </div>
                                 </>
@@ -556,9 +556,9 @@ export default function SecurityPage() {
             <Modal
                 open={setupModalOpen}
                 onClose={() => void closeSetupModal()}
-                breadcrumbs={["Security", "Set up authenticator app"]}
+                breadcrumbs={["Sécurité", "Configurer l'application d'authentification"]}
                 cancelAction={{
-                    label: enrollment ? "Back" : "Cancel",
+                    label: enrollment ? "Retour" : "Annuler",
                     onClick: enrollment
                         ? () => void returnToSetupInstructions()
                         : () => void closeSetupModal(),
@@ -567,13 +567,13 @@ export default function SecurityPage() {
                 primaryAction={
                     enrollment
                         ? {
-                              label: busy ? "Verifying..." : "Verify",
+                              label: busy ? "Vérification en cours..." : "Vérifier",
                               onClick: () => void verifyEnrollment(),
                               disabled:
                                   busy || verificationCode.trim().length !== 6,
                           }
                         : {
-                              label: busy ? "Starting..." : "Continue",
+                              label: busy ? "Démarrage en cours..." : "Continuer",
                               onClick: () => void startEnrollment(),
                               disabled: busy,
                           }
@@ -589,46 +589,47 @@ export default function SecurityPage() {
                     {!enrollment ? (
                         <>
                             <p className="text-xs font-medium uppercase tracking-wide text-gray-400">
-                                Step 1
+                                Étape 1
                             </p>
                             <div className="space-y-1">
                                 <p className="text-sm font-medium text-gray-700">
-                                    Before you start
+                                    Avant de commencer
                                 </p>
                                 <p className="text-sm text-gray-500">
-                                    Download an authenticator app such as Google
-                                    Authenticator, Microsoft Authenticator,
-                                    Authy, 1Password, or iCloud Passwords.
+                                    Téléchargez une application d'authentification
+                                    telle que Google Authenticator, Microsoft Authenticator,
+                                    Authy, 1Password ou Trousseau iCloud.
                                 </p>
                             </div>
                             <ol className="list-decimal space-y-1 pl-4 text-sm text-gray-500">
                                 <li>
-                                    Download and open your authenticator app.
+                                    Téléchargez et ouvrez votre application d'authentification.
                                 </li>
                                 <li>
-                                    Choose the option to add a new account.
+                                    Choisissez l'option pour ajouter un nouveau compte.
                                 </li>
                             </ol>
                         </>
                     ) : (
                         <>
                             <p className="text-xs font-medium uppercase tracking-wide text-gray-400">
-                                Step 2
+                                Étape 2
                             </p>
                             <div className="space-y-1">
                                 <p className="text-sm font-medium text-gray-700">
-                                    Scan this code
+                                    Scannez ce code
                                 </p>
                                 <p className="text-sm text-gray-500">
-                                    In your authenticator app, add a new account
-                                    and scan the QR code. If you cannot scan it,
-                                    enter the setup key below manually.
+                                    Dans votre application d'authentification, ajoutez
+                                    un nouveau compte et scannez le code QR. Si vous ne
+                                    pouvez pas le scanner, saisissez manuellement la
+                                    clé de configuration ci-dessous.
                                 </p>
                             </div>
                             <div className="min-w-0">
                                 <div className="mb-1 flex items-center justify-between gap-3">
                                     <p className="text-xs font-medium text-gray-500">
-                                        Setup key
+                                        Clé de configuration
                                     </p>
                                     <button
                                         type="button"
@@ -636,7 +637,7 @@ export default function SecurityPage() {
                                         className="inline-flex items-center gap-1 text-xs font-medium text-gray-500 transition-colors hover:text-gray-950"
                                     >
                                         <Copy className="h-3 w-3" />
-                                        {setupKeyCopied ? "Copied" : "Copy"}
+                                        {setupKeyCopied ? "Copié" : "Copier"}
                                     </button>
                                 </div>
                                 <p className="break-all text-xs text-gray-700">
@@ -647,7 +648,7 @@ export default function SecurityPage() {
                                 <div className="flex h-48 w-48 items-center justify-center rounded-xl bg-white p-2">
                                     <img
                                         src={enrollment.qrCode}
-                                        alt="MFA QR code"
+                                        alt="Code QR 2FA"
                                         className="h-full w-full"
                                     />
                                 </div>
@@ -680,8 +681,8 @@ export default function SecurityPage() {
                     setPendingLoginPreference(null);
                     if (enabled !== null) void saveLoginPreference(enabled);
                 }}
-                title="Authenticator required"
-                message="Enter a code from your authenticator app to change login verification."
+                title="Authentificateur requis"
+                message="Saisissez un code depuis votre application d'authentification pour modifier la vérification à la connexion."
             />
         </div>
     );

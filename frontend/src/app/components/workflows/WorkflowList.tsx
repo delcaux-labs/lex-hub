@@ -55,16 +55,16 @@ import {
 type WorkflowListTab = "all" | "assistant" | "tabular" | "addons";
 
 const WORKFLOW_TABS: { id: WorkflowListTab; label: string }[] = [
-  { id: "all", label: "All" },
+  { id: "all", label: "Tous" },
   { id: "assistant", label: "Assistant" },
-  { id: "tabular", label: "Tabular" },
+  { id: "tabular", label: "Tabulaire" },
   { id: "addons", label: "Add-ons" },
 ];
 const WORKFLOW_TAB_IDS = WORKFLOW_TABS.map((tab) => tab.id);
 
 const WORKFLOW_SORT_OPTIONS: TableFilterOption<TableSortDirection>[] = [
-  { value: "asc", label: "Ascending" },
-  { value: "desc", label: "Descending" },
+  { value: "asc", label: "Croissant" },
+  { value: "desc", label: "Décroissant" },
 ];
 
 function workflowFilterOptions(
@@ -176,7 +176,7 @@ export function WorkflowList({
       .then(setAddons)
       .catch((error) => {
         setAddonsError(
-          error instanceof Error ? error.message : "Unable to load add-ons.",
+          error instanceof Error ? error.message : "Impossible de charger les add-ons.",
         );
       })
       .finally(() => setAddonsLoading(false));
@@ -311,8 +311,8 @@ export function WorkflowList({
     } catch (error) {
       setActionError(
         error instanceof Error
-          ? `Could not import "${addon.title}": ${error.message}`
-          : `Could not import "${addon.title}".`,
+          ? `Impossible d'importer "${addon.title}" : ${error.message}`
+          : `Impossible d'importer "${addon.title}".`,
       );
     } finally {
       setImportingAddonId(null);
@@ -337,7 +337,7 @@ export function WorkflowList({
       }
       setSelectedAddonIds([]);
       if (imported.length !== selectedAddons.length) {
-        setActionError("Some selected add-ons could not be imported.");
+        setActionError("Certains add-ons sélectionnés n'ont pas pu être importés.");
       }
     } finally {
       setBulkImportingAddons(false);
@@ -370,7 +370,7 @@ export function WorkflowList({
       current.filter((workflow) => !deletedIds.includes(workflow.id)),
     );
     if (failedIds.length > 0) {
-      setActionError("Some selected workflows could not be deleted.");
+      setActionError("Certains workflows sélectionnés n'ont pas pu être supprimés.");
     }
     setDeleteStatus("complete");
     window.setTimeout(() => {
@@ -401,7 +401,7 @@ export function WorkflowList({
               }
               className="w-full px-3 py-1.5 text-left text-xs text-red-600 transition-colors hover:bg-red-500/10"
             >
-              Delete
+              Supprimer
             </button>
           </LiquidDropdownSurface>
         )}
@@ -412,7 +412,7 @@ export function WorkflowList({
       {packKey && (
         <TabPillButton onClick={closeAddonPack}>
           <ChevronLeft className="h-3.5 w-3.5" />
-          Back
+          Retour
         </TabPillButton>
       )}
       {selectedAddonIds.length > 0 && (
@@ -424,8 +424,8 @@ export function WorkflowList({
         >
           <Plus className="h-3.5 w-3.5" />
           {bulkImportingAddons
-            ? "Importing…"
-            : `Import${selectedAddonIds.length > 1 ? ` (${selectedAddonIds.length})` : ""}`}
+            ? "Importation en cours…"
+            : `Importer${selectedAddonIds.length > 1 ? ` (${selectedAddonIds.length})` : ""}`}
         </button>
       )}
     </>
@@ -437,14 +437,14 @@ export function WorkflowList({
     pendingDeleteIds.length > pendingDeleteWorkflows.length;
   const deleteWarningMessage =
     includesUnloadedWorkflows
-      ? "This will permanently delete every selected workflow, including matching workflows that are not currently shown. If any are default workflows, their corresponding Quick Actions will also be deleted and will not be recreated automatically."
+      ? "Cette action supprimera définitivement tous les workflows sélectionnés, y compris les workflows correspondants non affichés actuellement. Si certains sont des workflows par défaut, leurs Actions rapides correspondantes seront également supprimées et ne seront pas recréées automatiquement."
       : pendingDefaultDeleteCount > 0
       ? pendingDeleteWorkflows.length === 1
-        ? "Deleting this default workflow also permanently deletes its corresponding Quick Action. The default workflow will not be created again automatically."
-        : `The selected workflows will be permanently deleted. ${pendingDefaultDeleteCount} ${pendingDefaultDeleteCount === 1 ? "is a default workflow, so its corresponding Quick Action will" : "are default workflows, so their corresponding Quick Actions will"} also be deleted. Deleted defaults will not be created again automatically.`
+        ? "La suppression de ce workflow par défaut supprimera également définitivement son Action rapide correspondante. Le workflow par défaut ne sera plus recréé automatiquement."
+        : `Les workflows sélectionnés seront définitivement supprimés. ${pendingDefaultDeleteCount} ${pendingDefaultDeleteCount === 1 ? "est un workflow par défaut, son Action rapide correspondante sera" : "sont des workflows par défaut, leurs Actions rapides correspondantes seront"} également supprimée(s). Les valeurs par défaut supprimées ne seront pas recréées automatiquement.`
       : pendingDeleteWorkflows.length === 1
-        ? "This workflow will be permanently deleted."
-        : "The selected workflows will be permanently deleted.";
+        ? "Ce workflow sera définitivement supprimé."
+        : "Les workflows sélectionnés seront définitivement supprimés.";
 
   return (
     <div className="flex h-full min-h-0 flex-1 flex-col overflow-hidden">
@@ -472,12 +472,12 @@ export function WorkflowList({
             value: search,
             onChange: setSearch,
             placeholder:
-              activeTab === "addons" ? "Search add-ons…" : "Search workflows…",
+              activeTab === "addons" ? "Rechercher des add-ons…" : "Rechercher des workflows…",
           },
           {
             type: "new",
             onClick: () => setNewModalOpen(true),
-            title: "New workflow",
+            title: "Nouveau workflow",
           },
         ]}
       >
@@ -506,7 +506,7 @@ export function WorkflowList({
             onClick={() => setActionError("")}
             className="shrink-0 text-xs font-medium text-red-500 hover:text-red-700"
           >
-            Dismiss
+            Ignorer
           </button>
         </div>
       )}
@@ -600,11 +600,11 @@ export function WorkflowList({
         open={pendingDeleteIds.length > 0}
         title={
           pendingDeleteIds.length === 1
-            ? "Delete workflow?"
-            : "Delete workflows?"
+            ? "Supprimer le workflow ?"
+            : "Supprimer les workflows ?"
         }
         message={deleteWarningMessage}
-        confirmLabel="Delete"
+        confirmLabel="Supprimer"
         confirmStatus={deleteStatus}
         onConfirm={() => void confirmWorkflowDeletion()}
         onCancel={() => {
@@ -676,7 +676,7 @@ function WorkflowTable({
   const typeOptions = useMemo<TableFilterOption<string>[]>(
     () => [
       { value: "assistant", label: "Assistant" },
-      { value: "tabular", label: "Tabular" },
+      { value: "tabular", label: "Tabulaire" },
     ],
     [],
   );
@@ -752,14 +752,14 @@ function WorkflowTable({
               disabled={selectableIds.length === 0 || selectingAll}
               onChange={toggleAll}
               className={TABLE_CHECKBOX_CLASS}
-              title="Select all deletable workflows"
+              title="Sélectionner tous les workflows supprimables"
             />
-            <span className="mr-1">Name</span>
+            <span className="mr-1">Nom</span>
             {!loading && (
               <TableFilters
-                label="Sort by workflow name"
+                label="Trier par nom de workflow"
                 value={nameSortDirection}
-                allLabel="Default Order"
+                allLabel="Ordre par défaut"
                 widthClassName="w-40"
                 align="right"
                 options={WORKFLOW_SORT_OPTIONS}
@@ -771,9 +771,9 @@ function WorkflowTable({
             <span>Type</span>
             {!loading && (
               <TableFilters
-                label="Filter by workflow type"
+                label="Filtrer par type de workflow"
                 value={typeFilter}
-                allLabel="All Types"
+                allLabel="Tous les types"
                 widthClassName="w-40"
                 options={typeOptions}
                 onChange={(value) =>
@@ -783,12 +783,12 @@ function WorkflowTable({
             )}
           </TableHeaderCell>
           <TableHeaderCell className="flex w-52 items-center gap-1">
-            <span>Practice</span>
+            <span>Domaine d'expertise</span>
             {!loading && (
               <TableFilters
-                label="Filter by practice"
+                label="Filtrer par domaine d'expertise"
                 value={practiceFilter}
-                allLabel="All Practices"
+                allLabel="Tous les domaines"
                 widthClassName="w-52"
                 options={practiceOptions}
                 onChange={(value) =>
@@ -798,12 +798,12 @@ function WorkflowTable({
             )}
           </TableHeaderCell>
           <TableHeaderCell className="flex w-40 items-center gap-1">
-            <span>Jurisdiction</span>
+            <span>Juridiction</span>
             {!loading && (
               <TableFilters
-                label="Filter by jurisdiction"
+                label="Filtrer par juridiction"
                 value={jurisdictionFilter}
-                allLabel="All Jurisdictions"
+                allLabel="Toutes les juridictions"
                 widthClassName="w-48"
                 options={jurisdictionOptions}
                 onChange={(value) =>
@@ -813,12 +813,12 @@ function WorkflowTable({
             )}
           </TableHeaderCell>
           <TableHeaderCell className="flex w-28 items-center gap-1">
-            <span>Language</span>
+            <span>Langue</span>
             {!loading && (
               <TableFilters
-                label="Filter by language"
+                label="Filtrer par langue"
                 value={languageFilter}
-                allLabel="All Languages"
+                allLabel="Toutes les langues"
                 widthClassName="w-44"
                 options={languageOptions}
                 onChange={(value) =>
@@ -863,7 +863,7 @@ function WorkflowTable({
             Workflows
           </p>
           <p className="mt-1 text-left text-xs text-gray-400">
-            {error || "Create a reusable workflow or import one from Add-ons."}
+            {error || "Créez un workflow réutilisable ou importez-en un depuis les Add-ons."}
           </p>
           <PillButton
             tone="black"
@@ -871,17 +871,17 @@ function WorkflowTable({
             onClick={onCreate}
             className="mt-4 px-3"
           >
-            <Plus className="h-3.5 w-3.5" /> Create
+            <Plus className="h-3.5 w-3.5" /> Créer
           </PillButton>
         </TableEmptyState>
       ) : displayedWorkflows.length === 0 ? (
         <TableEmptyState>
           <WorkflowSkeuoIcon className="mb-4 h-8 w-8" />
           <p className="font-serif text-2xl font-medium text-gray-900">
-            No matching workflows
+            Aucun workflow correspondant
           </p>
           <p className="mt-1 text-left text-xs text-gray-400">
-            Adjust the table filters to see more workflows.
+            Ajustez les filtres du tableau pour voir plus de workflows.
           </p>
         </TableEmptyState>
       ) : (
@@ -923,8 +923,8 @@ function WorkflowTable({
                         type="checkbox"
                         disabled
                         className={TABLE_CHECKBOX_CLASS}
-                        title="Shared workflows cannot be deleted"
-                        aria-label={`Select ${workflow.metadata.title}`}
+                        title="Les workflows partagés ne peuvent pas être supprimés"
+                        aria-label={`Sélectionner ${workflow.metadata.title}`}
                       />
                     )
                   }
@@ -933,7 +933,7 @@ function WorkflowTable({
                   <span className="inline-flex items-center gap-1.5 text-xs text-gray-600">
                     <Icon className="h-4 w-4 shrink-0" />
                     {workflow.metadata.type === "tabular"
-                      ? "Tabular"
+                      ? "Tabulaire"
                       : "Assistant"}
                   </span>
                 </TableCell>
@@ -1091,7 +1091,7 @@ function AddonTable({
         <TableCell className="ml-auto w-28">
           <span className="inline-flex items-center gap-1.5 text-xs text-gray-600">
             <Icon className="h-4 w-4" />
-            {addon.type === "tabular" ? "Tabular" : "Assistant"}
+            {addon.type === "tabular" ? "Tabulaire" : "Assistant"}
           </span>
         </TableCell>
         <TableCell className="w-52 text-xs text-gray-600">
@@ -1114,7 +1114,7 @@ function AddonTable({
             className="inline-flex items-center gap-1 px-1 py-1 text-xs font-medium text-gray-600 transition-colors hover:text-gray-950 disabled:opacity-50"
           >
             <Plus className="h-3.5 w-3.5" />
-            {importingAddonId === addon.id ? "Importing…" : "Import"}
+            {importingAddonId === addon.id ? "Importation en cours…" : "Importer"}
           </button>
         </TableCell>
       </TableRow>
@@ -1135,14 +1135,14 @@ function AddonTable({
               disabled={addonIds.length === 0 || bulkImporting}
               onChange={toggleAll}
               className={TABLE_CHECKBOX_CLASS}
-              title="Select all add-ons"
+              title="Sélectionner tous les add-ons"
             />
-            Name
+            Nom
           </TableStickyCell>
           <TableHeaderCell className="ml-auto w-28">Type</TableHeaderCell>
-          <TableHeaderCell className="w-52">Practice</TableHeaderCell>
-          <TableHeaderCell className="w-40">Jurisdiction</TableHeaderCell>
-          <TableHeaderCell className="w-28">Language</TableHeaderCell>
+          <TableHeaderCell className="w-52">Domaine d'expertise</TableHeaderCell>
+          <TableHeaderCell className="w-40">Juridiction</TableHeaderCell>
+          <TableHeaderCell className="w-28">Langue</TableHeaderCell>
           <TableHeaderCell className="w-20" />
         </TableHeaderRow>
       }
@@ -1163,7 +1163,7 @@ function AddonTable({
           </p>
           <p className="mt-1 text-xs text-gray-400">
             {error ||
-              (activePackKey ? "This pack is empty." : "No add-ons found.")}
+              (activePackKey ? "Ce pack est vide." : "Aucun add-on trouvé.")}
           </p>
         </TableEmptyState>
       ) : (
@@ -1207,8 +1207,8 @@ function AddonTable({
                           onChange={() => togglePackSelection(pack.addons)}
                           onClick={(event) => event.stopPropagation()}
                           className={TABLE_CHECKBOX_CLASS}
-                          title={`Select ${pack.title}`}
-                          aria-label={`Select ${pack.title}`}
+                          title={`Sélectionner ${pack.title}`}
+                          aria-label={`Sélectionner ${pack.title}`}
                         />
                       }
                       label={
@@ -1217,8 +1217,8 @@ function AddonTable({
                             type="button"
                             aria-label={
                               expanded
-                                ? `Collapse ${pack.title}`
-                                : `Expand ${pack.title}`
+                                ? `Réduire ${pack.title}`
+                                : `Développer ${pack.title}`
                             }
                             onClick={(event) => {
                               event.stopPropagation();

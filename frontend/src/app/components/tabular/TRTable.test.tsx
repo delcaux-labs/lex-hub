@@ -53,7 +53,7 @@ describe("TRTable", () => {
     // this asserts on rendered content rather than ARIA table semantics.
     it("renders one table row for a grouped folder", () => {
         renderTable();
-        expect(screen.getByText("Folder / Document")).toBeInTheDocument();
+        expect(screen.getByText("Dossier / Document")).toBeInTheDocument();
         expect(screen.getByText("Contracts")).toBeInTheDocument();
         // One select-all checkbox in the header plus one per logical review row.
         expect(screen.getAllByRole("checkbox")).toHaveLength(2);
@@ -63,7 +63,7 @@ describe("TRTable", () => {
         renderTable("document");
         expect(screen.getByText("Document")).toBeInTheDocument();
         expect(
-            screen.queryByText("Folder / Document"),
+            screen.queryByText("Dossier / Document"),
         ).not.toBeInTheDocument();
     });
 

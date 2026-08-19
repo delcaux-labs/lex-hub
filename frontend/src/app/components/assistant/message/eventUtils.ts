@@ -9,25 +9,25 @@ export function eventErrorMessage(event: AssistantEvent): string | null {
 }
 
 export function toolCallLabel(name: string): string {
-    if (name === "ask_inputs") return "Asking for input...";
-    if (name === "generate_docx") return "Creating document...";
-    if (name === "generate_excel") return "Creating spreadsheet...";
-    if (name === "generate_ppt") return "Creating presentation...";
-    if (name === "edit_document") return "Editing document...";
-    if (name === "read_document") return "Reading document...";
-    if (name === "fetch_documents") return "Reading documents...";
-    if (name === "find_in_document") return "Searching document...";
-    if (name === "replicate_document") return "Copying document...";
-    if (name === "read_workflow") return "Reading workflow...";
-    if (name === "list_workflows") return "Loading workflows...";
-    if (name === "list_documents") return "Loading documents...";
+    if (name === "ask_inputs") return "Demande d'informations...";
+    if (name === "generate_docx") return "Création du document...";
+    if (name === "generate_excel") return "Création de la feuille de calcul...";
+    if (name === "generate_ppt") return "Création de la présentation...";
+    if (name === "edit_document") return "Modification du document...";
+    if (name === "read_document") return "Lecture du document...";
+    if (name === "fetch_documents") return "Lecture des documents...";
+    if (name === "find_in_document") return "Recherche dans le document...";
+    if (name === "replicate_document") return "Copie du document...";
+    if (name === "read_workflow") return "Lecture du workflow...";
+    if (name === "list_workflows") return "Chargement des workflows...";
+    if (name === "list_documents") return "Chargement des documents...";
     if (name === "courtlistener_search_case_law")
-        return "Searching case law...";
-    if (name === "courtlistener_get_cases") return "Fetching cases...";
-    if (name === "courtlistener_find_in_case") return "Searching case...";
-    if (name === "courtlistener_read_case") return "Reading case...";
+        return "Recherche de jurisprudence...";
+    if (name === "courtlistener_get_cases") return "Récupération des décisions...";
+    if (name === "courtlistener_find_in_case") return "Recherche dans la décision...";
+    if (name === "courtlistener_read_case") return "Lecture de la décision...";
     if (name === "courtlistener_verify_citations")
-        return "Verifying citations...";
-    if (name.startsWith("mcp_")) return "Using connector...";
-    return name ? `Running ${name}...` : "Working...";
+        return "Vérification des citations...";
+    if (name.startsWith("mcp_")) return "Utilisation du connecteur...";
+    return name ? `Exécution de ${name}...` : "Travail en cours...";
 }

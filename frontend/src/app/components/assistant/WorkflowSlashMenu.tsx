@@ -25,7 +25,7 @@ export function WorkflowSlashMenu({ workflows, activeIndex, onSelect }: Props) {
         <div
             id={WORKFLOW_SLASH_MENU_ID}
             role="listbox"
-            aria-label="Workflow commands"
+            aria-label="Commandes de workflow"
             className="absolute bottom-full left-0 mb-1.5 grid max-h-64 w-full gap-1 overflow-y-auto rounded-[18px] border border-white/65 bg-white/60 p-1 shadow-[0_4px_10px_rgba(15,23,42,0.084),inset_0_1px_0_rgba(255,255,255,0.595),inset_0_-6px_14px_rgba(255,255,255,0.126)] backdrop-blur-2xl overscroll-contain md:rounded-[22px]"
         >
             {workflows.map((workflow, index) => {

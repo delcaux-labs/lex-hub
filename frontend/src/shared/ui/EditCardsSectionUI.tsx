@@ -19,7 +19,7 @@ export interface EditCardsSectionUIProps {
 export function EditCardsSectionUI({
     summary,
     actions,
-    actionsLabel = "Tracked change actions",
+    actionsLabel = "Actions de modification suivie",
     children,
     className = "",
     defaultOpen = true,
@@ -39,7 +39,7 @@ export function EditCardsSectionUI({
                 <button
                     type="button"
                     onClick={() => setIsOpen((value) => !value)}
-                    aria-label={isOpen ? "Collapse edits" : "Expand edits"}
+                    aria-label={isOpen ? "Réduire les modifications" : "Développer les modifications"}
                     aria-expanded={isOpen}
                     className="shrink-0 rounded p-1 text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-800"
                 >

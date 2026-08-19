@@ -40,13 +40,13 @@ const REFERENCE_NAME_COL_W =
 
 function formatBytes(bytes: number | null) {
   if (bytes == null) return "—";
-  if (bytes < 1024) return `${bytes} B`;
-  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
-  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+  if (bytes < 1024) return `${bytes} o`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} Ko`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} Mo`;
 }
 
 function formatDate(value: string) {
-  return new Date(value).toLocaleDateString(undefined, {
+  return new Date(value).toLocaleDateString("fr-FR", {
     day: "numeric",
     month: "short",
     year: "numeric",
@@ -101,7 +101,7 @@ export const WorkflowReferenceFiles = forwardRef<
       setError(
         caught instanceof Error
           ? caught.message
-          : "Unable to load reference files.",
+          : "Impossible de charger les fichiers de référence.",
       );
     } finally {
       setLoading(false);
@@ -127,7 +127,7 @@ export const WorkflowReferenceFiles = forwardRef<
   async function upload(filesToUpload: File[]) {
     if (uploadInFlightRef.current) {
       appendWarning(
-        "An upload is already in progress. Wait for it to finish, then add the files again.",
+        "Un téléversement est déjà en cours. Veuillez attendre qu'il se termine avant d'ajouter d'autres fichiers.",
       );
       return;
     }
@@ -147,7 +147,7 @@ export const WorkflowReferenceFiles = forwardRef<
       }
     } catch (caught) {
       appendWarning(
-        caught instanceof Error ? caught.message : "Upload failed.",
+        caught instanceof Error ? caught.message : "Échec du téléversement.",
       );
     } finally {
       uploadInFlightRef.current = false;
@@ -164,7 +164,7 @@ export const WorkflowReferenceFiles = forwardRef<
       await reload();
     } catch (caught) {
       setError(
-        caught instanceof Error ? caught.message : "Replacement failed.",
+        caught instanceof Error ? caught.message : "Échec du remplacement.",
       );
     } finally {
       replaceTargetRef.current = null;
@@ -181,7 +181,7 @@ export const WorkflowReferenceFiles = forwardRef<
       anchor.download = resolved.filename || file.filename;
       anchor.click();
     } catch (caught) {
-      setError(caught instanceof Error ? caught.message : "Download failed.");
+      setError(caught instanceof Error ? caught.message : "Échec du téléchargement.");
     } finally {
       setBusyId(null);
     }
@@ -196,7 +196,7 @@ export const WorkflowReferenceFiles = forwardRef<
       await deleteWorkflowReferenceFile(workflowId, file.id);
       setFiles((current) => current.filter((item) => item.id !== file.id));
     } catch (caught) {
-      setError(caught instanceof Error ? caught.message : "Delete failed.");
+      setError(caught instanceof Error ? caught.message : "Échec de la suppression.");
     } finally {
       setBusyId(null);
       setPendingDeleteFile(null);
@@ -236,11 +236,11 @@ export const WorkflowReferenceFiles = forwardRef<
         header={
           <TableHeaderRow>
             <TableStickyCell header widthClassName={REFERENCE_NAME_COL_W}>
-              Name
+              Nom
             </TableStickyCell>
             <TableHeaderCell className="ml-auto w-20">Type</TableHeaderCell>
-            <TableHeaderCell className="w-24">Size</TableHeaderCell>
-            <TableHeaderCell className="w-32">Updated</TableHeaderCell>
+            <TableHeaderCell className="w-24">Taille</TableHeaderCell>
+            <TableHeaderCell className="w-32">Mis à jour</TableHeaderCell>
             <TableHeaderCell className="w-8" />
           </TableHeaderRow>
         }
@@ -272,10 +272,10 @@ export const WorkflowReferenceFiles = forwardRef<
         ) : files.length === 0 ? (
           <TableEmptyState>
             <p className="font-serif text-2xl font-medium text-gray-900">
-              Reference files
+              Fichiers de référence
             </p>
             <p className="mt-1 text-xs text-gray-400">
-              Upload files that this workflow can reference when it runs.
+              Téléversez des fichiers auxquels ce workflow peut faire référence lors de son exécution.
             </p>
           </TableEmptyState>
         ) : (
@@ -314,7 +314,7 @@ export const WorkflowReferenceFiles = forwardRef<
                             replaceInputRef.current?.click();
                           }
                     }
-                    uploadNewVersionLabel="Replace file"
+                    uploadNewVersionLabel="Remplacer le fichier"
                     onDelete={
                       readOnly ? undefined : () => setPendingDeleteFile(file)
                     }
@@ -328,18 +328,18 @@ export const WorkflowReferenceFiles = forwardRef<
       </TableScrollArea>
       <ConfirmPopup
         open={pendingDeleteFile !== null}
-        title="Delete reference file?"
+        title="Supprimer le fichier de référence ?"
         message={
           pendingDeleteFile ? (
             <p>
               <span className="font-medium text-gray-950">
                 {pendingDeleteFile.filename}
               </span>{" "}
-              will be permanently deleted.
+              sera définitivement supprimé.
             </p>
           ) : undefined
         }
-        confirmLabel="Delete"
+        confirmLabel="Supprimer"
         confirmStatus={deleteStatus}
         onConfirm={() => void confirmRemove()}
         onCancel={() => {

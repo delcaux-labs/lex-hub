@@ -33,7 +33,7 @@ export default function FeaturesPage() {
         setSavingQuickActions(true);
         const ok = await updateQuickActionsVisible(visible);
         setSavingQuickActions(false);
-        if (!ok) setQuickActionsError("Could not update. Try again.");
+        if (!ok) setQuickActionsError("Impossible de mettre à jour. Veuillez réessayer.");
     };
 
     const handleCourtListenerChange = async (enabled: boolean) => {
@@ -45,7 +45,7 @@ export default function FeaturesPage() {
         setSaving(false);
         setOptimisticLegalResearchUs(null);
         if (!ok) {
-            setSaveError("Could not update. Try again.");
+            setSaveError("Impossible de mettre à jour. Veuillez réessayer.");
         }
     };
 
@@ -61,11 +61,11 @@ export default function FeaturesPage() {
                     <div className="flex flex-col gap-3 px-4 py-5 sm:flex-row sm:items-center sm:justify-between">
                         <div className="space-y-1">
                             <p className="text-sm font-medium text-gray-700">
-                                Quick actions
+                                Actions rapides
                             </p>
                             <p className="text-sm text-gray-500">
-                                Show the quick actions row on the assistant
-                                start screen.
+                                Afficher la barre d'actions rapides sur l'écran
+                                d'accueil de l'assistant.
                             </p>
                             {quickActionsError && (
                                 <p className="text-sm text-red-600">
@@ -88,17 +88,17 @@ export default function FeaturesPage() {
             <section className="space-y-3">
                 <div className="flex items-center gap-2">
                     <h2 className="text-2xl font-medium font-serif text-gray-900">
-                        Legal Research
+                        Recherche juridique
                     </h2>
                 </div>
                 <SettingsSection>
                     <div className="flex items-center justify-between gap-3 px-4 py-5">
                         <div className="space-y-1">
                             <p className="text-sm font-medium text-gray-700">
-                                Enable CourtListener
+                                Activer CourtListener
                             </p>
                             <p className="text-sm text-gray-500">
-                                CourtListener provides access to US case law.
+                                CourtListener donne accès à la jurisprudence américaine.
                             </p>
                         </div>
                         <SettingsToggle
@@ -117,8 +117,8 @@ export default function FeaturesPage() {
                     )}
                     {courtListenerEnabled && (
                         <ApiKeyField
-                            label="CourtListener API Key"
-                            placeholder="Token..."
+                            label="Clé API CourtListener"
+                            placeholder="Jeton..."
                             hasSavedKey={
                                 !!profile?.apiKeys.courtlistener.configured
                             }

@@ -92,16 +92,16 @@ describe("HistoryPage", () => {
     render(<HistoryPage />);
 
     expect(
-      screen.getByRole("heading", { name: "History" }),
+      screen.getByRole("heading", { name: "Historique" }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("button", { name: "Search history…" }),
+      screen.getByRole("button", { name: "Rechercher dans l'historique…" }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("button", { name: "Export history" }),
+      screen.getByRole("button", { name: "Exporter l'historique" }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("button", { name: "Select date range" }),
+      screen.getByRole("button", { name: "Sélectionner une plage de dates" }),
     ).toHaveAttribute("aria-pressed", "true");
     expect(screen.queryByRole("button", { name: "7 days" })).toBeNull();
     expect(screen.queryByRole("button", { name: "30 days" })).toBeNull();
@@ -109,18 +109,18 @@ describe("HistoryPage", () => {
     expect(await screen.findByText("Alex Lawyer")).toBeInTheDocument();
     expect(screen.getByText("Share purchase agreement")).toBeInTheDocument();
     expect(
-      screen.getByRole("button", { name: "Filter by status" }),
+      screen.getByRole("button", { name: "Filtrer par statut" }),
     ).toBeInTheDocument();
-    expect(screen.getByText("Username")).toBeInTheDocument();
-    expect(screen.getByText("Email")).toBeInTheDocument();
+    expect(screen.getByText("Nom d'utilisateur")).toBeInTheDocument();
+    expect(screen.getByText("E-mail")).toBeInTheDocument();
     expect(screen.getByText("Alex Lawyer")).toHaveClass("text-xs");
     expect(screen.getByText("lawyer@example.com")).toHaveClass(
       "ml-auto",
       "w-52",
       "text-xs",
     );
-    expect(screen.getByText("Completed")).toHaveClass("text-green-600");
-    expect(screen.getByText("Completed")).not.toHaveClass("rounded-full");
+    expect(screen.getByText("Terminé")).toHaveClass("text-green-600");
+    expect(screen.getByText("Terminé")).not.toHaveClass("rounded-full");
     expect(screen.getByTestId("status-dot-event-1")).toHaveClass(
       "rounded-full",
       "border-white/80",
@@ -128,15 +128,15 @@ describe("HistoryPage", () => {
       "backdrop-blur-xl",
     );
     expect(screen.getByText("gpt-5")).toHaveClass("w-28", "text-xs");
-    expect(screen.getByText("Email").parentElement).toHaveClass("ml-auto");
+    expect(screen.getByText("E-mail").parentElement).toHaveClass("ml-auto");
     expect(
-      screen.getByRole("button", { name: "Sort by email" }),
+      screen.getByRole("button", { name: "Trier par e-mail" }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("button", { name: "Filter by type" }),
+      screen.getByRole("button", { name: "Filtrer par type" }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("button", { name: "Filter by application" }),
+      screen.getByRole("button", { name: "Filtrer par application" }),
     ).toBeInTheDocument();
   });
 
@@ -153,8 +153,8 @@ describe("HistoryPage", () => {
       expect.any(AbortSignal),
     );
 
-    await user.click(screen.getByRole("button", { name: "Filter by status" }));
-    await user.click(screen.getByRole("menuitem", { name: "Completed" }));
+    await user.click(screen.getByRole("button", { name: "Filtrer par statut" }));
+    await user.click(screen.getByRole("menuitem", { name: "Terminé" }));
     await waitFor(() =>
       expect(mockedGetAuditHistory).toHaveBeenLastCalledWith(
         expect.objectContaining({ status: "completed", page: 1 }),
@@ -162,8 +162,8 @@ describe("HistoryPage", () => {
       ),
     );
 
-    await user.click(screen.getByRole("button", { name: "Sort by title" }));
-    await user.click(screen.getByText("Ascending"));
+    await user.click(screen.getByRole("button", { name: "Trier par titre" }));
+    await user.click(screen.getByText("Croissant"));
     await waitFor(() =>
       expect(mockedGetAuditHistory).toHaveBeenLastCalledWith(
         expect.objectContaining({
@@ -191,23 +191,23 @@ describe("HistoryPage", () => {
     render(<HistoryPage />);
     await screen.findByText("Alex Lawyer");
 
-    await user.click(screen.getByRole("button", { name: "Select date range" }));
+    await user.click(screen.getByRole("button", { name: "Sélectionner une plage de dates" }));
     expect(screen.getByRole("menu")).toHaveClass("bg-app-surface");
     expect(screen.getByRole("menu")).toHaveAttribute("data-align", "start");
     expect(screen.getAllByRole("grid")).toHaveLength(2);
     expect(
-      screen.getByRole("region", { name: "Start date" }),
+      screen.getByRole("region", { name: "Date de début" }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("region", { name: "End date" }),
+      screen.getByRole("region", { name: "Date de fin" }),
     ).toBeInTheDocument();
-    expect(screen.getByRole("region", { name: "Start date" })).toHaveClass(
+    expect(screen.getByRole("region", { name: "Date de début" })).toHaveClass(
       "w-56",
     );
-    expect(screen.getByRole("region", { name: "End date" })).toHaveClass(
+    expect(screen.getByRole("region", { name: "Date de fin" })).toHaveClass(
       "w-56",
     );
-    const confirmButton = screen.getByRole("button", { name: "Confirm" });
+    const confirmButton = screen.getByRole("button", { name: "Confirmer" });
     expect(confirmButton).toBeDisabled();
     const selectedStartCell = screen
       .getByTestId("start-date-picker")
@@ -251,9 +251,9 @@ describe("HistoryPage", () => {
         expect.any(AbortSignal),
       ),
     );
-    expect(screen.queryByRole("button", { name: "Confirm" })).toBeNull();
+    expect(screen.queryByRole("button", { name: "Confirmer" })).toBeNull();
 
-    await user.click(screen.getByRole("button", { name: "Export history" }));
+    await user.click(screen.getByRole("button", { name: "Exporter l'historique" }));
     await waitFor(() =>
       expect(mockedExportAuditHistory).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -276,8 +276,8 @@ describe("HistoryPage", () => {
 
     render(<HistoryPage />);
 
-    expect(await screen.findByText("No history yet")).toBeInTheDocument();
-    expect(screen.getByText("No history yet").parentElement).toHaveClass(
+    expect(await screen.findByText("Aucun historique pour le moment")).toBeInTheDocument();
+    expect(screen.getByText("Aucun historique pour le moment").parentElement).toHaveClass(
       "max-w-[260px]",
       "items-start",
       "text-left",

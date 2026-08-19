@@ -80,12 +80,12 @@ describe("ChatInput workflow slash commands", () => {
 
         act(() => ref.current?.addDoc(document));
         await user.click(
-            screen.getByRole("button", { name: "Open agreement.docx" }),
+            screen.getByRole("button", { name: "Ouvrir agreement.docx" }),
         );
 
         expect(onDocumentClick).toHaveBeenCalledWith(document);
         expect(
-            screen.getByRole("button", { name: "Remove agreement.docx" }),
+            screen.getByRole("button", { name: "Retirer agreement.docx" }),
         ).toBeInTheDocument();
     });
 

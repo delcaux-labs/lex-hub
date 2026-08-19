@@ -65,27 +65,27 @@ export function NewMcpModal({
             open={open}
             onClose={onClose}
             breadcrumbs={[
-                "Connectors",
+                "Connecteurs",
                 step === "success"
-                    ? "Connector added"
+                    ? "Connecteur ajouté"
                     : step === "auth"
-                      ? "Authenticate connector"
-                      : "New MCP connector",
+                      ? "Authentifier le connecteur"
+                      : "Nouveau connecteur MCP",
             ]}
             size="lg"
             primaryAction={
                 step === "success" && result
                     ? {
-                          label: "View connector",
+                          label: "Afficher le connecteur",
                           onClick: () => onOpenConnector(result.id),
                       }
                     : {
                           label:
                               step === "working"
-                                  ? "Connecting..."
+                                  ? "Connexion en cours..."
                                   : step === "auth"
-                                    ? "Authorizing..."
-                                    : "Connect",
+                                    ? "Autorisation en cours..."
+                                    : "Connecter",
                           icon:
                               step === "working" || step === "auth" ? (
                                   <Loader2 className="h-4 w-4 animate-spin" />
@@ -98,7 +98,7 @@ export function NewMcpModal({
                 step === "working" || step === "auth"
                     ? false
                     : {
-                          label: step === "success" ? "Done" : "Cancel",
+                          label: step === "success" ? "Terminé" : "Annuler",
                           onClick: onClose,
                       }
             }
@@ -116,14 +116,13 @@ export function NewMcpModal({
                 <NewMcpAuth
                     message={
                         authMessage ??
-                        "Complete authorization in the popup to finish connecting this MCP server."
+                        "Terminez l'autorisation dans la fenêtre contextuelle pour finaliser la connexion de ce serveur MCP."
                     }
                 />
             ) : (
                 <div className="min-h-0 flex-1 space-y-4 overflow-y-auto pb-4">
                     <p className="text-sm text-gray-500">
-                        The assistant will have access to this MCP server and
-                        its enabled tools.
+                        L'assistant aura accès à ce serveur MCP et à ses outils activés.
                     </p>
                     <NewMcpForm
                         draft={draft}
@@ -161,21 +160,21 @@ function NewMcpForm({
         <div className="grid gap-3 pt-1">
             <label className="grid gap-2 sm:grid-cols-[96px_minmax(0,1fr)] sm:items-center">
                 <FieldLabel as="span" className="mb-0 text-gray-500">
-                    Label
+                    Libellé
                 </FieldLabel>
                 <SettingsTextInput
                     value={draft.name}
                     onChange={(event) =>
                         onDraftChange({ ...draft, name: event.target.value })
                     }
-                    placeholder="Connector label"
+                    placeholder="Libellé du connecteur"
                     className="h-8"
                     disabled={disabled}
                 />
             </label>
             <label className="grid gap-2 sm:grid-cols-[96px_minmax(0,1fr)] sm:items-center">
                 <FieldLabel as="span" className="mb-0 text-gray-500">
-                    URL endpoint
+                    Point de terminaison URL
                 </FieldLabel>
                 <SettingsTextInput
                     value={draft.serverUrl}
@@ -195,7 +194,7 @@ function NewMcpForm({
                     as="span"
                     className="mb-0 pt-2 text-gray-500"
                 >
-                    Bearer token
+                    Jeton Bearer
                 </FieldLabel>
                 <div className="min-w-0">
                     <div className="relative">
@@ -208,7 +207,7 @@ function NewMcpForm({
                                 })
                             }
                             type={showToken ? "text" : "password"}
-                            placeholder="Bearer token"
+                            placeholder="Jeton Bearer"
                             className="h-8 pr-10"
                             autoComplete="off"
                             spellCheck={false}
@@ -220,7 +219,7 @@ function NewMcpForm({
                                 className={`absolute inset-y-1 right-1.5 flex items-center ${settingsGlassIconButtonClassName}`}
                                 onClick={() => onShowTokenChange(!showToken)}
                                 aria-label={
-                                    showToken ? "Hide token" : "Show token"
+                                    showToken ? "Masquer le jeton" : "Afficher le jeton"
                                 }
                                 disabled={disabled}
                             >
@@ -233,7 +232,7 @@ function NewMcpForm({
                         )}
                     </div>
                     <p className="mt-1 text-right text-xs text-gray-500">
-                        Tokens are stored encrypted.
+                        Les jetons sont chiffrés lors de leur stockage.
                     </p>
                 </div>
             </div>
@@ -244,7 +243,7 @@ function NewMcpForm({
                     className="inline-flex items-center gap-1 justify-self-start text-xs font-medium text-gray-500 transition-colors hover:text-gray-900"
                     disabled={disabled}
                 >
-                    Advanced
+                    Avancé
                     <ChevronDown
                         className={`h-3.5 w-3.5 transition-transform ${
                             showAdvanced ? "" : "-rotate-90"
@@ -257,7 +256,7 @@ function NewMcpForm({
                             as="span"
                             className="mb-0 text-gray-500"
                         >
-                            Custom headers
+                            En-têtes personnalisés
                         </FieldLabel>
                         <div className="min-w-0">
                             <textarea
@@ -275,7 +274,7 @@ function NewMcpForm({
                                 disabled={disabled}
                             />
                             <p className="mt-1 text-right text-xs text-gray-500">
-                                Secrets are stored encrypted.
+                                Les secrets sont chiffrés lors de leur stockage.
                             </p>
                         </div>
                     </label>
@@ -291,9 +290,9 @@ function NewMcpSuccess({ connector }: { connector: McpConnectorSummary }) {
             <div className="flex items-start gap-3 rounded-xl border border-green-100/80 bg-green-50/80 px-3 py-3 text-green-800 shadow-[0_3px_9px_rgba(15,23,42,0.03),inset_0_1px_0_rgba(255,255,255,0.9),inset_0_-4px_9px_rgba(255,255,255,0.05)] backdrop-blur-xl">
                 <Check className="mt-0.5 h-4 w-4 shrink-0 text-green-600" />
                 <p className="min-w-0 truncate text-sm font-medium">
-                    {connector.name} is connected.{" "}
+                    {connector.name} est connecté.{" "}
                     <span className="font-normal text-green-700">
-                        {connector.tools.length} tools discovered.
+                        {connector.tools.length} {connector.tools.length === 1 ? "outil détecté" : "outils détectés"}.
                     </span>
                 </p>
             </div>
@@ -315,7 +314,7 @@ function NewMcpSuccess({ connector }: { connector: McpConnectorSummary }) {
                                 )}
                             </div>
                             <span className="text-xs text-gray-400">
-                                {tool.enabled ? "Enabled" : "Disabled"}
+                                {tool.enabled ? "Activé" : "Désactivé"}
                             </span>
                         </div>
                     ))}
@@ -333,7 +332,7 @@ function NewMcpAuth({ message }: { message: string }) {
             </div>
             <div className="max-w-sm space-y-1">
                 <h3 className="text-sm font-medium text-gray-700">
-                    Authentication required
+                    Authentification requise
                 </h3>
                 <p className="text-sm text-gray-500">{message}</p>
             </div>

@@ -73,10 +73,10 @@ export function TableLoadMoreRow({
             >
                 {loadingMore && <Loader2 className="h-3 w-3 animate-spin" />}
                 {loadingMore
-                    ? "Loading…"
+                    ? "Chargement…"
                     : hasError
-                      ? "Retry loading"
-                      : "Load more"}
+                      ? "Réessayer le chargement"
+                      : "Charger plus"}
             </button>
         </div>
     );

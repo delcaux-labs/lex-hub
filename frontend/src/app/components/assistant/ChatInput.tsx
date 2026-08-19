@@ -253,8 +253,8 @@ export const ChatInput = forwardRef<ChatInputHandle, Props>(function ChatInput(
             if (results.some((result) => result.status === "rejected")) {
                 setUploadWarning(
                     uploaded.length > 0
-                        ? "Some documents could not be uploaded."
-                        : "Documents could not be uploaded. Please try again.",
+                        ? "Certains documents n'ont pas pu être téléversés."
+                        : "Les documents n'ont pas pu être téléversés. Veuillez réessayer.",
                 );
             }
             setUploadingFilenames([]);
@@ -466,7 +466,7 @@ export const ChatInput = forwardRef<ChatInputHandle, Props>(function ChatInput(
                                                 onClick={() =>
                                                     onDocumentClick(doc)
                                                 }
-                                                aria-label={`Open ${doc.filename}`}
+                                                aria-label={`Ouvrir ${doc.filename}`}
                                                 className="inline-flex min-w-0 items-center gap-1 py-0.5 pl-2 transition-colors hover:text-gray-950"
                                             >
                                                 {documentLabel}
@@ -485,7 +485,7 @@ export const ChatInput = forwardRef<ChatInputHandle, Props>(function ChatInput(
                                                     ),
                                                 )
                                             }
-                                            aria-label={`Remove ${doc.filename}`}
+                                            aria-label={`Retirer ${doc.filename}`}
                                             className="mx-1 rounded-full p-0.5 text-gray-400 transition-colors hover:bg-gray-900/5 hover:text-gray-700"
                                         >
                                             <X className="h-2.5 w-2.5" />
@@ -517,7 +517,7 @@ export const ChatInput = forwardRef<ChatInputHandle, Props>(function ChatInput(
                         <textarea
                             ref={textareaRef}
                             rows={1}
-                            placeholder="How can I help?"
+                            placeholder="Comment puis-je vous aider ?"
                             value={value}
                             onChange={handleChange}
                             onKeyDown={handleKeyDown}
@@ -560,7 +560,7 @@ export const ChatInput = forwardRef<ChatInputHandle, Props>(function ChatInput(
                                 <button
                                     type="button"
                                     onClick={() => setWorkflowModalOpen(true)}
-                                    aria-label="Open workflows"
+                                    aria-label="Ouvrir les workflows"
                                     className={cn(
                                         "flex items-center gap-1.5 rounded-lg px-2 h-8 text-sm transition-colors",
                                         selectedWorkflow
@@ -595,7 +595,7 @@ export const ChatInput = forwardRef<ChatInputHandle, Props>(function ChatInput(
                             <button
                                 type="button"
                                 aria-label={
-                                    isLoading ? "Stop response" : "Send message"
+                                    isLoading ? "Arrêter la réponse" : "Envoyer le message"
                                 }
                                 className={cn(
                                     "relative bg-gradient-to-b from-neutral-700 to-black text-white rounded-[11px] h-8 w-8 flex items-center justify-center cursor-pointer disabled:cursor-default disabled:from-neutral-600 disabled:to-black backdrop-blur-xl border-0 active:enabled:scale-95 transition-all duration-150",
@@ -633,8 +633,8 @@ export const ChatInput = forwardRef<ChatInputHandle, Props>(function ChatInput(
                 projectId={projectId}
                 breadcrumb={
                     selectedWorkflow
-                        ? ["Assistant", selectedWorkflow.title, "Add Documents"]
-                        : ["Assistant", "Add Documents"]
+                        ? ["Assistant", selectedWorkflow.title, "Ajouter des documents"]
+                        : ["Assistant", "Ajouter des documents"]
                 }
             />
             <AssistantWorkflowModal

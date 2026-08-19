@@ -68,7 +68,7 @@ describe("TableLoadMoreRow", () => {
             />,
         );
 
-        fireEvent.click(screen.getByRole("button", { name: "Load more" }));
+        fireEvent.click(screen.getByRole("button", { name: "Charger plus" }));
         expect(onLoadMore).toHaveBeenCalledTimes(1);
         expect(observe).not.toHaveBeenCalled();
     });

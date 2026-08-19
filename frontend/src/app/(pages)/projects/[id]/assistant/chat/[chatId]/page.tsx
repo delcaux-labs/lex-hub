@@ -152,7 +152,7 @@ function AssistantGreeting({ username }: { username: string }) {
                             "transform 900ms cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 800ms ease-in-out 300ms",
                     }}
                 >
-                    Hi, {username}
+                    Bonjour, {username}
                 </h1>
             </div>
         </div>
@@ -628,7 +628,7 @@ export default function ProjectAssistantChatPage({ params }: Props) {
 
     async function handleDeleteChat() {
         if (chatOwnerId && user?.id && chatOwnerId !== user.id) {
-            setOwnerOnlyAction("delete this chat");
+            setOwnerOnlyAction("supprimer ce chat");
             return;
         }
         setDeletingChat(true);
@@ -642,12 +642,12 @@ export default function ProjectAssistantChatPage({ params }: Props) {
 
     async function handleRenameChat() {
         if (chatOwnerId && user?.id && chatOwnerId !== user.id) {
-            setOwnerOnlyAction("rename this chat");
+            setOwnerOnlyAction("renommer ce chat");
             return;
         }
         const nextTitle = window.prompt(
-            "Rename chat",
-            chatTitle ?? "Untitled New Chat",
+            "Renommer le chat",
+            chatTitle ?? "Nouveau chat sans titre",
         );
         const trimmed = nextTitle?.trim();
         if (!trimmed || trimmed === chatTitle) return;
@@ -863,7 +863,7 @@ export default function ProjectAssistantChatPage({ params }: Props) {
                               ? { ...d, folder_id: targetFolderId }
                               : d,
                       ),
-                  }
+                   }
                 : prev,
         );
         await moveDocumentToFolder(projectId, docId, targetFolderId);
@@ -925,7 +925,7 @@ export default function ProjectAssistantChatPage({ params }: Props) {
                 shrink
                 breadcrumbs={[
                     {
-                        label: "Projects",
+                        label: "Projets",
                         onClick: () => router.push("/projects"),
                     },
                     project
@@ -933,24 +933,24 @@ export default function ProjectAssistantChatPage({ params }: Props) {
                               label: project.name,
                               onClick: () =>
                                   router.push(`/projects/${projectId}`),
-                              title: "Back to project",
+                              title: "Retour au projet",
                           }
                         : {
                               loading: true,
                               skeletonClassName: "w-32",
                               onClick: () =>
                                   router.push(`/projects/${projectId}`),
-                              title: "Back to project",
+                              title: "Retour au projet",
                           },
                     {
                         label: "Chats",
                         onClick: () =>
                             router.push(`/projects/${projectId}/assistant`),
-                        title: "Back to Chats",
+                        title: "Retour aux chats",
                     },
                     chatLoaded
                         ? {
-                              label: chatTitle ?? "Untitled New Chat",
+                              label: chatTitle ?? "Nouveau chat sans titre",
                           }
                         : {
                               loading: true,
@@ -962,7 +962,7 @@ export default function ProjectAssistantChatPage({ params }: Props) {
                         type: "new",
                         onClick: handleNewChat,
                         loading: creatingChat,
-                        title: "New chat",
+                        title: "Nouveau chat",
                     },
                     {
                         type: "custom",
@@ -970,15 +970,15 @@ export default function ProjectAssistantChatPage({ params }: Props) {
                             <HeaderActionsMenu
                                 items={[
                                     {
-                                        label: "Rename",
+                                        label: "Renommer",
                                         icon: Pencil,
                                         onSelect: () =>
                                             void handleRenameChat(),
                                     },
                                     {
                                         label: deletingChat
-                                            ? "Deleting..."
-                                            : "Delete",
+                                            ? "Suppression en cours..."
+                                            : "Supprimer",
                                         icon: Trash2,
                                         onSelect: () =>
                                             void handleDeleteChat(),
@@ -1025,7 +1025,7 @@ export default function ProjectAssistantChatPage({ params }: Props) {
                             {/* Explorer header */}
                             <div className="h-10 flex items-center justify-between px-3 border-b border-gray-200 shrink-0">
                                 <span className="text-xs text-gray-700">
-                                    Explorer
+                                    Explorateur
                                 </span>
                                 <div className="flex items-center gap-1">
                                     <input
@@ -1047,7 +1047,7 @@ export default function ProjectAssistantChatPage({ params }: Props) {
                                             fileInputRef.current?.click()
                                         }
                                         disabled={uploading}
-                                        title="Upload documents"
+                                        title="Téléverser des documents"
                                         className="p-1 rounded text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors disabled:opacity-40"
                                     >
                                         {uploading ? (
@@ -1060,7 +1060,7 @@ export default function ProjectAssistantChatPage({ params }: Props) {
                                         onClick={() =>
                                             setExplorerCollapsed(true)
                                         }
-                                        title="Collapse explorer"
+                                        title="Réduire l'explorateur"
                                         className="p-1 rounded text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors"
                                     >
                                         <ChevronLeft className="h-3.5 w-3.5" />
@@ -1095,7 +1095,7 @@ export default function ProjectAssistantChatPage({ params }: Props) {
                                 {explorerDragOver && (
                                     <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
                                         <p className="text-xs text-blue-500 font-medium">
-                                            Drop to upload
+                                            Déposez pour téléverser
                                         </p>
                                     </div>
                                 )}
@@ -1124,7 +1124,7 @@ export default function ProjectAssistantChatPage({ params }: Props) {
                         <div className="h-10 flex items-center justify-center border-b border-gray-200 shrink-0 px-1">
                             <button
                                 onClick={() => setExplorerCollapsed(false)}
-                                title="Expand explorer"
+                                title="Développer l'explorateur"
                                 className="p-1 rounded text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors"
                             >
                                 <ChevronRight className="h-3.5 w-3.5" />
@@ -1142,7 +1142,7 @@ export default function ProjectAssistantChatPage({ params }: Props) {
                     >
                         {tabs.length === 0 ? (
                             <span className="px-4 self-center text-xs text-gray-700">
-                                Document Viewer
+                                Visualiseur de document
                             </span>
                         ) : (
                             tabs.map((tab) => {
@@ -1274,12 +1274,10 @@ export default function ProjectAssistantChatPage({ params }: Props) {
                             <div className="flex items-center justify-center h-full px-8 bg-gray-100">
                                 <div className="text-center space-y-3">
                                     <p className="font-serif text-gray-700 text-xl">
-                                        Click on a document to display here.
+                                        Cliquez sur un document pour l'afficher ici.
                                     </p>
                                     <p className="font-serif text-base text-gray-500">
-                                        Pro tip: Drag a document from the
-                                        Project Explorer to the Assistant to
-                                        direct it to read or edit.
+                                        Astuce : Glissez un document de l'explorateur de projet vers l'Assistant pour lui demander de le lire ou de le modifier.
                                     </p>
                                 </div>
                             </div>
@@ -1298,7 +1296,7 @@ export default function ProjectAssistantChatPage({ params }: Props) {
                 >
                     <div className="h-10 flex items-center px-4 border-b border-gray-200 shrink-0">
                         <span className="text-xs text-gray-700">
-                            Project Assistant
+                            Assistant de projet
                         </span>
                     </div>
 
@@ -1444,24 +1442,24 @@ export default function ProjectAssistantChatPage({ params }: Props) {
             />
             <ConfirmPopup
                 open={!!pendingDeleteFolder}
-                title="Delete folder?"
+                title="Supprimer le dossier ?"
                 message={
                     pendingDeleteFolder ? (
                         <div className="space-y-2">
                             <p>
-                                This will permanently delete{" "}
+                                Cette action supprimera définitivement{" "}
                                 <span className="font-medium text-gray-950">
                                     {pendingDeleteFolder.folderIds.length}{" "}
                                     {pendingDeleteFolder.folderIds.length === 1
-                                        ? "folder"
-                                        : "folders"}
+                                        ? "dossier"
+                                        : "dossiers"}
                                 </span>
-                                , including{" "}
+                                , y compris{" "}
                                 <span className="font-medium text-gray-950">
                                     {pendingDeleteFolder.folder.name}
                                 </span>
                                 {pendingDeleteFolder.folderIds.length > 1
-                                    ? " and its nested subfolders"
+                                    ? " et ses sous-dossiers imbriqués"
                                     : ""}
                                 .
                             </p>
@@ -1469,19 +1467,19 @@ export default function ProjectAssistantChatPage({ params }: Props) {
                                 <p>
                                     {pendingDeleteFolder.documentCount}{" "}
                                     {pendingDeleteFolder.documentCount === 1
-                                        ? "document"
-                                        : "documents"}{" "}
-                                    in the deleted{" "}
+                                        ? "document contenu"
+                                        : "documents contenus"}{" "}
+                                    dans{" "}
                                     {pendingDeleteFolder.folderIds.length === 1
-                                        ? "folder"
-                                        : "folders"}{" "}
-                                    will also be permanently deleted.
+                                        ? "le dossier supprimé sera"
+                                        : "les dossiers supprimés seront"}{" "}
+                                    également définitivement supprimé{pendingDeleteFolder.documentCount === 1 ? "" : "s"}.
                                 </p>
                             )}
                         </div>
                     ) : undefined
                 }
-                confirmLabel="Delete"
+                confirmLabel="Supprimer"
                 confirmStatus={
                     pendingDeleteFolderStatus === "deleting"
                         ? "loading"
@@ -1489,7 +1487,7 @@ export default function ProjectAssistantChatPage({ params }: Props) {
                           ? "complete"
                           : "idle"
                 }
-                cancelLabel="Cancel"
+                cancelLabel="Annuler"
                 onCancel={() => {
                     if (pendingDeleteFolderStatus === "deleting") return;
                     clearFolderDeleteDismissTimer();

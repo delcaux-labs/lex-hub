@@ -115,16 +115,16 @@ export function WFEditColumnModal({ column, onClose, onSave, onDelete }: Props) 
         <Modal
             open
             onClose={onClose}
-            breadcrumbs={["Workflows", "Edit column"]}
+            breadcrumbs={["Workflows", "Modifier la colonne"]}
             primaryAction={{
-                label: "Save changes",
+                label: "Enregistrer les modifications",
                 type: "submit",
                 form: formId,
                 disabled: !draft.name.trim() || !draft.prompt.trim(),
             }}
-            cancelAction={{ label: "Cancel", onClick: onClose }}
+            cancelAction={{ label: "Annuler", onClick: onClose }}
             secondaryAction={{
-                label: "Delete",
+                label: "Supprimer",
                 variant: "danger",
                 onClick: onDelete,
             }}
@@ -136,7 +136,7 @@ export function WFEditColumnModal({ column, onClose, onSave, onDelete }: Props) 
             >
                 <div className="min-h-0 flex-1 overflow-y-auto px-1 pb-5 pt-2">
                         <FieldLabel htmlFor="workflow-column-name">
-                            Column title
+                            Titre de la colonne
                         </FieldLabel>
                         {/* Name row */}
                         <div className="flex items-start gap-2">
@@ -159,14 +159,14 @@ export function WFEditColumnModal({ column, onClose, onSave, onDelete }: Props) 
                                             } : {}),
                                         });
                                     }}
-                                    placeholder="Column name"
+                                    placeholder="Nom de colonne"
                                     className="flex-1"
                                     autoFocus
                                 />
                                 <button
                                     type="button"
                                     onClick={() => setPresetsOpen((v) => !v)}
-                                    title="Column presets"
+                                    title="Préréglages de colonne"
                                     className="mt-1.5 rounded-lg p-1.5 text-gray-500 transition-colors hover:bg-gray-100/70 hover:text-gray-700"
                                 >
                                     <ChevronDown className={`h-4 w-4 transition-transform ${presetsOpen ? "rotate-180" : ""}`} />
@@ -178,7 +178,7 @@ export function WFEditColumnModal({ column, onClose, onSave, onDelete }: Props) 
                                             onClick={() => { update({ name: "", prompt: "", format: "text", tags: [], tagInput: "" }); setPresetsOpen(false); }}
                                             className="w-full px-3 py-2 text-left text-sm text-gray-400 transition-all hover:bg-gray-100/70 border-b border-gray-100"
                                         >
-                                            No Preset
+                                            Aucun préréglage
                                         </button>
                                         {PROMPT_PRESETS.map((preset) => (
                                             <button
@@ -252,11 +252,11 @@ export function WFEditColumnModal({ column, onClose, onSave, onDelete }: Props) 
                                         onChange={(e) => update({ tagInput: e.target.value })}
                                         onKeyDown={handleTagKeyDown}
                                         onBlur={commitTag}
-                                        placeholder="Add tag…"
+                                        placeholder="Ajouter un tag…"
                                         className="min-w-[80px] flex-1 font-sans text-sm text-gray-700 placeholder:text-gray-400"
                                     />
                                 </div>
-                                <p className="mt-1 text-xs text-gray-400">Press Enter or comma to add a tag.</p>
+                                <p className="mt-1 text-xs text-gray-400">Appuyez sur Entrée ou sur une virgule pour ajouter un tag.</p>
                             </div>
                         )}
 
@@ -279,7 +279,7 @@ export function WFEditColumnModal({ column, onClose, onSave, onDelete }: Props) 
                                 ) : (
                                     <Plus className="h-4 w-4" />
                                 )}
-                                Auto-Generate Prompt
+                                Générer automatiquement le prompt
                             </button>
                         </div>
                         <ModalTextarea
@@ -287,7 +287,7 @@ export function WFEditColumnModal({ column, onClose, onSave, onDelete }: Props) 
                             rows={6}
                             value={draft.prompt}
                             onChange={(e) => update({ prompt: e.target.value })}
-                            placeholder="Write the analysis prompt — describe what Mike should extract from each document for this column…"
+                            placeholder="Rédigez le prompt d'analyse — décrivez ce que l'IA doit extraire de chaque document pour cette colonne…"
                             className="mt-2 min-h-36"
                         />
                 </div>

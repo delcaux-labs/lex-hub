@@ -308,7 +308,7 @@ export function WorkflowPromptEditor({
     const trail = after.length === 0 || after.startsWith("\n") ? "" : "\n";
     const header =
       "| " +
-      Array.from({ length: cols }, (_, index) => `Column ${index + 1}`).join(
+      Array.from({ length: cols }, (_, index) => `Colonne ${index + 1}`).join(
         " | ",
       ) +
       " |";
@@ -357,7 +357,7 @@ export function WorkflowPromptEditor({
                 : editor.chain().focus().toggleHeading({ level: 1 }).run()
             }
             active={!rawMode && activeFormatting.heading1}
-            title="Heading 1"
+            title="Titre 1"
           >
             <Heading1 className="h-4 w-4" />
           </AppToolbarButton>
@@ -368,7 +368,7 @@ export function WorkflowPromptEditor({
                 : editor.chain().focus().toggleHeading({ level: 2 }).run()
             }
             active={!rawMode && activeFormatting.heading2}
-            title="Heading 2"
+            title="Titre 2"
           >
             <Heading2 className="h-4 w-4" />
           </AppToolbarButton>
@@ -379,7 +379,7 @@ export function WorkflowPromptEditor({
                 : editor.chain().focus().toggleHeading({ level: 3 }).run()
             }
             active={!rawMode && activeFormatting.heading3}
-            title="Heading 3"
+            title="Titre 3"
           >
             <Heading3 className="h-4 w-4" />
           </AppToolbarButton>
@@ -391,7 +391,7 @@ export function WorkflowPromptEditor({
                 : editor.chain().focus().toggleBold().run()
             }
             active={!rawMode && activeFormatting.bold}
-            title="Bold"
+            title="Gras"
           >
             <Bold className="h-4 w-4" />
           </AppToolbarButton>
@@ -402,7 +402,7 @@ export function WorkflowPromptEditor({
                 : editor.chain().focus().toggleItalic().run()
             }
             active={!rawMode && activeFormatting.italic}
-            title="Italic"
+            title="Italique"
           >
             <Italic className="h-4 w-4" />
           </AppToolbarButton>
@@ -414,7 +414,7 @@ export function WorkflowPromptEditor({
                 : editor.chain().focus().toggleBulletList().run()
             }
             active={!rawMode && activeFormatting.bulletList}
-            title="Bullet list"
+            title="Liste à puces"
           >
             <List className="h-4 w-4" />
           </AppToolbarButton>
@@ -425,7 +425,7 @@ export function WorkflowPromptEditor({
                 : editor.chain().focus().toggleOrderedList().run()
             }
             active={!rawMode && activeFormatting.orderedList}
-            title="Numbered list"
+            title="Liste numérotée"
           >
             <ListOrdered className="h-4 w-4" />
           </AppToolbarButton>
@@ -442,14 +442,14 @@ export function WorkflowPromptEditor({
                 })
               }
               active={tablePickerOpen}
-              title="Insert table"
+              title="Insérer un tableau"
             >
               <Table2 className="h-4 w-4" />
             </AppToolbarButton>
             {tablePickerOpen && (
               <div
                 role="dialog"
-                aria-label="Insert table"
+                aria-label="Insérer un tableau"
                 className="absolute left-0 top-full z-[250] mt-1 w-max rounded-md border border-gray-200 bg-white p-2 shadow-lg"
               >
                 <div
@@ -477,7 +477,7 @@ export function WorkflowPromptEditor({
                             <button
                               key={`${rows}-${cols}`}
                               type="button"
-                              aria-label={`Insert ${rows} by ${cols} table`}
+                              aria-label={`Insérer un tableau ${rows} par ${cols}`}
                               onMouseEnter={() =>
                                 setTablePickerSize({
                                   rows,
@@ -508,7 +508,7 @@ export function WorkflowPromptEditor({
                 <div className="mt-2 text-center text-[11px] font-medium text-gray-500">
                   {tablePickerSize
                     ? `${tablePickerSize.rows} x ${tablePickerSize.cols}`
-                    : "Select table size"}
+                    : "Sélectionner la taille du tableau"}
                 </div>
               </div>
             )}
@@ -517,7 +517,7 @@ export function WorkflowPromptEditor({
           <AppToolbarButton
             onClick={handleRawToggle}
             active={rawMode}
-            title={rawMode ? "Show rich editor" : "Show raw Markdown"}
+            title={rawMode ? "Afficher l'éditeur enrichi" : "Afficher le Markdown brut"}
           >
             <Code2 className="h-4 w-4" />
           </AppToolbarButton>
@@ -525,12 +525,12 @@ export function WorkflowPromptEditor({
       )}
       {readOnly && (
         <div className="flex h-9 shrink-0 items-center justify-between bg-app-surface px-5 backdrop-blur-xl">
-          <span className="text-xs font-medium text-gray-500">Read-only</span>
+          <span className="text-xs font-medium text-gray-500">Lecture seule</span>
           {editor && (
             <AppToolbarButton
               onClick={handleRawToggle}
               active={rawMode}
-              title={rawMode ? "Show rich editor" : "Show raw Markdown"}
+              title={rawMode ? "Afficher l'éditeur enrichi" : "Afficher le Markdown brut"}
             >
               <Code2 className="h-4 w-4" />
             </AppToolbarButton>
@@ -550,7 +550,7 @@ export function WorkflowPromptEditor({
             readOnly={readOnly}
             spellCheck={false}
             className="h-full min-h-full w-full resize-none bg-transparent px-5 py-4 font-mono text-xs leading-6 text-gray-800 outline-none placeholder:text-gray-400 read-only:cursor-default"
-            aria-label="Raw Markdown"
+            aria-label="Markdown brut"
           />
         ) : (
           <EditorContent editor={editor} />

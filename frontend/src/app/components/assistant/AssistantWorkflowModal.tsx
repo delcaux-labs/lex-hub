@@ -22,12 +22,12 @@ export function AssistantWorkflowModal({
 }: Props) {
     const breadcrumbs = projectName
         ? [
-              "Projects",
+              "Projets",
               `${projectName}${projectCmNumber ? ` (#${projectCmNumber})` : ""}`,
               "Assistant",
-              "Add workflow",
+              "Ajouter un workflow",
           ]
-        : ["Assistant", "Add workflow"];
+        : ["Assistant", "Ajouter un workflow"];
 
     return (
         <WorkflowPickerModal
@@ -36,7 +36,7 @@ export function AssistantWorkflowModal({
             onSelect={onSelect}
             workflowType="assistant"
             breadcrumbs={breadcrumbs}
-            primaryLabel="Use"
+            primaryLabel="Utiliser"
             initialWorkflowId={initialWorkflowId}
         />
     );

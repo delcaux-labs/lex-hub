@@ -21,7 +21,7 @@ describe("EditCardsSectionUI", () => {
         expect(screen.queryByText("1 tracked change")).toBeNull();
         expect(screen.queryByRole("button", { name: "Accept all" })).toBeNull();
         expect(
-            screen.queryByRole("button", { name: "Collapse edits" }),
+            screen.queryByRole("button", { name: "Réduire les modifications" }),
         ).toBeNull();
     });
 
@@ -31,7 +31,7 @@ describe("EditCardsSectionUI", () => {
         render(
             <EditCardsSectionUI
                 summary="2 tracked changes"
-                actions={<button type="button">Accept all</button>}
+                actions={<button type="button">Tout accepter</button>}
                 className="test-surface"
             >
                 <div>First edit</div>
@@ -41,17 +41,17 @@ describe("EditCardsSectionUI", () => {
 
         expect(screen.getByText("2 tracked changes")).toHaveClass("text-sm");
         expect(
-            screen.getByRole("group", { name: "Tracked change actions" }),
+            screen.getByRole("group", { name: "Actions de modification suivie" }),
         ).toBeInTheDocument();
         expect(screen.getByText("First edit")).toBeVisible();
 
-        await user.click(screen.getByRole("button", { name: "Collapse edits" }));
+        await user.click(screen.getByRole("button", { name: "Réduire les modifications" }));
         expect(screen.queryByText("First edit")).toBeNull();
         expect(
-            screen.getByRole("button", { name: "Expand edits" }),
+            screen.getByRole("button", { name: "Développer les modifications" }),
         ).toHaveAttribute("aria-expanded", "false");
 
-        await user.click(screen.getByRole("button", { name: "Expand edits" }));
+        await user.click(screen.getByRole("button", { name: "Développer les modifications" }));
         expect(screen.getByText("Second edit")).toBeVisible();
     });
 });

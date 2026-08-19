@@ -55,13 +55,13 @@ export function ApiKeyField({
                 setSaved(true);
                 setTimeout(() => setSaved(false), 2000);
             } else {
-                alert(`Failed to save ${label}.`);
+                alert(`Impossible d'enregistrer ${label}.`);
             }
         } catch (error) {
             if (isMfaRequiredError(error)) {
                 setPendingMfaAction("save");
             } else {
-                alert(`Failed to save ${label}.`);
+                alert(`Impossible d'enregistrer ${label}.`);
             }
         } finally {
             setIsSaving(false);
@@ -76,12 +76,12 @@ export function ApiKeyField({
                 return;
             }
             const ok = await onRemove();
-            if (!ok) alert(`Failed to remove ${label}.`);
+            if (!ok) alert(`Impossible de supprimer ${label}.`);
         } catch (error) {
             if (isMfaRequiredError(error)) {
                 setPendingMfaAction("remove");
             } else {
-                alert(`Failed to remove ${label}.`);
+                alert(`Impossible de supprimer ${label}.`);
             }
         } finally {
             setIsSaving(false);
@@ -115,9 +115,9 @@ export function ApiKeyField({
                             onChange={(event) => setValue(event.target.value)}
                             placeholder={
                                 isServerConfigured
-                                    ? "Server .env key configured"
+                                    ? "Clé configurée sur le serveur (.env)"
                                     : hasSavedKey
-                                      ? "Saved key hidden"
+                                      ? "Clé enregistrée masquée"
                                       : placeholder
                             }
                             className="pr-10"
@@ -131,7 +131,7 @@ export function ApiKeyField({
                                 onClick={() => setReveal((current) => !current)}
                                 disabled={isServerConfigured}
                                 className={`absolute inset-y-1 right-1.5 flex items-center ${settingsGlassIconButtonClassName}`}
-                                aria-label={reveal ? "Hide key" : "Show key"}
+                                aria-label={reveal ? "Masquer la clé" : "Afficher la clé"}
                             >
                                 {reveal ? (
                                     <EyeOff className="h-4 w-4" />
@@ -154,11 +154,11 @@ export function ApiKeyField({
                             className="text-xs font-medium text-gray-700 transition-colors hover:text-gray-950 disabled:cursor-not-allowed disabled:text-gray-400"
                         >
                             {isSaving ? (
-                                "Saving..."
+                                "Enregistrement..."
                             ) : saved ? (
-                                "Saved"
+                                "Enregistré"
                             ) : (
-                                "Save"
+                                "Enregistrer"
                             )}
                         </button>
                         {hasSavedKey && !isServerConfigured && (
@@ -168,7 +168,7 @@ export function ApiKeyField({
                                 disabled={isSaving}
                                 className="text-xs font-medium text-red-600 transition-colors hover:text-red-700 disabled:cursor-not-allowed disabled:text-red-300"
                             >
-                                Remove
+                                Supprimer
                             </button>
                         )}
                     </div>

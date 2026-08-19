@@ -80,11 +80,11 @@ describe("case document", () => {
         expect(title).toHaveClass("text-sm", "font-medium");
         expect(title).not.toHaveClass("font-serif");
 
-        const metadata = screen.getByText("Date: January 2, 2024");
+        const metadata = screen.getByText("Date: 2 janvier 2024");
         expect(metadata.parentElement).toHaveClass("w-full");
         expect(metadata.parentElement).not.toBe(title.parentElement);
 
-        expect(screen.getByRole("link", { name: "Download" })).toHaveAttribute(
+        expect(screen.getByRole("link", { name: "Télécharger" })).toHaveAttribute(
             "href",
             "https://example.com/opinion.pdf",
         );

@@ -187,7 +187,7 @@ export function ProjectExplorer({
                             ref={newFolderInputRef}
                             autoFocus
                             className="flex-1 min-w-0 text-xs bg-transparent outline-none border-b border-gray-300 text-gray-800"
-                            placeholder="Folder name"
+                            placeholder="Nom du dossier"
                             value={newFolderName}
                             onChange={(e) => setNewFolderName(e.target.value)}
                             onKeyDown={(e) => {
@@ -363,7 +363,7 @@ export function ProjectExplorer({
 
             {/* Empty state */}
             {documents.length === 0 && folders.length === 0 && creatingIn === undefined && (
-                <li className="px-4 py-2 text-xs text-gray-400">No documents in this project.</li>
+                <li className="px-4 py-2 text-xs text-gray-400">Aucun document dans ce projet.</li>
             )}
 
             {/* Context menu */}
@@ -388,7 +388,7 @@ export function ProjectExplorer({
                             }}
                         >
                             <SubfolderSvgIcon className="h-3.5 w-3.5 shrink-0" />
-                            New subfolder
+                            Nouveau sous-dossier
                         </button>
                     )}
                     {contextMenu.folderId && onRenameFolder && (
@@ -401,7 +401,7 @@ export function ProjectExplorer({
                                 setContextMenu(null);
                             }}
                         >
-                            Rename
+                            Renommer
                         </button>
                     )}
                     {contextMenu.folderId && onDeleteFolder && (
@@ -413,7 +413,7 @@ export function ProjectExplorer({
                             }}
                         >
                             <Trash2 className="h-3.5 w-3.5 shrink-0" />
-                            Delete folder
+                            Supprimer le dossier
                         </button>
                     )}
                     {contextMenu.docId && onDeleteDoc && (
@@ -425,7 +425,7 @@ export function ProjectExplorer({
                             }}
                         >
                             <Trash2 className="h-3.5 w-3.5 shrink-0" />
-                            Delete file
+                            Supprimer le fichier
                         </button>
                     )}
                 </div>

@@ -52,7 +52,7 @@ export default function LoginPage() {
             setError(
                 error instanceof Error
                     ? error.message
-                    : "An error occurred during login",
+                    : "Une erreur est survenue lors de la connexion",
             );
         } finally {
             setLoading(false);
@@ -69,17 +69,17 @@ export default function LoginPage() {
                 <div className={`${authGlassCardClassName} mb-4`}>
                     <div className="flex justify-between items-center mb-6">
                         <h2 className="text-left text-2xl font-medium font-serif text-gray-950">
-                            Log In
+                            Connexion
                         </h2>
                         <div className={authToggleClassName}>
                             <span className={authToggleActiveClassName}>
-                                Log in
+                                Connexion
                             </span>
                             <Link
                                 href="/signup"
                                 className={authToggleInactiveClassName}
                             >
-                                Sign up
+                                Inscription
                             </Link>
                         </div>
                     </div>
@@ -89,14 +89,14 @@ export default function LoginPage() {
                                 htmlFor="email"
                                 className="block text-sm font-medium text-gray-700 mb-2"
                             >
-                                Email
+                                E-mail
                             </label>
                             <Input
                                 id="email"
                                 type="email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                placeholder="Enter your email"
+                                placeholder="Entrez votre adresse e-mail"
                                 required
                                 className={`w-full ${authInputClassName}`}
                             />
@@ -107,14 +107,14 @@ export default function LoginPage() {
                                 htmlFor="password"
                                 className="block text-sm font-medium text-gray-700 mb-2"
                             >
-                                Password
+                                Mot de passe
                             </label>
                             <Input
                                 id="password"
                                 type="password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                placeholder="Enter your password"
+                                placeholder="Entrez votre mot de passe"
                                 required
                                 className={`w-full ${authInputClassName}`}
                             />
@@ -131,7 +131,7 @@ export default function LoginPage() {
                             disabled={loading}
                             className="w-full mt-5 bg-black hover:bg-gray-900 text-white"
                         >
-                            {loading ? "Logging in..." : "Log in"}
+                            {loading ? "Connexion en cours..." : "Se connecter"}
                         </Button>
                     </form>
                 </div>

@@ -11,7 +11,7 @@ import { preprocessCitations } from "./citation-utils";
 function formatCellForExport(cell: TabularCell | undefined): string {
     if (!cell) return "";
     if (cell.status === "pending" || cell.status === "generating") return "";
-    if (cell.status === "error") return "Error";
+    if (cell.status === "error") return "Erreur";
     const summary = cell.content?.summary;
     if (!summary) return "";
     const { processed } = preprocessCitations(summary);
@@ -28,7 +28,7 @@ function sanitizeFilename(name: string): string {
             .replace(/[\\/:*?"<>|]/g, "")
             .replace(/\s+/g, " ")
             .trim()
-            .slice(0, 80) || "Tabular Review"
+            .slice(0, 80) || "Revue tabulaire"
     );
 }
 
@@ -47,10 +47,10 @@ export async function exportTabularReviewToExcel(params: {
     }
 
     const wb = new ExcelJS.Workbook();
-    const ws = wb.addWorksheet("Review");
+    const ws = wb.addWorksheet("Revue");
 
     ws.columns = [
-        { header: "Folder / document", width: 40 },
+        { header: "Dossier / document", width: 40 },
         ...sortedCols.map((c) => ({ header: c.name, width: 40 })),
     ];
 

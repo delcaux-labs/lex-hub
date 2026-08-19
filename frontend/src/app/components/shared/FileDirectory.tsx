@@ -36,9 +36,9 @@ const DIRECTORY_GRID_CLASS =
     "grid grid-cols-[14px_14px_minmax(0,1fr)_48px_84px_64px] items-center gap-2";
 
 const DIRECTORY_TABS: { value: DirectoryTab; label: string }[] = [
-    { value: "files", label: "Files" },
-    { value: "templates", label: "Templates" },
-    { value: "projects", label: "Projects" },
+    { value: "files", label: "Fichiers" },
+    { value: "templates", label: "Modèles" },
+    { value: "projects", label: "Projets" },
 ];
 const ALL_DIRECTORY_TAB_VALUES = DIRECTORY_TABS.map((tab) => tab.value);
 
@@ -62,7 +62,7 @@ function mergeDirectoryRows<T extends { id: string }>(current: T[], next: T[]) {
 
 function formatDate(iso: string | null) {
     if (!iso) return null;
-    return new Date(iso).toLocaleDateString(undefined, {
+    return new Date(iso).toLocaleDateString("fr-FR", {
         day: "numeric",
         month: "short",
         year: "numeric",
@@ -71,9 +71,9 @@ function formatDate(iso: string | null) {
 
 function formatBytes(bytes: number | null | undefined) {
     if (bytes == null) return null;
-    if (bytes < 1024) return `${bytes} B`;
-    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
-    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+    if (bytes < 1024) return `${bytes} o`;
+    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} Ko`;
+    return `${(bytes / (1024 * 1024)).toFixed(1)} Mo`;
 }
 
 function versionLabel(doc: Document) {
@@ -658,8 +658,8 @@ export function FileDirectory({
               aria-disabled={!folderSelectionReady}
               aria-label={
                 folderSelectionReady
-                  ? `Select all files in ${folder.name}`
-                  : `Expand ${folder.name} and load all files before selecting it`
+                  ? `Sélectionner tous les fichiers de ${folder.name}`
+                  : `Développer ${folder.name} et charger tous les fichiers avant de le sélectionner`
               }
                             onClick={(e) => {
                                 e.stopPropagation();
@@ -698,7 +698,7 @@ export function FileDirectory({
                         </span>
                         <span className="truncate text-right text-gray-400">
                             {docsInFolder.length}{" "}
-                            {docsInFolder.length === 1 ? "file" : "files"}
+                            {docsInFolder.length === 1 ? "fichier" : "fichiers"}
                         </span>
                     </button>
                     {isExpanded && (
@@ -788,7 +788,7 @@ export function FileDirectory({
                       paddingLeft: indentedRowPadding(depth + 1),
                                     }}
                                 >
-                                    Empty
+                                    Vide
                                 </p>
                             )}
                         </div>
@@ -804,7 +804,7 @@ export function FileDirectory({
                 <SearchBar
                     value={search}
                     onValueChange={setSearch}
-                    placeholder="Search..."
+                    placeholder="Rechercher..."
                     autoFocus
                     wrapperClassName={showTabs ? "mb-4" : "mb-3"}
                 />
@@ -852,7 +852,7 @@ export function FileDirectory({
                 <SearchBar
                     value={search}
                     onValueChange={setSearch}
-                    placeholder="Search..."
+                    placeholder="Rechercher..."
                     autoFocus
                     wrapperClassName={showTabs ? "mb-4" : "mb-3"}
                 />
@@ -867,7 +867,7 @@ export function FileDirectory({
                 )}
                 <div className="min-h-0 flex-1 overflow-y-auto">
                     <p className="text-center text-sm text-gray-400 py-8">
-                        No documents yet
+                        Aucun document pour le moment
                     </p>
                 </div>
             </div>
@@ -879,7 +879,7 @@ export function FileDirectory({
             <SearchBar
                 value={search}
                 onValueChange={setSearch}
-                placeholder="Search..."
+                placeholder="Rechercher..."
                 autoFocus
                 wrapperClassName={showTabs ? "mb-4" : "mb-3"}
             />
@@ -895,7 +895,7 @@ export function FileDirectory({
             {activeTabHasNoResults ? (
                 <div className="min-h-0 flex-1 overflow-y-auto">
                     <p className="text-center text-sm text-gray-400 py-8">
-                        No matches found
+                        Aucun résultat trouvé
                     </p>
                 </div>
             ) : (
@@ -920,7 +920,7 @@ export function FileDirectory({
                                     </span>
                                     <FileDirectoryMetaCells
                                         version={null}
-                                        created="Uploading"
+                                        created="Téléversement..."
                                         size={null}
                                     />
                                 </div>
@@ -947,6 +947,7 @@ export function FileDirectory({
                             ).map((doc) => renderDocumentRow(doc))}
                 {!q && (
                   <TableLoadMoreRow
+                    autoLoadOnVisible
                     loading={false}
                     hasMore={
                       showTabs
@@ -992,7 +993,7 @@ export function FileDirectory({
                                 directoryFileFolders.length === 0 &&
                                 visibleUploadingFilenames.length === 0 && (
                                     <p className="text-center text-sm text-gray-400 py-8">
-                                        No documents yet
+                                        Aucun document pour le moment
                                     </p>
                                 )}
                         </>
@@ -1014,6 +1015,7 @@ export function FileDirectory({
                             ).map((doc) => renderDocumentRow(doc))}
                 {!q && (
                   <TableLoadMoreRow
+                    autoLoadOnVisible
                     loading={false}
                     hasMore={!!documentsHasMoreByLevel.templates.root}
                     itemCount={
@@ -1040,7 +1042,7 @@ export function FileDirectory({
                                 visibleTemplateDocs.length === 0 &&
                                 directoryTemplateFolders.length === 0 && (
                                     <p className="text-center text-sm text-gray-400 py-8">
-                                        No templates yet
+                                        Aucun modèle pour le moment
                                     </p>
                                 )}
                         </>
@@ -1088,8 +1090,8 @@ export function FileDirectory({
                                             }
                         aria-label={
                           projectSelectionReady
-                            ? `Select all files in ${project.name}`
-                            : `Expand ${project.name} and load all files before selecting it`
+                            ? `Sélectionner tous les fichiers de ${project.name}`
+                            : `Développer ${project.name} et charger tous les fichiers avant de le sélectionner`
                         }
                         aria-disabled={!projectSelectionReady}
                                             onClick={(e) => {
@@ -1130,7 +1132,7 @@ export function FileDirectory({
                         {formatDate(project.created_at) ?? "--"}
                                         </span>
                                         <span className="truncate text-right text-gray-400">
-                        {docs.length} {docs.length === 1 ? "file" : "files"}
+                        {docs.length} {docs.length === 1 ? "fichier" : "fichiers"}
                                         </span>
                                     </button>
                                     {isExpanded && (
@@ -1138,11 +1140,11 @@ export function FileDirectory({
                         {loadingProjectLevels.has(`${project.id}:root`) ? (
                           <p className="flex items-center gap-2 pl-7 py-2 text-xs text-gray-400">
                             <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                            Loading project files
+                            Chargement des fichiers du projet...
                           </p>
                         ) : docs.length === 0 && projectFolders.length === 0 ? (
                                                 <p className="pl-7 py-1 text-xs text-gray-400">
-                                                    Empty
+                                                    Vide
                                                 </p>
                                             ) : (
                                                 <>
@@ -1175,8 +1177,8 @@ export function FileDirectory({
                                 onLoadMore={() =>
                                   void loadMoreProjectDocuments(
                                     project.id,
-                                                              null,
-                                                          )
+                                                                null,
+                                                            )
                                 }
                               />
                                                     )}
@@ -1191,7 +1193,7 @@ export function FileDirectory({
                         !q &&
                         visibleDirectoryProjects.length === 0 && (
                             <p className="text-center text-sm text-gray-400 py-8">
-                                No projects yet
+                                Aucun projet pour le moment
                             </p>
                         )}
             {activeTab === "projects" && !q && (
@@ -1226,10 +1228,10 @@ function FileDirectoryHeader() {
         <div
             className={`${DIRECTORY_GRID_CLASS} px-2 pb-1 pt-0.5 text-[11px] font-medium text-gray-400`}
         >
-            <span className="col-span-3">Name</span>
+            <span className="col-span-3">Nom</span>
             <span>Version</span>
-            <span>Created</span>
-            <span className="text-right">Size</span>
+            <span>Date</span>
+            <span className="text-right">Taille</span>
         </div>
     );
 }
@@ -1287,7 +1289,7 @@ function FileDirectoryControls({
             )}
             {selectedCount > 0 && (
                 <span className="shrink-0 text-xs text-gray-400">
-                    {selectedCount} selected
+                    {selectedCount} {selectedCount > 1 ? "sélectionnés" : "sélectionné"}
                 </span>
             )}
         </div>

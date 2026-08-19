@@ -24,7 +24,7 @@ describe("EditCardUI", () => {
             />,
         );
 
-        expect(screen.getByLabelText("Tracked change 2")).toHaveTextContent(
+        expect(screen.getByLabelText("Modification suivie 2")).toHaveTextContent(
             "2",
         );
         expect(screen.getByText("new text")).toHaveClass("text-green-700");

@@ -422,7 +422,7 @@ export function WorkflowDetailPage({ id, workflowType }: Props) {
             {
               label: "Workflows",
               onClick: () => router.push("/workflows"),
-              title: "Back to Workflows",
+              title: "Retour aux workflows",
             },
             { loading: true, skeletonClassName: "w-40" },
           ]}
@@ -441,23 +441,23 @@ export function WorkflowDetailPage({ id, workflowType }: Props) {
   if (notFound || !workflow) {
     return (
       <div className="flex-1 flex items-center justify-center">
-        <p className="text-gray-400 font-serif">Workflow not found.</p>
+        <p className="text-gray-400 font-serif">Workflow introuvable.</p>
       </div>
     );
   }
 
   const defaultContributorName =
-    profile?.displayName?.trim() || user?.email || "your account name";
+    profile?.displayName?.trim() || user?.email || "votre nom de compte";
   const openSourcePending =
     workflow.open_source_submission?.status === "pending";
   const workflowActionItems: HeaderActionsMenuItem[] = [
     {
-      label: "Download workflow",
+      label: "Télécharger le workflow",
       icon: Download,
       onSelect: () => downloadWorkflowZip(workflow, promptMd, columns),
     },
     {
-      label: "View and Edit details",
+      label: "Afficher et modifier les détails",
       icon: Pencil,
       onSelect: () => setDetailsOpen(true),
     },
@@ -466,14 +466,14 @@ export function WorkflowDetailPage({ id, workflowType }: Props) {
   if (!readOnly) {
     if (canOpenSource) {
       workflowActionItems.push({
-        label: "Open source this",
+        label: "Publier en open source",
         icon: Globe,
         onSelect: () => setOpenSourceOpen(true),
       });
     }
 
     workflowActionItems.push({
-      label: "Delete",
+      label: "Supprimer",
       icon: Trash2,
       variant: "danger",
       disabled: workflow.is_owner === false,
@@ -493,7 +493,7 @@ export function WorkflowDetailPage({ id, workflowType }: Props) {
     >
       <UploadOverlay
         open={draggingReferenceFiles}
-        label="Drop files here to add as workflow assets"
+        label="Déposez vos fichiers ici pour les ajouter aux ressources du workflow"
       />
       {/* Page header */}
       <PageHeader
@@ -502,7 +502,7 @@ export function WorkflowDetailPage({ id, workflowType }: Props) {
           {
             label: "Workflows",
             onClick: () => router.push("/workflows"),
-            title: "Back to Workflows",
+            title: "Retour aux workflows",
           },
           {
             label: (
@@ -522,7 +522,7 @@ export function WorkflowDetailPage({ id, workflowType }: Props) {
                       {saveStatus === "saved" ? (
                         <Check className="h-3.5 w-3.5 text-green-600" />
                       ) : null}
-                      {saveStatus === "saving" ? "Saving…" : "Saved"}
+                      {saveStatus === "saving" ? "Enregistrement en cours…" : "Enregistré"}
                     </span>
                   ),
                 },
@@ -532,7 +532,7 @@ export function WorkflowDetailPage({ id, workflowType }: Props) {
             canShare
               ? {
                   onClick: () => setShareOpen(true),
-                  title: "Open workflow people",
+                  title: "Gérer les membres du workflow",
                   iconOnly: true,
                   icon: <Users className="h-4 w-4" />,
                 }
@@ -541,7 +541,7 @@ export function WorkflowDetailPage({ id, workflowType }: Props) {
               type: "custom",
               render: (
                 <HeaderActionsMenu
-                  title="Workflow actions"
+                  title="Actions du workflow"
                   items={workflowActionItems}
                 />
               ),
@@ -549,7 +549,7 @@ export function WorkflowDetailPage({ id, workflowType }: Props) {
           ],
           [
             {
-              label: "Use",
+              label: "Utiliser",
               icon: <Play className="h-3.5 w-3.5" />,
               onClick: () => setUseOpen(true),
             },
@@ -592,19 +592,19 @@ export function WorkflowDetailPage({ id, workflowType }: Props) {
           resource={{ id, shared_with: workflowSharedWith }}
           fetchPeople={fetchWorkflowPeople}
           currentUserEmail={user?.email ?? null}
-          breadcrumb={["Workflows", workflow.metadata.title, "People"]}
+          breadcrumb={["Workflows", workflow.metadata.title, "Membres"]}
           onSharedWithChange={handleWorkflowSharedWithChange}
         />
       )}
       <ConfirmPopup
         open={deleteOpen}
-        title="Delete workflow?"
+        title="Supprimer le workflow ?"
         message={
           workflow.is_default
-            ? "Deleting this default workflow also permanently deletes its corresponding Quick Action. The default workflow will not be created again automatically."
-            : "This workflow will be permanently deleted."
+            ? "La suppression de ce workflow par défaut supprimera également définitivement son Action rapide correspondante. Le workflow par défaut ne sera plus recréé automatiquement."
+            : "Ce workflow sera définitivement supprimé."
         }
-        confirmLabel="Delete"
+        confirmLabel="Supprimer"
         confirmStatus={deleteStatus}
         onConfirm={() => void handleDeleteWorkflow()}
         onCancel={() => {
@@ -639,7 +639,7 @@ export function WorkflowDetailPage({ id, workflowType }: Props) {
             <TableToolbar<AssistantTab>
               items={[
                 { id: "prompt", label: "Prompt" },
-                { id: "assets", label: "Assets" },
+                { id: "assets", label: "Ressources" },
               ]}
               active={assistantTab}
               onChange={setAssistantTab}
@@ -652,7 +652,7 @@ export function WorkflowDetailPage({ id, workflowType }: Props) {
                     }
                   >
                     <Upload className="h-3.5 w-3.5" />
-                    {referenceFilesUploading ? "Uploading…" : "Upload files"}
+                    {referenceFilesUploading ? "Téléversement en cours…" : "Téléverser des fichiers"}
                   </TabPillButton>
                 ) : undefined
               }
@@ -700,7 +700,7 @@ export function WorkflowDetailPage({ id, workflowType }: Props) {
                                   onClick={handleDeleteSelectedColumns}
                                   className="w-full px-3 py-1.5 text-left text-xs text-red-600 hover:bg-red-50 transition-colors"
                                 >
-                                  Delete
+                                  Supprimer
                                 </button>
                               </div>
                             )}
@@ -709,13 +709,13 @@ export function WorkflowDetailPage({ id, workflowType }: Props) {
                             onClick={handleDeleteSelectedColumns}
                             className="text-red-600 md:hidden"
                           >
-                            Delete
+                            Supprimer
                           </TabPillButton>
                         </>
                       )}
                     <TabPillButton onClick={() => setAddColumnOpen(true)}>
                       <Plus className="h-3.5 w-3.5" />
-                      Add Column
+                      Ajouter une colonne
                     </TabPillButton>
                   </div>
                 }
@@ -724,7 +724,7 @@ export function WorkflowDetailPage({ id, workflowType }: Props) {
             {readOnly && (
               <div className="flex h-10 shrink-0 items-center bg-gray-50 px-4 md:px-10">
                 <span className="text-xs font-medium text-gray-500">
-                  Read-only
+                  Lecture seule
                 </span>
               </div>
             )}
@@ -760,7 +760,7 @@ export function WorkflowDetailPage({ id, workflowType }: Props) {
                         aria-hidden="true"
                       />
                     )}
-                    <span>Column Title</span>
+                    <span>Titre de la colonne</span>
                   </TableStickyCell>
                   <TableHeaderCell className="ml-auto w-36">
                     Format
@@ -779,11 +779,10 @@ export function WorkflowDetailPage({ id, workflowType }: Props) {
                 <TableEmptyState>
                   <TabularReviewSkeuoIcon className="mb-4 h-8 w-8" />
                   <p className="text-2xl font-medium font-serif text-gray-900">
-                    Columns
+                    Colonnes
                   </p>
                   <p className="mt-1 text-xs text-gray-400 text-left">
-                    Add columns to define what this tabular review workflow
-                    extracts from each document.
+                    Ajoutez des colonnes pour définir ce que ce workflow de revue tabulaire extrait de chaque document.
                   </p>
                   {!readOnly && (
                     <PillButton
@@ -793,7 +792,7 @@ export function WorkflowDetailPage({ id, workflowType }: Props) {
                       className="mt-4 px-3"
                     >
                       <Plus className="h-3.5 w-3.5" />
-                      Add Column
+                      Ajouter une colonne
                     </PillButton>
                   )}
                 </TableEmptyState>
@@ -843,8 +842,8 @@ export function WorkflowDetailPage({ id, workflowType }: Props) {
                             aria-expanded={expandedPromptIndex === col.index}
                             title={
                               expandedPromptIndex === col.index
-                                ? "Collapse prompt"
-                                : "Expand prompt"
+                                ? "Réduire le prompt"
+                                : "Développer le prompt"
                             }
                             onClick={(event) => {
                               event.stopPropagation();
@@ -860,7 +859,7 @@ export function WorkflowDetailPage({ id, workflowType }: Props) {
                             <TRExpandedCellSurface>
                               <button
                                 type="button"
-                                aria-label="Collapse prompt"
+                                aria-label="Réduire le prompt"
                                 onClick={(event) => {
                                   event.stopPropagation();
                                   setExpandedPromptIndex(null);
@@ -945,7 +944,7 @@ function AssistantWorkflowEditorSkeleton() {
       <TableToolbar<AssistantTab>
         items={[
           { id: "prompt", label: "Prompt" },
-          { id: "assets", label: "Assets" },
+          { id: "assets", label: "Ressources" },
         ]}
         active="prompt"
       />

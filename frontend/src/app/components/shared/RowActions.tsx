@@ -80,10 +80,10 @@ export const RowActionMenuItems = forwardRef<
     onEditDetails,
     onRename,
     onUpdateCmNumber,
-    newSubfolderLabel = "New subfolder",
-    renameLabel = "Rename",
-    uploadNewVersionLabel = "Upload new version",
-    deleteLabel = "Delete",
+    newSubfolderLabel = "Nouveau sous-dossier",
+    renameLabel = "Renommer",
+    uploadNewVersionLabel = "Téléverser une nouvelle version",
+    deleteLabel = "Supprimer",
     onClose,
     surfaceProps,
 }, ref) {
@@ -120,7 +120,7 @@ export const RowActionMenuItems = forwardRef<
                     className={ROW_ACTION_ITEM_CLASS}
                 >
                     <Pencil className="h-3.5 w-3.5" />
-                    Edit details
+                    Modifier les détails
                 </LiquidDropdownButton>
             )}
             {onUpdateCmNumber && (
@@ -129,7 +129,7 @@ export const RowActionMenuItems = forwardRef<
                     className={ROW_ACTION_ITEM_CLASS}
                 >
                     <Hash className="h-3.5 w-3.5" />
-                    Edit CM No.
+                    Modifier le n° CM
                 </LiquidDropdownButton>
             )}
             {onDownload && (
@@ -138,7 +138,7 @@ export const RowActionMenuItems = forwardRef<
                     className={ROW_ACTION_ITEM_CLASS}
                 >
                     <Download className="h-3.5 w-3.5" />
-                    Download
+                    Télécharger
                 </LiquidDropdownButton>
             )}
             {onShowAllVersions && (
@@ -147,7 +147,7 @@ export const RowActionMenuItems = forwardRef<
                     className={ROW_ACTION_LEFT_ITEM_CLASS}
                 >
                     <History className="h-3.5 w-3.5 shrink-0" />
-                    Show all versions
+                    Afficher toutes les versions
                 </LiquidDropdownButton>
             )}
             {onUploadNewVersion && (
@@ -165,7 +165,7 @@ export const RowActionMenuItems = forwardRef<
                     className={ROW_ACTION_LEFT_ITEM_CLASS}
                 >
                     <FolderMinus className="h-3.5 w-3.5 shrink-0" />
-                    Remove from subfolder
+                    Retirer du sous-dossier
                 </LiquidDropdownButton>
             )}
             {onUnhide && (
@@ -174,7 +174,7 @@ export const RowActionMenuItems = forwardRef<
                     className={ROW_ACTION_ITEM_CLASS}
                 >
                     <Eye className="h-3.5 w-3.5" />
-                    Activate
+                    Activer
                 </LiquidDropdownButton>
             )}
             {onHide && (
@@ -183,7 +183,7 @@ export const RowActionMenuItems = forwardRef<
                     className={ROW_ACTION_ITEM_CLASS}
                 >
                     <EyeOff className="h-3.5 w-3.5" />
-                    Deactivate
+                    Désactiver
                 </LiquidDropdownButton>
             )}
             {onDelete && (

@@ -278,7 +278,7 @@ export function SpreadsheetView({
     useEffect(() => {
         if (!result) return;
         if (result.type !== "spreadsheet") {
-            setError("This spreadsheet could not be displayed.");
+            setError("Cette feuille de calcul n'a pas pu être affichée.");
             return;
         }
         let cancelled = false;
@@ -294,12 +294,12 @@ export function SpreadsheetView({
                     applyExcelTextOverflow(exportJson.sheets);
                     setSheets(exportJson.sheets as unknown as Sheet[]);
                 } else {
-                    setError("This spreadsheet could not be displayed.");
+                    setError("Cette feuille de calcul n'a pas pu être affichée.");
                 }
             });
         } catch {
             if (!cancelled)
-                setError("This spreadsheet could not be displayed.");
+                setError("Cette feuille de calcul n'a pas pu être affichée.");
         }
 
         return () => {
@@ -459,7 +459,7 @@ export function SpreadsheetView({
     const frameClass = `fortune-sheet-viewer relative flex flex-col flex-1 min-h-0 overflow-hidden ${rounded ? "rounded-lg" : ""}`;
 
     const message =
-        error ?? (fetchError ? "Failed to load spreadsheet." : null);
+        error ?? (fetchError ? "Impossible de charger la feuille de calcul." : null);
     if (message) {
         return (
             <div className={frameClass}>

@@ -284,7 +284,7 @@ export function ProjectWorkspaceProvider({
         practice: string;
     }) {
         if (project && project.is_owner === false) {
-            setOwnerOnlyAction("edit project details");
+            setOwnerOnlyAction("modifier les détails du projet");
             return;
         }
         const name = values.name.trim();
@@ -310,7 +310,7 @@ export function ProjectWorkspaceProvider({
 
     function requestProjectDelete() {
         if (project && project.is_owner === false) {
-            setOwnerOnlyAction("delete this project");
+            setOwnerOnlyAction("supprimer ce projet");
             return;
         }
         setDeleteProjectStatus("idle");
@@ -441,9 +441,9 @@ export function ProjectWorkspaceProvider({
 
                 <ConfirmPopup
                     open={deleteProjectConfirmOpen}
-                    title="Delete project?"
-                    message="This will permanently delete the project and its related documents, chats, and tabular reviews."
-                    confirmLabel="Delete"
+                    title="Supprimer le projet ?"
+                    message="Cette action supprimera définitivement le projet ainsi que ses documents, chats et revues tabulaires associés."
+                    confirmLabel="Supprimer"
                     confirmStatus={
                         deleteProjectStatus === "deleting"
                             ? "loading"
@@ -451,7 +451,7 @@ export function ProjectWorkspaceProvider({
                               ? "complete"
                               : "idle"
                     }
-                    cancelLabel="Cancel"
+                    cancelLabel="Annuler"
                     onCancel={() => {
                         if (deleteProjectStatus === "deleting") return;
                         setDeleteProjectConfirmOpen(false);
@@ -468,12 +468,12 @@ export function ProjectWorkspaceProvider({
                         fetchPeople={getProjectPeople}
                         currentUserEmail={user?.email ?? null}
                         breadcrumb={[
-                            "Projects",
+                            "Projets",
                             project.name +
                                 (project.cm_number
                                     ? ` (${project.cm_number})`
                                     : ""),
-                            "People",
+                            "Membres",
                         ]}
                         onSharedWithChange={
                             project.is_owner === false
@@ -514,7 +514,7 @@ export function ProjectSectionToolbar({
             items={[
                 { id: "documents", label: "Documents" },
                 { id: "assistant", label: "Chats" },
-                { id: "reviews", label: "Tabular Reviews" },
+                { id: "reviews", label: "Revues tabulaires" },
             ]}
             active={activeSection}
             onChange={(next) => {

@@ -47,14 +47,14 @@ export default function SignupPage() {
 
         // Validate passwords match
         if (password !== confirmPassword) {
-            setError("Passwords do not match");
+            setError("Les mots de passe ne correspondent pas");
             setLoading(false);
             return;
         }
 
         // Validate password length
         if (password.length < 6) {
-            setError("Password must be at least 6 characters");
+            setError("Le mot de passe doit comporter au moins 6 caractères");
             setLoading(false);
             return;
         }
@@ -92,7 +92,7 @@ export default function SignupPage() {
             setError(
                 error instanceof Error
                     ? error.message
-                    : "An error occurred during signup",
+                    : "Une erreur est survenue lors de l'inscription",
             );
         } finally {
             setLoading(false);
@@ -114,10 +114,10 @@ export default function SignupPage() {
                             <CheckCircle2 className="h-6 w-6 text-green-600" />
                         </div>
                         <h2 className="text-2xl font-bold text-gray-950 mb-3">
-                            Account created!
+                            Compte créé !
                         </h2>
                         <p className="text-gray-600 leading-relaxed">
-                            Redirecting you to the home page...
+                            Redirection vers la page d&apos;accueil...
                         </p>
                     </div>
                 </div>
@@ -135,17 +135,17 @@ export default function SignupPage() {
                 <div className={`${authGlassCardClassName} mb-4`}>
                     <div className="flex justify-between items-center mb-6">
                         <h2 className="text-left text-2xl font-medium font-serif text-gray-950">
-                            Create Account
+                            Créer un compte
                         </h2>
                         <div className={authToggleClassName}>
                             <Link
                                 href="/login"
                                 className={authToggleInactiveClassName}
                             >
-                                Log in
+                                Connexion
                             </Link>
                             <span className={authToggleActiveClassName}>
-                                Sign up
+                                Inscription
                             </span>
                         </div>
                     </div>
@@ -156,9 +156,9 @@ export default function SignupPage() {
                                 htmlFor="name"
                                 className="block text-sm font-medium text-gray-700 mb-2"
                             >
-                                Name{" "}
+                                Nom{" "}
                                 <span className="text-gray-400 font-normal">
-                                    (optional)
+                                    (optionnel)
                                 </span>
                             </label>
                             <Input
@@ -166,7 +166,7 @@ export default function SignupPage() {
                                 type="text"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
-                                placeholder="Your name"
+                                placeholder="Votre nom"
                                 className={`w-full ${authInputClassName}`}
                             />
                         </div>
@@ -178,7 +178,7 @@ export default function SignupPage() {
                             >
                                 Organisation{" "}
                                 <span className="text-gray-400 font-normal">
-                                    (optional)
+                                    (optionnel)
                                 </span>
                             </label>
                             <Input
@@ -188,7 +188,7 @@ export default function SignupPage() {
                                 onChange={(e) =>
                                     setOrganisation(e.target.value)
                                 }
-                                placeholder="Your organisation"
+                                placeholder="Votre organisation"
                                 className={`w-full ${authInputClassName}`}
                             />
                         </div>
@@ -198,14 +198,14 @@ export default function SignupPage() {
                                 htmlFor="email"
                                 className="block text-sm font-medium text-gray-700 mb-2"
                             >
-                                Email
+                                E-mail
                             </label>
                             <Input
                                 id="email"
                                 type="email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                placeholder="Enter your email"
+                                placeholder="Entrez votre adresse e-mail"
                                 required
                                 className={`w-full ${authInputClassName}`}
                             />
@@ -216,14 +216,14 @@ export default function SignupPage() {
                                 htmlFor="password"
                                 className="block text-sm font-medium text-gray-700 mb-2"
                             >
-                                Password
+                                Mot de passe
                             </label>
                             <Input
                                 id="password"
                                 type="password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                placeholder="Create a password (min. 6 characters)"
+                                placeholder="Créez un mot de passe (min. 6 caractères)"
                                 required
                                 className={`w-full ${authInputClassName}`}
                             />
@@ -234,7 +234,7 @@ export default function SignupPage() {
                                 htmlFor="confirmPassword"
                                 className="block text-sm font-medium text-gray-700 mb-2"
                             >
-                                Confirm Password
+                                Confirmer le mot de passe
                             </label>
                             <Input
                                 id="confirmPassword"
@@ -243,7 +243,7 @@ export default function SignupPage() {
                                 onChange={(e) =>
                                     setConfirmPassword(e.target.value)
                                 }
-                                placeholder="Confirm your password"
+                                placeholder="Confirmez votre mot de passe"
                                 required
                                 className={`w-full ${authInputClassName}`}
                             />
@@ -260,29 +260,29 @@ export default function SignupPage() {
                             disabled={loading}
                             className="w-full bg-black hover:bg-gray-900 text-white"
                         >
-                            {loading ? "Creating account..." : "Sign up"}
+                            {loading ? "Création du compte..." : "S'inscrire"}
                         </Button>
                     </form>
 
                     {/* Terms and Privacy */}
                     <div className="mt-4 text-center text-xs text-gray-500">
-                        By signing up, you agree to our{" "}
+                        En vous inscrivant, vous acceptez nos{" "}
                         <Link
                             href="https://mikeoss.com/terms"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-blue-600 hover:underline"
                         >
-                            Terms of Use
+                            Conditions d&apos;utilisation
                         </Link>{" "}
-                        and{" "}
+                        et notre{" "}
                         <Link
                             href="https://mikeoss.com/privacy"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-blue-600 hover:underline"
                         >
-                            Privacy Policy
+                            Politique de confidentialité
                         </Link>
                     </div>
                 </div>

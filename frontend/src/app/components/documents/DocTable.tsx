@@ -103,16 +103,16 @@ export interface DocTableQuery {
 }
 
 const SORT_OPTIONS: TableFilterOption<TableSortDirection>[] = [
-    { value: "asc", label: "Ascending" },
-    { value: "desc", label: "Descending" },
+    { value: "asc", label: "Croissant" },
+    { value: "desc", label: "Décroissant" },
 ];
 
 const SORT_KEY_LABELS: Record<DocumentSortKey, string> = {
-    name: "Name",
-    size: "Size",
+    name: "Nom",
+    size: "Taille",
     version: "Version",
-    created: "Created",
-    updated: "Updated",
+    created: "Créé",
+    updated: "Modifié",
 };
 
 interface DocTableOperations {
@@ -225,22 +225,22 @@ function ProjectTableLoadingHeader({ stickyCellBg }: { stickyCellBg: string }) {
                 bgClassName={stickyCellBg}
             >
                 <div className="mr-3 h-2.5 w-2.5 rounded bg-gray-100 animate-pulse" />
-                <span className="mr-1">Name</span>
+                <span className="mr-1">Nom</span>
             </TableStickyCell>
             <TableHeaderCell className="ml-auto flex w-20 items-center gap-1">
                 <span>Type</span>
             </TableHeaderCell>
             <TableHeaderCell className="flex w-24 items-center gap-1">
-                <span>Size</span>
+                <span>Taille</span>
             </TableHeaderCell>
             <TableHeaderCell className="flex w-20 items-center gap-1">
                 <span>Version</span>
             </TableHeaderCell>
             <TableHeaderCell className="flex w-32 items-center gap-1">
-                <span>Created</span>
+                <span>Créé</span>
             </TableHeaderCell>
             <TableHeaderCell className="flex w-32 items-center gap-1">
-                <span>Updated</span>
+                <span>Modifié</span>
             </TableHeaderCell>
             <TableHeaderCell className="w-8" />
         </TableHeaderRow>
@@ -293,7 +293,7 @@ export function DocTable({
     loading,
     search,
     operations,
-    emptyDropLabel = "Drop PDF, Word, Excel, or PowerPoint files here",
+    emptyDropLabel = "Déposez des fichiers PDF, Word, Excel ou PowerPoint ici",
     renderAddDocumentsModal,
     onAddDocumentsActionChange,
     onCreateFolderActionChange,
@@ -1052,7 +1052,7 @@ export function DocTable({
         // Backend only lets the doc creator delete. Warn the requester
         // instead of letting the request 404 silently.
         if (doc && user?.id && doc.user_id && doc.user_id !== user.id) {
-            setOwnerOnlyAction("delete this document");
+            setOwnerOnlyAction("supprimer ce document");
             return;
         }
         setDeletingDocIds((prev) => new Set([...prev, docId]));
@@ -1070,7 +1070,7 @@ export function DocTable({
 
     function requestRemoveDoc(doc: Document) {
         if (doc && user?.id && doc.user_id && doc.user_id !== user.id) {
-            setOwnerOnlyAction("delete this document");
+            setOwnerOnlyAction("supprimer ce document");
             return;
         }
         const versionCount = versionsByDocId.get(doc.id)?.versions.length ?? currentVersionNumber(doc) ?? 1;
@@ -1374,7 +1374,7 @@ export function DocTable({
                         <input
                             type="checkbox"
                             disabled
-                            aria-label="Select files in new folder"
+                            aria-label="Sélectionner les fichiers dans le nouveau dossier"
                             className={`${TABLE_CHECKBOX_CLASS} cursor-default opacity-40`}
                         />
                         <span className="mr-2 flex h-4 w-4 shrink-0 items-center justify-center">
@@ -1384,7 +1384,7 @@ export function DocTable({
                         <input
                             autoFocus
                             className="flex-1 min-w-0 text-xs text-gray-800 bg-transparent outline-none border-b border-gray-300"
-                            placeholder="Folder name"
+                            placeholder="Nom du dossier"
                             value={newFolderName}
                             onChange={(e) => setNewFolderName(e.target.value)}
                             onKeyDown={(e) => {
@@ -1454,7 +1454,7 @@ export function DocTable({
                 filename,
                 fileType: null,
                 depth,
-                statusLabel: "Uploading",
+                statusLabel: "Téléversement en cours",
             }),
         );
     }
@@ -1629,7 +1629,7 @@ export function DocTable({
                             filename: doc.filename,
                             fileType: doc.file_type,
                             depth,
-                            statusLabel: "Deleting...",
+                            statusLabel: "Suppression en cours...",
                         });
                     }
                     return (
@@ -1798,7 +1798,7 @@ export function DocTable({
                                                             setRenameDocumentValue(docName);
                                                             setRenamingDocumentId(doc.id);
                                                         }}
-                                                        renameLabel="Rename document"
+                                                        renameLabel="Renommer le document"
                                                         onDownload={() => downloadDoc(doc.id)}
                                                         onShowAllVersions={
                                                             hasVersions && !isVersionsOpen
@@ -1999,15 +1999,15 @@ export function DocTable({
                                                 event.stopPropagation()
                                             }
                                             className={TABLE_CHECKBOX_CLASS}
-                                            aria-label={`Select files in ${folder.name}`}
-                                            title={`Select files in ${folder.name}`}
+                                            aria-label={`Sélectionner les fichiers dans ${folder.name}`}
+                                            title={`Sélectionner les fichiers dans ${folder.name}`}
                                         />
                                         <button
                                             type="button"
                                             aria-label={
                                                 isExpanded
-                                                    ? `Collapse ${folder.name}`
-                                                    : `Expand ${folder.name}`
+                                                    ? `Réduire ${folder.name}`
+                                                    : `Développer ${folder.name}`
                                             }
                                             onClick={(event) => {
                                                 event.stopPropagation();
@@ -2167,12 +2167,12 @@ export function DocTable({
         }
         if (failedCount > 0) {
             setCollectionActionWarning(
-                `${failedCount} ${failedCount === 1 ? "document" : "documents"} could not be deleted. Please try again.`,
+                `${failedCount} ${failedCount === 1 ? "document n'a pas pu être supprimé" : "documents n'ont pas pu être supprimés"}. Veuillez réessayer.`,
             );
         }
         if (blocked > 0) {
             setOwnerOnlyAction(
-                `delete ${blocked} of the selected documents — only the document creator can delete a document`,
+                `supprimer ${blocked} des documents sélectionnés — seul le créateur du document peut supprimer un document`,
             );
         }
         if (deletedIds.length > 0 && operations.bulkDeleteDocuments) {
@@ -2311,11 +2311,11 @@ export function DocTable({
     const createdSortDirection = effectiveSort?.key === "created" ? effectiveSort.direction : null;
     const updatedSortDirection = effectiveSort?.key === "updated" ? effectiveSort.direction : null;
     const resetSortLabel = defaultSort
-        ? `Default (${SORT_KEY_LABELS[defaultSort.key]})`
-        : "Default Order";
+        ? `Par défaut (${SORT_KEY_LABELS[defaultSort.key]})`
+        : "Ordre par défaut";
     const nameFilterButton = enableHeaderFilters ? (
         <TableFilters
-            label="Sort by name"
+            label="Trier par nom"
             value={nameSortDirection}
             allLabel={resetSortLabel}
             widthClassName="w-40"
@@ -2326,9 +2326,9 @@ export function DocTable({
     ) : null;
     const typeFilterButton = enableHeaderFilters ? (
         <TableFilters
-            label="Filter by file type"
+            label="Filtrer par type de fichier"
             value={typeFilter}
-            allLabel="All Types"
+            allLabel="Tous les types"
             widthClassName="w-40"
             options={typeOptions}
             onChange={handleTypeFilterChange}
@@ -2336,7 +2336,7 @@ export function DocTable({
     ) : null;
     const sizeFilterButton = enableHeaderFilters ? (
         <TableFilters
-            label="Sort by size"
+            label="Trier par taille"
             value={sizeSortDirection}
             allLabel={resetSortLabel}
             widthClassName="w-40"
@@ -2346,7 +2346,7 @@ export function DocTable({
     ) : null;
     const versionFilterButton = enableHeaderFilters ? (
         <TableFilters
-            label="Sort by version"
+            label="Trier par version"
             value={versionSortDirection}
             allLabel={resetSortLabel}
             widthClassName="w-40"
@@ -2356,7 +2356,7 @@ export function DocTable({
     ) : null;
     const createdFilterButton = enableHeaderFilters ? (
         <TableFilters
-            label="Sort by created date"
+            label="Trier par date de création"
             value={createdSortDirection}
             allLabel={resetSortLabel}
             widthClassName="w-40"
@@ -2366,7 +2366,7 @@ export function DocTable({
     ) : null;
     const updatedFilterButton = enableHeaderFilters ? (
         <TableFilters
-            label="Sort by updated date"
+            label="Trier par date de modification"
             value={updatedSortDirection}
             allLabel={resetSortLabel}
             widthClassName="w-40"
@@ -2403,7 +2403,7 @@ export function DocTable({
             setSelectionCameFromSelectAll(true);
         } catch (error) {
             setCollectionActionWarning(
-                apiErrorDetail(error) ?? "All matching files could not be selected. Please try again.",
+                apiErrorDetail(error) ?? "Impossible de sélectionner tous les fichiers correspondants. Veuillez réessayer.",
             );
         } finally {
             setSelectingAllDocuments(false);
@@ -2432,15 +2432,15 @@ export function DocTable({
     const pendingVersionDropMessage = pendingVersionDrop ? (
         <div className="space-y-2">
             <p>
-                You are about to save{" "}
-                <span className="font-medium text-gray-950">{pendingVersionDrop.sourceDoc.filename}</span> as a new
-                version of <span className="font-medium text-gray-950">{pendingVersionDrop.targetDoc.filename}</span>.
+                Vous êtes sur le point d'enregistrer{" "}
+                <span className="font-medium text-gray-950">{pendingVersionDrop.sourceDoc.filename}</span> comme une nouvelle
+                version de <span className="font-medium text-gray-950">{pendingVersionDrop.targetDoc.filename}</span>.
             </p>
             <p>
-                <span className="font-medium text-gray-950">{pendingVersionDrop.sourceDoc.filename}</span> will no
-                longer exist as a separate document
+                <span className="font-medium text-gray-950">{pendingVersionDrop.sourceDoc.filename}</span> n'existera
+                plus en tant que document distinct
                 {(currentVersionNumber(pendingVersionDrop.sourceDoc) ?? 1) > 1
-                    ? " and its older versions will be deleted"
+                    ? " et ses anciennes versions seront supprimées"
                     : ""}
                 .
             </p>
@@ -2452,29 +2452,29 @@ export function DocTable({
     const pendingDeleteDocMessage = pendingDeleteDoc ? (
         <div className="space-y-2">
             <p>
-                <span className="font-medium text-gray-950">{pendingDeleteDoc.filename}</span> has{" "}
-                {pendingDeleteDocVersionCount} {pendingDeleteDocVersionCount === 1 ? "version" : "versions"}. Deleting
-                this document will delete all of its versions.
+                <span className="font-medium text-gray-950">{pendingDeleteDoc.filename}</span> possède{" "}
+                {pendingDeleteDocVersionCount} {pendingDeleteDocVersionCount === 1 ? "version" : "versions"}. Supprimer
+                ce document supprimera toutes ses versions.
             </p>
         </div>
     ) : undefined;
     const pendingDeleteFolderMessage = pendingDeleteFolder ? (
         <div className="space-y-2">
             <p>
-                This will permanently delete{" "}
+                Cette action supprimera définitivement{" "}
                 <span className="font-medium text-gray-950">
                     {pendingDeleteFolder.folderIds.length}{" "}
-                    {pendingDeleteFolder.folderIds.length === 1 ? "folder" : "folders"}
+                    {pendingDeleteFolder.folderIds.length === 1 ? "dossier" : "dossiers"}
                 </span>
-                , including <span className="font-medium text-gray-950">{pendingDeleteFolder.folder.name}</span>
-                {pendingDeleteFolder.folderIds.length > 1 ? " and its nested subfolders" : ""}.
+                , y compris <span className="font-medium text-gray-950">{pendingDeleteFolder.folder.name}</span>
+                {pendingDeleteFolder.folderIds.length > 1 ? " et ses sous-dossiers imbriqués" : ""}.
             </p>
             {pendingDeleteFolder.documentCount > 0 && (
                 <p>
                     {pendingDeleteFolder.documentCount}{" "}
-                    {pendingDeleteFolder.documentCount === 1 ? "document" : "documents"} in the deleted{" "}
-                    {pendingDeleteFolder.folderIds.length === 1 ? "folder" : "folders"} will also be permanently
-                    deleted.
+                    {pendingDeleteFolder.documentCount === 1 ? "document" : "documents"} dans les{" "}
+                    {pendingDeleteFolder.folderIds.length === 1 ? "dossiers supprimés" : "dossiers supprimés"} seront également définitivement
+                    supprimés.
                 </p>
             )}
         </div>
@@ -2503,7 +2503,7 @@ export function DocTable({
             />
             <UploadOverlay
                 open={isDraggingCollectionFiles}
-                label="Drop files here to upload"
+                label="Déposez des fichiers ici pour les téléverser"
                 warning={documentUploadWarning}
                 onWarningClose={() => setDocumentUploadWarning(null)}
             />
@@ -2519,19 +2519,19 @@ export function DocTable({
             />
             <ConfirmPopup
                 open={confirmDeleteAllOpen && selectedDocIds.length > 0}
-                title="Delete all selected files?"
-                message={`This will permanently delete every selected file you own, including selected files not currently shown in the table. Files owned by others will be skipped. ${selectedDocIds.length} files are selected.`}
-                confirmLabel="Delete"
-                cancelLabel="Cancel"
+                title="Supprimer tous les fichiers sélectionnés ?"
+                message={`Cette action supprimera définitivement tous les fichiers sélectionnés dont vous êtes propriétaire, y compris les fichiers sélectionnés non affichés dans le tableau. Les fichiers appartenant à d'autres utilisateurs seront ignorés. ${selectedDocIds.length} fichiers sont sélectionnés.`}
+                confirmLabel="Supprimer"
+                cancelLabel="Annuler"
                 onCancel={() => setConfirmDeleteAllOpen(false)}
                 onConfirm={() => void handleDeleteSelectedDocs()}
             />
             <ConfirmPopup
                 open={!!pendingVersionDrop}
-                title="Save as new version?"
+                title="Enregistrer comme nouvelle version ?"
                 message={pendingVersionDropMessage}
-                confirmLabel="Confirm"
-                cancelLabel="Cancel"
+                confirmLabel="Confirmer"
+                cancelLabel="Annuler"
                 onCancel={() => setPendingVersionDrop(null)}
                 onConfirm={() => {
                     const pending = pendingVersionDrop;
@@ -2542,9 +2542,9 @@ export function DocTable({
             />
             <ConfirmPopup
                 open={!!pendingDeleteDoc}
-                title="Delete document?"
+                title="Supprimer le document ?"
                 message={pendingDeleteDocMessage}
-                confirmLabel="Delete"
+                confirmLabel="Supprimer"
                 confirmStatus={
                     pendingDeleteStatus === "deleting"
                         ? "loading"
@@ -2552,7 +2552,7 @@ export function DocTable({
                           ? "complete"
                           : "idle"
                 }
-                cancelLabel="Cancel"
+                cancelLabel="Annuler"
                 onCancel={() => {
                     if (pendingDeleteStatus === "deleting") return;
                     setPendingDeleteDoc(null);
@@ -2562,9 +2562,9 @@ export function DocTable({
             />
             <ConfirmPopup
                 open={!!pendingDeleteFolder}
-                title="Delete folder?"
+                title="Supprimer le dossier ?"
                 message={pendingDeleteFolderMessage}
-                confirmLabel="Delete"
+                confirmLabel="Supprimer"
                 confirmStatus={
                     pendingDeleteFolderStatus === "deleting"
                         ? "loading"
@@ -2572,7 +2572,7 @@ export function DocTable({
                           ? "complete"
                           : "idle"
                 }
-                cancelLabel="Cancel"
+                cancelLabel="Annuler"
                 onCancel={() => {
                     if (pendingDeleteFolderStatus === "deleting") return;
                     setPendingDeleteFolder(null);
@@ -2599,7 +2599,7 @@ export function DocTable({
                                     onChange={() => void handleToggleAllDocuments()}
                                     className={TABLE_CHECKBOX_CLASS}
                                 />
-                                <span className="mr-1">Name</span>
+                                <span className="mr-1">Nom</span>
                                 {nameFilterButton}
                             </TableStickyCell>
                             <TableHeaderCell className="ml-auto flex w-20 items-center gap-1">
@@ -2607,7 +2607,7 @@ export function DocTable({
                                 {typeFilterButton}
                             </TableHeaderCell>
                             <TableHeaderCell className="flex w-24 items-center gap-1">
-                                <span>Size</span>
+                                <span>Taille</span>
                                 {sizeFilterButton}
                             </TableHeaderCell>
                             <TableHeaderCell className="flex w-20 items-center gap-1">
@@ -2615,11 +2615,11 @@ export function DocTable({
                                 {versionFilterButton}
                             </TableHeaderCell>
                             <TableHeaderCell className="flex w-32 items-center gap-1">
-                                <span>Created</span>
+                                <span>Créé</span>
                                 {createdFilterButton}
                             </TableHeaderCell>
                             <TableHeaderCell className="flex w-32 items-center gap-1">
-                                <span>Updated</span>
+                                <span>Modifié</span>
                                 {updatedFilterButton}
                             </TableHeaderCell>
                             <TableHeaderCell className="w-8" />
@@ -2670,7 +2670,7 @@ export function DocTable({
                             {viewedFolderIsEmpty ? (
                                 <div className="flex flex-1 items-center justify-center py-24 text-center">
                                     <p className="text-sm text-gray-400">
-                                        Empty folder
+                                        Dossier vide
                                     </p>
                                 </div>
                             ) : docs.length === 0 &&
@@ -2679,7 +2679,7 @@ export function DocTable({
                             uploadingDroppedFilenames.length === 0 ? (
                                 serverQueryActive ? (
                                     <div className="flex-1 flex flex-col items-center justify-center py-24 text-center">
-                                        <p className="text-sm text-gray-400">No matches found</p>
+                                        <p className="text-sm text-gray-400">Aucun résultat trouvé</p>
                                     </div>
                                 ) : (
                                     <div
@@ -2750,7 +2750,7 @@ export function DocTable({
                                                         filename: doc.filename,
                                                         fileType: doc.file_type,
                                                         depth: 0,
-                                                        statusLabel: "Deleting...",
+                                                        statusLabel: "Suppression en cours...",
                                                     });
                                                 }
                                                 return (
@@ -2914,7 +2914,7 @@ export function DocTable({
                                                                             setRenameDocumentValue(docName);
                                                                             setRenamingDocumentId(doc.id);
                                                                         }}
-                                                                        renameLabel="Rename document"
+                                                                        renameLabel="Renommer le document"
                                                                         onDownload={() => downloadDoc(doc.id)}
                                                                         onShowAllVersions={
                                                                             hasVersions && !isVersionsOpen
@@ -3012,7 +3012,7 @@ export function DocTable({
                                                     setRenameDocumentValue(menuDoc.filename);
                                                     setRenamingDocumentId(menuDoc.id);
                                                 }}
-                                                renameLabel="Rename document"
+                                                renameLabel="Renommer le document"
                                                 onDownload={() => downloadDoc(menuDoc.id)}
                                                 onShowAllVersions={
                                                     menuDocHasVersions && !menuDocVersionsOpen
@@ -3047,8 +3047,8 @@ export function DocTable({
                                                 }}
                                                 newSubfolderLabel={
                                                     contextMenu.showFolderActions
-                                                        ? "New subfolder inside"
-                                                        : "New subfolder"
+                                                        ? "Nouveau sous-dossier dans ce dossier"
+                                                        : "Nouveau sous-dossier"
                                                 }
                                                 onRename={
                                                     contextMenu.showFolderActions && contextMenu.folderId
@@ -3061,13 +3061,13 @@ export function DocTable({
                                                           }
                                                         : undefined
                                                 }
-                                                renameLabel="Rename folder"
+                                                renameLabel="Renommer le dossier"
                                                 onDelete={
                                                     contextMenu.showFolderActions && contextMenu.folderId
                                                         ? () => requestDeleteFolder(contextMenu.folderId!)
                                                         : undefined
                                                 }
-                                                deleteLabel="Delete folder"
+                                                deleteLabel="Supprimer le dossier"
                                             />
                                         ),
                                         document.body,
@@ -3130,6 +3130,6 @@ function hasFilenameExtensionChange(previous: string, next: string) {
 function extensionChangeWarning(filename: string) {
     const extension = filenameExtension(filename);
     return extension
-        ? `File extensions cannot be changed here. Keep ${extension} at the end of the name.`
-        : "File extensions cannot be changed here.";
+        ? `Les extensions de fichier ne peuvent pas être modifiées ici. Conservez ${extension} à la fin du nom.`
+        : "Les extensions de fichier ne peuvent pas être modifiées ici.";
 }

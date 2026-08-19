@@ -91,12 +91,12 @@ function parseCustomHeaders(raw: string): Record<string, string> | undefined {
     if (!text) return undefined;
     const parsed = JSON.parse(text) as unknown;
     if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
-        throw new Error("Custom headers must be a JSON object.");
+        throw new Error("Les en-têtes personnalisés doivent être un objet JSON.");
     }
     const headers: Record<string, string> = {};
     for (const [key, value] of Object.entries(parsed)) {
         if (typeof value !== "string") {
-            throw new Error("Custom header values must be strings.");
+            throw new Error("Les valeurs des en-têtes personnalisés doivent être des chaînes de caractères.");
         }
         headers[key] = value;
     }
@@ -157,7 +157,7 @@ export default function ConnectorsPage() {
             setConnectors(await listMcpConnectors());
         } catch (err) {
             setError(
-                err instanceof Error ? err.message : "Failed to load connectors.",
+                err instanceof Error ? err.message : "Impossible de charger les connecteurs.",
             );
         } finally {
             setLoading(false);
@@ -229,7 +229,7 @@ export default function ConnectorsPage() {
             setDetailError(
                 err instanceof Error
                     ? err.message
-                    : "Failed to load connector details.",
+                    : "Impossible de charger les détails du connecteur.",
             );
         } finally {
             setLoadingConnectorId((current) =>
@@ -256,7 +256,7 @@ export default function ConnectorsPage() {
                 return;
             }
             const message =
-                err instanceof Error ? err.message : "Action failed.";
+                err instanceof Error ? err.message : "L'action a échoué.";
             if (action.type === "create") setAddError(message);
             else if (action.type === "save") setDetailError(message);
             else setError(message);
@@ -293,7 +293,7 @@ export default function ConnectorsPage() {
         }
         if (!authorizationUrl) {
             popup?.close();
-            throw new Error("OAuth authorization URL was not returned.");
+            throw new Error("L'URL d'autorisation OAuth n'a pas été retournée.");
         }
         if (!popup) {
             window.location.assign(authorizationUrl);
@@ -304,12 +304,12 @@ export default function ConnectorsPage() {
         await new Promise<void>((resolve, reject) => {
             const timeout = window.setTimeout(() => {
                 cleanup();
-                reject(new Error("OAuth authorization timed out."));
+                reject(new Error("Le délai d'autorisation OAuth a expiré."));
             }, 5 * 60 * 1000);
             const poll = window.setInterval(() => {
                 if (popup.closed) {
                     cleanup();
-                    reject(new Error("OAuth authorization window was closed."));
+                    reject(new Error("La fenêtre d'autorisation OAuth a été fermée."));
                 }
             }, 700);
             const cleanup = () => {
@@ -338,7 +338,7 @@ export default function ConnectorsPage() {
                 }
                 reject(
                     new Error(
-                        event.data.detail || "OAuth authorization failed.",
+                        event.data.detail || "L'autorisation OAuth a échoué.",
                     ),
                 );
             };
@@ -374,7 +374,7 @@ export default function ConnectorsPage() {
                     ) {
                         replaceConnector(connector);
                         setAddAuthMessage(
-                            "Complete authorization in the popup to finish connecting this MCP server.",
+                            "Terminez l'autorisation dans la fenêtre contextuelle pour finaliser la connexion de ce serveur MCP.",
                         );
                         setAddStep("auth");
                         const authorized = await connectConnectorOAuth(
@@ -392,7 +392,7 @@ export default function ConnectorsPage() {
                 replaceConnector(refreshed);
                 if (isGoogleMcpConnector(refreshed) && !refreshed.oauthConnected) {
                     setAddAuthMessage(
-                        "Authorize Google in the popup to finish connecting this MCP server.",
+                        "Autorisez Google dans la fenêtre contextuelle pour finaliser la connexion de ce serveur MCP.",
                     );
                     setAddStep("auth");
                     const authorized = await connectConnectorOAuth(refreshed.id);
@@ -411,7 +411,7 @@ export default function ConnectorsPage() {
                 setAddError(
                     err instanceof Error
                         ? err.message
-                        : "Failed to add connector.",
+                        : "Impossible d'ajouter le connecteur.",
                 );
             } finally {
                 setBusyKey(null);
@@ -595,7 +595,7 @@ export default function ConnectorsPage() {
             <div className="mb-4">
                 <div className="flex items-center justify-between gap-3">
                     <h2 className="font-serif text-2xl font-medium text-gray-900">
-                        Connectors
+                        Connecteurs
                     </h2>
                     <div className="flex shrink-0 items-center rounded-full border border-white/70 bg-app-surface p-0.5 shadow-[0_8px_24px_rgba(15,23,42,0.06)] backdrop-blur-2xl">
                         <button
@@ -604,7 +604,7 @@ export default function ConnectorsPage() {
                             className={`flex h-6 items-center justify-center gap-1 rounded-full px-2.5 text-xs font-medium text-gray-500 transition-colors hover:text-gray-900 ${APP_SURFACE_HOVER_CLASS} ${APP_SURFACE_PRESSED_CLASS}`}
                         >
                             <Plus className="h-3.5 w-3.5" />
-                            Add
+                            Ajouter
                         </button>
                     </div>
                 </div>
@@ -621,7 +621,7 @@ export default function ConnectorsPage() {
                     (connectors.length === 0 ? (
                         <SettingsSection>
                             <p className="p-4 text-sm text-gray-500">
-                                No connectors yet.
+                                Aucun connecteur pour le moment.
                             </p>
                         </SettingsSection>
                     ) : (
@@ -736,7 +736,7 @@ function ConnectorRow({
                             <span className="h-1 w-1 rounded-full bg-gray-300" />
                             <span className="shrink-0 text-xs font-medium text-gray-500">
                                 {toolCount}{" "}
-                                {toolCount === 1 ? "tool" : "tools"}
+                                {toolCount === 1 ? "outil" : "outils"}
                             </span>
                         </h3>
                     </div>
@@ -748,7 +748,7 @@ function ConnectorRow({
                             checked={connector.enabled}
                             disabled={busyKey === `connector:${connector.id}`}
                             loading={busyKey === `connector:${connector.id}`}
-                            label={connector.enabled ? "Enabled" : "Disabled"}
+                            label={connector.enabled ? "Activé" : "Désactivé"}
                             onChange={(enabled) =>
                                 void onConnectorEnabled(connector.id, enabled)
                             }
@@ -765,7 +765,7 @@ function ConnectorRow({
                         }}
                         className="shrink-0 justify-self-end text-xs font-medium text-gray-500 transition-colors hover:text-gray-950"
                     >
-                        Details
+                        Détails
                     </button>
                 </div>
             </div>
@@ -831,14 +831,14 @@ function McpConnectorDetailsModal({
         <Modal
             open={!!connector}
             onClose={onClose}
-            breadcrumbs={["Connectors", connector?.name ?? "MCP connector"]}
+            breadcrumbs={["Connecteurs", connector?.name ?? "Connecteur MCP"]}
             headerAction={
                 connector ? (
                     <SettingsToggle
                         checked={connector.enabled}
                         disabled={busyKey === `connector:${connector.id}`}
                         loading={busyKey === `connector:${connector.id}`}
-                        label={connector.enabled ? "Enabled" : "Disabled"}
+                        label={connector.enabled ? "Activé" : "Désactivé"}
                         onChange={(enabled) =>
                             void onConnectorEnabled(connector.id, enabled)
                         }
@@ -849,7 +849,7 @@ function McpConnectorDetailsModal({
             secondaryAction={
                 connector
                     ? {
-                          label: "Delete connector",
+                          label: "Supprimer le connecteur",
                           variant: "danger",
                           onClick: () => void onDelete(connector.id),
                           disabled: busyKey === `delete:${connector.id}`,
@@ -857,7 +857,7 @@ function McpConnectorDetailsModal({
                     : undefined
             }
             primaryAction={{
-                label: isSaving ? "Saving..." : "Save",
+                label: isSaving ? "Enregistrement..." : "Enregistrer",
                 icon: isSaving ? (
                     <Loader2 className="h-4 w-4 animate-spin" />
                 ) : undefined,
@@ -869,7 +869,7 @@ function McpConnectorDetailsModal({
                     !draft.name.trim() ||
                     !draft.serverUrl.trim(),
             }}
-            cancelAction={{ label: "Close", onClick: onClose }}
+            cancelAction={{ label: "Fermer", onClick: onClose }}
             footerStatus={
                 error ? (
                     <span className="text-sm text-red-600">{error}</span>
@@ -884,8 +884,8 @@ function McpConnectorDetailsModal({
                         showAdvanced={showAdvanced}
                         tokenPlaceholder={
                             connector.hasAuthConfig
-                                ? "Saved token encrypted"
-                                : "Bearer token"
+                                ? "Jeton enregistré chiffré"
+                                : "Jeton Bearer"
                         }
                         tokenAction={
                             connector.hasAuthConfig ||
@@ -893,8 +893,8 @@ function McpConnectorDetailsModal({
                                 ? {
                                       label:
                                           clearTokenStatus === "cleared"
-                                              ? "Cleared"
-                                              : "Clear",
+                                              ? "Effacé"
+                                              : "Effacer",
                                       loading:
                                           clearTokenStatus === "clearing",
                                       cleared:
@@ -925,8 +925,8 @@ function McpConnectorDetailsModal({
                                 {(toolsLoading
                                     ? connector.toolCount
                                     : connector.tools.length) === 1
-                                    ? "Tool"
-                                    : "Tools"}
+                                    ? "Outil"
+                                    : "Outils"}
                             </h3>
                             <div className="flex items-center">
                                 <button
@@ -942,7 +942,7 @@ function McpConnectorDetailsModal({
                                     ) : (
                                         <RefreshCw className="h-3.5 w-3.5" />
                                     )}
-                                    Refresh
+                                    Actualiser
                                 </button>
                             </div>
                         </div>
@@ -996,21 +996,21 @@ function ConnectorForm({
         <div className="grid gap-3 pt-1">
             <label className="grid gap-2 sm:grid-cols-[96px_minmax(0,1fr)] sm:items-center">
                 <FieldLabel as="span" className="mb-0 text-gray-500">
-                    Label
+                    Libellé
                 </FieldLabel>
                 <SettingsTextInput
                     value={draft.name}
                     onChange={(event) =>
                         onDraftChange({ ...draft, name: event.target.value })
                     }
-                    placeholder="Connector label"
+                    placeholder="Libellé du connecteur"
                     className="h-8"
                     disabled={disabled}
                 />
             </label>
             <label className="grid gap-2 sm:grid-cols-[96px_minmax(0,1fr)] sm:items-center">
                 <FieldLabel as="span" className="mb-0 text-gray-500">
-                    URL endpoint
+                    Point de terminaison URL
                 </FieldLabel>
                 <SettingsTextInput
                     value={draft.serverUrl}
@@ -1030,7 +1030,7 @@ function ConnectorForm({
                     as="span"
                     className="mb-0 pt-2 text-gray-500"
                 >
-                    Bearer token
+                    Jeton Bearer
                 </FieldLabel>
                 <div className="min-w-0">
                     <div className="relative">
@@ -1063,7 +1063,7 @@ function ConnectorForm({
                                 } flex items-center ${settingsGlassIconButtonClassName}`}
                                 onClick={() => onShowTokenChange(!showToken)}
                                 aria-label={
-                                    showToken ? "Hide token" : "Show token"
+                                    showToken ? "Masquer le jeton" : "Afficher le jeton"
                                 }
                                 disabled={disabled}
                             >
@@ -1100,7 +1100,7 @@ function ConnectorForm({
                     </div>
                     {showTokenNote && (
                         <p className="mt-1 text-right text-xs text-gray-500">
-                            Tokens are stored encrypted.
+                            Les jetons sont chiffrés lors de leur stockage.
                         </p>
                     )}
                 </div>
@@ -1112,7 +1112,7 @@ function ConnectorForm({
                     className="inline-flex items-center gap-1 justify-self-start text-xs font-medium text-gray-500 transition-colors hover:text-gray-900"
                     disabled={disabled}
                 >
-                    Advanced
+                    Avancé
                     <ChevronDown
                         className={`h-3.5 w-3.5 transition-transform ${
                             showAdvanced ? "" : "-rotate-90"
@@ -1125,7 +1125,7 @@ function ConnectorForm({
                             as="span"
                             className="mb-0 text-gray-500"
                         >
-                            Custom headers
+                            En-têtes personnalisés
                         </FieldLabel>
                         <div className="min-w-0">
                             <textarea
@@ -1143,7 +1143,7 @@ function ConnectorForm({
                                 disabled={disabled}
                             />
                             <p className="mt-1 text-right text-xs text-gray-500">
-                                Secrets are stored encrypted.
+                                Les secrets sont chiffrés lors de leur stockage.
                             </p>
                         </div>
                     </label>
@@ -1206,7 +1206,7 @@ function ScrollableToolList({
                     fill ? "min-h-0 flex-1" : ""
                 }`}
             >
-                No tools discovered yet.
+                Aucun outil détecté pour le moment.
             </div>
         );
     }
@@ -1237,7 +1237,7 @@ function ScrollableToolList({
                                     }
                                     className="inline-flex h-5 w-5 items-center justify-center text-gray-400 transition-colors hover:text-gray-800"
                                     aria-label={`${
-                                        isExpanded ? "Collapse" : "Expand"
+                                        isExpanded ? "Réduire" : "Développer"
                                     } ${toolLabel}`}
                                 >
                                     <ChevronDown
@@ -1270,7 +1270,7 @@ function ScrollableToolList({
                                                 : "text-gray-500"
                                         }`}
                                     >
-                                        {tool.enabled ? "Enabled" : "Disabled"}
+                                        {tool.enabled ? "Activé" : "Désactivé"}
                                     </span>
                                 )}
                             </div>
@@ -1278,7 +1278,7 @@ function ScrollableToolList({
                                 <div className="ml-7 mt-2 min-w-0">
                                     {tool.requiresConfirmation && (
                                         <p className="text-xs font-medium text-amber-700">
-                                            Confirmation required
+                                            Confirmation requise
                                         </p>
                                     )}
                                     {tool.description && (

@@ -14,13 +14,13 @@ const PRESENTATION: Record<
   VerificationPresentation
 > = {
   verified: {
-    label: "Matched source",
-    description: "Quote matched the extracted document text.",
+    label: "Source concordante",
+    description: "L'extrait correspond au texte extrait du document.",
     pillClassName: "",
   },
   unverified: {
-    label: "Could not verify quote",
-    description: "Quote could not be matched to the source text.",
+    label: "Impossible de vérifier la citation",
+    description: "L'extrait n'a pas pu être associé au texte source.",
     pillClassName:
       "!border-0 !bg-red-100/85 !text-red-800 hover:!bg-red-200/80",
   },

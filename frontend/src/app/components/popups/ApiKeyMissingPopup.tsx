@@ -17,10 +17,10 @@ export function ApiKeyMissingPopup({ open, onClose, provider, message }: Props) 
     const router = useRouter();
     if (!open) return null;
 
-    const providerName = provider ? providerLabel(provider) : "this provider";
+    const providerName = provider ? providerLabel(provider) : "ce fournisseur";
     const body =
         message ??
-        `You haven't added a ${providerName} API key yet. Add one in Settings to use this model.`;
+        `Vous n'avez pas encore ajouté de clé API ${providerName}. Ajoutez-en une dans les Paramètres pour utiliser ce modèle.`;
 
     const handleGoToSettings = () => {
         onClose();
@@ -31,13 +31,13 @@ export function ApiKeyMissingPopup({ open, onClose, provider, message }: Props) 
         <WarningPopup
             open={open}
             onClose={onClose}
-            title="API key required"
+            title="Clé API requise"
             message={body}
             icon={
                 <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-red-600" />
             }
             primaryAction={{
-                label: "Go to settings",
+                label: "Aller aux paramètres",
                 onClick: handleGoToSettings,
             }}
         />

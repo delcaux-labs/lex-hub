@@ -13,11 +13,11 @@ import {
 import { RESPONSE_GLASS_SURFACE, withoutMarkdownNode } from "./messageStyles";
 
 const THINKING_PHRASES = [
-    "Thinking...",
-    "Pondering...",
-    "Analyzing...",
-    "Reviewing...",
-    "Reasoning...",
+    "Réflexion...",
+    "Méditation...",
+    "Analyse...",
+    "Examen...",
+    "Raisonnement...",
 ];
 const REASONING_COLLAPSED_MAX_LINES = 6;
 const REASONING_COLLAPSED_MAX_HEIGHT_REM = 9;
@@ -125,7 +125,7 @@ export function ReasoningBlock({
                 <span className="font-medium">
                     {isStreaming
                         ? THINKING_PHRASES[thinkingIndex]
-                        : "Thought process"}
+                        : "Processus de réflexion"}
                 </span>
                 {!isStreaming && (
                     <ChevronDown
@@ -171,7 +171,7 @@ export function ReasoningBlock({
                                     type="button"
                                     onClick={() => setIsExpanded(true)}
                                     className="absolute left-1/2 bottom-2 z-10 -translate-x-1/2 text-gray-400 transition-colors hover:text-gray-600"
-                                    aria-label="Expand thought process"
+                                    aria-label="Développer le processus de réflexion"
                                 >
                                     <ChevronDown className="h-3.5 w-3.5" />
                                 </button>
@@ -183,7 +183,7 @@ export function ReasoningBlock({
                             type="button"
                             onClick={() => setIsExpanded(false)}
                             className="mx-auto mt-2 flex text-gray-400 transition-colors hover:text-gray-600"
-                            aria-label="Minimise thought process"
+                            aria-label="Réduire le processus de réflexion"
                         >
                             <ChevronDown className="h-3.5 w-3.5 rotate-180" />
                         </button>
@@ -271,7 +271,7 @@ export function DocCreatedBlock({
         >
             <div className="flex min-w-0 items-center gap-1.5">
                 <span className="shrink-0 font-medium">
-                    {isStreaming ? "Creating" : "Created"}
+                    {isStreaming ? "Création en cours" : "Créé"}
                 </span>
                 {isStreaming || !onClick ? (
                     <span className="flex min-w-0 items-center gap-1.5">
@@ -324,10 +324,10 @@ export function DocReplicatedBlock({
         version_id: string;
     }) => void;
 }) {
-    const label = isStreaming ? "Replicating" : "Replicated";
+    const label = isStreaming ? "Duplication en cours" : "Dupliqué";
     const suffix =
         !isStreaming && count > 1
-            ? ` ${count} times`
+            ? ` ${count} fois`
             : isStreaming
               ? "..."
               : "";
@@ -524,7 +524,7 @@ export function WorkflowAppliedBlock({
 }) {
     return (
         <EventBlock showConnector={showConnector} dotColor="green">
-            <span className="font-medium">Read Workflow</span>{" "}
+            <span className="font-medium">Workflow lu</span>{" "}
             {onClick ? (
                 <button
                     onClick={onClick}
@@ -557,21 +557,21 @@ export function AskInputsBlock({
             dotColor={response ? "green" : "gray"}
         >
             <p className="font-medium text-gray-600">
-                {response ? "Asked for input" : "Asking for input"}
+                {response ? "Informations demandées" : "Demande d'informations"}
             </p>
             <div className="mt-2 space-y-2 text-gray-800">
                 {event.items.map((item, index) => {
                     const itemResponse = responseById.get(item.id);
                     const responseText = (() => {
                         if (!itemResponse) return null;
-                        if (itemResponse.skipped) return "Skipped";
+                        if (itemResponse.skipped) return "Ignoré";
                         if (itemResponse.kind === "choice") {
                             return itemResponse.answer ?? "";
                         }
                         const filenames = itemResponse.filenames;
                         return filenames.length
                             ? filenames.join(", ")
-                            : "No documents attached";
+                            : "Aucun document joint";
                     })();
                     return (
                         <div key={item.id}>
@@ -585,7 +585,7 @@ export function AskInputsBlock({
                                 {item.kind === "choice"
                                     ? item.question
                                     : item.document_types.join(", ") ||
-                                      "Documents requested"}
+                                      "Documents demandés"}
                             </p>
                             {responseText !== null && (
                                 <p className="mt-0.5 text-gray-600">
@@ -659,14 +659,14 @@ export function CourtListenerBlock({
                         const label = [item.caseName, item.citation]
                             .filter(Boolean)
                             .join(", ");
-                        const primary = label || item.url || "Unknown case";
+                        const primary = label || item.url || "Décision inconnue";
                         const searchText = item.query
-                            ? `Searched for "${item.query}" in ${primary}${
+                            ? `Recherche de "${item.query}" dans ${primary}${
                                   typeof item.totalMatches === "number"
                                       ? ` (${item.totalMatches} ${
                                             item.totalMatches === 1
-                                                ? "match"
-                                                : "matches"
+                                                ? "correspondance"
+                                                : "correspondances"
                                         })`
                                       : ""
                               }`
@@ -715,7 +715,7 @@ export function DocEditBlock({
     hasError?: boolean;
     onClick?: () => void;
 }) {
-    const label = isStreaming ? "Editing" : hasError ? "Edit failed" : "Edited";
+    const label = isStreaming ? "Modification en cours" : hasError ? "Échec de la modification" : "Modifié";
 
     return (
         <DocEditBlockUI

@@ -95,8 +95,8 @@ export function EditCardUI({
                 <div className="mb-2 flex items-start gap-2">
                     {changeNumber !== undefined && (
                         <span
-                            aria-label={`Tracked change ${changeNumber}`}
-                            title={`Tracked change ${changeNumber}`}
+                            aria-label={`Modification suivie ${changeNumber}`}
+                            title={`Modification suivie ${changeNumber}`}
                             className="inline-flex h-4 w-4 shrink-0 self-center items-center justify-center rounded-full bg-gray-200 text-[9px] font-medium leading-none text-gray-600"
                         >
                             {changeNumber}
@@ -130,7 +130,7 @@ export function EditCardUI({
                 <div
                     className="mt-3 flex items-center justify-between gap-2"
                     role="group"
-                    aria-label="Edit actions"
+                    aria-label="Actions de modification"
                 >
                     {viewAction && (
                         <ActionButton action={viewAction} tone="white" />
@@ -143,7 +143,7 @@ export function EditCardUI({
                 <div
                     className="mt-2 flex gap-2"
                     role="group"
-                    aria-label="Edit actions"
+                    aria-label="Actions de modification"
                 >
                     {resolveActions}
                     {viewAction && (

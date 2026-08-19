@@ -222,8 +222,8 @@ export function NewTRModal({
         {
             value: "",
             label: loadingWorkflows
-                ? "Loading templates..."
-                : "No template - start from scratch",
+                ? "Chargement des modèles..."
+                : "Aucun modèle - partir de zéro",
         },
         ...workflows.map((workflow) => ({
             value: workflow.id,
@@ -237,7 +237,7 @@ export function NewTRModal({
                   project.name +
                   (project.cm_number ? ` (#${project.cm_number})` : ""),
           }))
-        : [{ value: "", label: "No projects found" }];
+        : [{ value: "", label: "Aucun projet trouvé" }];
 
     // What to show in the directory depends on mode and toggle state
     const directoryDocuments = isProjectMode
@@ -259,11 +259,11 @@ export function NewTRModal({
     const breadcrumbs =
         isProjectMode && projectName
             ? [
-                  "Projects",
+                  "Projets",
                   `${projectName}${projectCmNumber ? ` (#${projectCmNumber})` : ""}`,
-                  "New Tabular Review",
+                  "Nouvelle revue tabulaire",
               ]
-            : ["Tabular Reviews", "New Tabular Review"];
+            : ["Revues tabulaires", "Nouvelle revue tabulaire"];
 
     return (
         <Modal
@@ -271,12 +271,12 @@ export function NewTRModal({
             onClose={handleClose}
             breadcrumbs={[
                 ...breadcrumbs,
-                step === "details" ? "Details" : "Add Documents",
+                step === "details" ? "Détails" : "Ajouter des documents",
             ]}
             secondaryAction={
                 step === "documents"
                     ? {
-                          label: uploading ? "Uploading..." : "Upload",
+                          label: uploading ? "Téléversement en cours..." : "Téléverser",
                           icon: uploading ? (
                               <Loader2 className="h-3.5 w-3.5 animate-spin" />
                           ) : (
@@ -290,7 +290,7 @@ export function NewTRModal({
             cancelAction={
                 step === "documents"
                     ? {
-                          label: "Back",
+                          label: "Retour",
                           onClick: () => setStep("details"),
                           disabled: uploading,
                       }
@@ -299,25 +299,25 @@ export function NewTRModal({
             primaryAction={
                 step === "details"
                     ? {
-                          label: "Next",
+                          label: "Suivant",
                           type: "button",
                           onClick: (event) => {
                               event.preventDefault();
                               setStep("documents");
                           },
                           disabled:
-                              !title.trim() ||
-                              (underProject && !selectedProjectId),
+                                !title.trim() ||
+                                (underProject && !selectedProjectId),
                       }
                     : {
-                          label: "Create",
+                          label: "Créer",
                           type: "submit",
                           form: formId,
                           name: "modalAction",
                           value: "create-review",
                           disabled:
-                              !title.trim() ||
-                              (underProject && !selectedProjectId),
+                                !title.trim() ||
+                                (underProject && !selectedProjectId),
                       }
             }
         >
@@ -338,14 +338,14 @@ export function NewTRModal({
                     <div className="space-y-6">
                         <div>
                             <FieldLabel htmlFor="new-tr-title">
-                                Review name
+                                Nom de la revue
                             </FieldLabel>
                             <FormTextInput
                                 id="new-tr-title"
                                 type="text"
                                 value={title}
                                 onChange={(e) => setTitle(e.target.value)}
-                                placeholder="Review name"
+                                placeholder="Nom de la revue"
                                 variant="minimal"
                                 className="placeholder:text-gray-400"
                                 autoFocus
@@ -355,7 +355,7 @@ export function NewTRModal({
                         {/* Workflow template */}
                         <div>
                             <FieldLabel as="p">
-                                Workflow template
+                                Modèle de workflow
                             </FieldLabel>
                             <ModalSelect
                                 id="new-tr-workflow-template"
@@ -372,7 +372,7 @@ export function NewTRModal({
                         {!isProjectMode && (
                             <div className="space-y-3">
                                 <FieldLabel as="p">
-                                    Project
+                                    Projet
                                 </FieldLabel>
                                 <ToggleSwitch
                                     checked={underProject}
@@ -386,7 +386,7 @@ export function NewTRModal({
                                         }
                                     }}
                                 >
-                                    Create under a project
+                                    Créer dans un projet
                                 </ToggleSwitch>
 
                                 {underProject && (
@@ -399,7 +399,7 @@ export function NewTRModal({
                                                 void handleSelectProject(value);
                                             }
                                         }}
-                                        placeholder="Select project..."
+                                        placeholder="Sélectionner un projet..."
                                         disabled={projects.length === 0}
                                     />
                                 )}
@@ -408,13 +408,13 @@ export function NewTRModal({
 
                         <div>
                             <FieldLabel as="p">
-                                Document grouping
+                                Regroupement des documents
                             </FieldLabel>
                             <ToggleSwitch
                                 checked={groupBySubfolder}
                                 onCheckedChange={setGroupBySubfolder}
                             >
-                                Treat documents in the same folder as one review row
+                                Traiter les documents d'un même dossier comme une seule ligne de revue
                             </ToggleSwitch>
                         </div>
                     </div>

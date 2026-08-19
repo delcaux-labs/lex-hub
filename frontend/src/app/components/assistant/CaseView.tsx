@@ -227,7 +227,7 @@ export function CaseView({
                         </p>
                         {onRetry && (
                             <PillButton tone="white" onClick={onRetry}>
-                                Try again
+                                Réessayer
                             </PillButton>
                         )}
                     </div>
@@ -241,7 +241,7 @@ export function CaseView({
                                 surfaceClassName,
                             )}
                         >
-                            No content was returned for this document.
+                            Aucun contenu n'a été renvoyé pour ce document.
                         </p>
                     )}
                 {!visibleLoading && !visibleError && activeSubdocument && (
@@ -295,7 +295,7 @@ function CaseSubdocument({
                 />
             ) : (
                 <div className="whitespace-pre-wrap font-serif text-sm leading-7 text-gray-900 [&_p]:my-3">
-                    {subdocument.text || "No document text returned."}
+                    {subdocument.text || "Aucun texte de document renvoyé."}
                 </div>
             )}
         </article>

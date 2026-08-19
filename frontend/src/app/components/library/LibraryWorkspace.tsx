@@ -77,8 +77,8 @@ type LibraryWorkspaceContextValue = {
 };
 
 const LIBRARY_TABS: { id: LibraryKind; label: string }[] = [
-    { id: "files", label: "Files" },
-    { id: "templates", label: "Templates" },
+    { id: "files", label: "Fichiers" },
+    { id: "templates", label: "Modèles" },
 ];
 
 const EMPTY_COLLECTION: LibraryViewCollection = {
@@ -517,7 +517,7 @@ export function LibraryCollectionPage({
     const search = searchByKind[kind];
     const collectionRootPath = kind === "files" ? "/library" : "/library/templates";
   const debouncedSearch = useDebouncedValue(search, 250);
-    const title = kind === "files" ? "Files" : "Templates";
+    const title = kind === "files" ? "Fichiers" : "Modèles";
   const [documentTypeOptions, setDocumentTypeOptions] = useState<string[]>([]);
   const [tableQuery, setTableQuery] = useState<DocTableQuery>({
     search: "",
@@ -647,7 +647,7 @@ export function LibraryCollectionPage({
     >([]);
     const loading =
         !collection || loadingByKind[kind] || !folderAvailable;
-    const addCollectionLabel = kind === "templates" ? "Templates" : "Files";
+    const addCollectionLabel = kind === "templates" ? "Modèles" : "Fichiers";
 
     const handleAddDocumentsActionChange = useCallback(
         (action: (() => void) | null) => {
@@ -860,7 +860,7 @@ export function LibraryCollectionPage({
             <PageHeader
                 breadcrumbs={[
                     {
-                        label: "Library",
+                        label: "Bibliothèque",
                         onClick: () => router.push("/library"),
                     },
                     {
@@ -876,7 +876,7 @@ export function LibraryCollectionPage({
                                 type: "search",
                                 value: search,
                 onChange: (value) => setSearchForKind(kind, value),
-                                placeholder: `Search ${title.toLowerCase()}...`,
+                                placeholder: `Rechercher dans ${title.toLowerCase()}…`,
                             },
                         ],
                     },
@@ -887,7 +887,7 @@ export function LibraryCollectionPage({
                                 label: (
                   <span className="hidden sm:inline">{addCollectionLabel}</span>
                                 ),
-                                title: `Add ${addCollectionLabel}`,
+                                title: `Ajouter des ${addCollectionLabel.toLowerCase()}`,
                                 onClick: addDocumentsAction ?? undefined,
                                 disabled: !addDocumentsAction || loading,
                             },
@@ -910,7 +910,7 @@ export function LibraryCollectionPage({
                             {folderBackAction && (
                                 <TabPillButton onClick={folderBackAction}>
                                     <ChevronLeft className="h-3.5 w-3.5" />
-                                    Back
+                                    Retour
                                 </TabPillButton>
                             )}
                             <TabPillButton
@@ -918,7 +918,7 @@ export function LibraryCollectionPage({
                                 disabled={!createFolderAction || loading}
                             >
                                 <Plus className="h-3.5 w-3.5" />
-                                <span className="hidden sm:inline">Folder</span>
+                                <span className="hidden sm:inline">Dossier</span>
                             </TabPillButton>
                         </>
                     }
@@ -958,8 +958,8 @@ export function LibraryCollectionPage({
                     defaultSort={{ key: "updated", direction: "desc" }}
                     emptyDropLabel={
                         kind === "templates"
-                            ? "Drop template files here"
-                            : "Drop PDF, Word, Excel, or PowerPoint files here"
+                            ? "Déposez des fichiers de modèles ici"
+                            : "Déposez des fichiers PDF, Word, Excel ou PowerPoint ici"
                     }
                 />
             </div>

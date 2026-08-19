@@ -335,7 +335,7 @@ export function TRSidePanel({
                         onPointerUp={handleDocumentResizePointerEnd}
                         onPointerCancel={handleDocumentResizePointerEnd}
                         className="absolute inset-y-0 left-0 z-20 w-1.5 cursor-col-resize touch-none bg-transparent transition-colors hover:bg-blue-400/60"
-                        title="Resize document pane"
+                        title="Redimensionner le volet de document"
                     />
                     {/* Doc header */}
                     <div className="flex min-h-11 shrink-0 items-center gap-3">
@@ -424,13 +424,13 @@ export function TRSidePanel({
                             )}
                             aria-label={
                                 documentPaneOpen
-                                    ? "Collapse document pane"
-                                    : "Expand document pane"
+                                    ? "Réduire le volet de document"
+                                    : "Développer le volet de document"
                             }
                             title={
                                 documentPaneOpen
-                                    ? "Collapse document pane"
-                                    : "Expand document pane"
+                                    ? "Réduire le volet de document"
+                                    : "Développer le volet de document"
                             }
                             aria-pressed={documentPaneOpen}
                         >
@@ -448,7 +448,7 @@ export function TRSidePanel({
                                 }
                             }}
                             disabled={regenerating}
-                            title="Regenerate"
+                            title="Régénérer"
                             className="rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-600 disabled:opacity-40"
                         >
                             {regenerating ? (
@@ -462,7 +462,7 @@ export function TRSidePanel({
                         type="button"
                         onClick={onClose}
                         className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-white/70 bg-white/55 text-gray-500 shadow-[inset_0_1px_0_rgba(255,255,255,0.75),inset_0_-1px_0_rgba(255,255,255,0.55),0_6px_18px_rgba(15,23,42,0.08)] backdrop-blur-xl transition-colors hover:bg-white/75 hover:text-gray-700"
-                        aria-label="Close"
+                        aria-label="Fermer"
                     >
                         <X className="h-3.5 w-3.5" />
                     </button>
@@ -475,7 +475,7 @@ export function TRSidePanel({
                         <div className="mb-4">
                             <div className="mb-3 text-xs font-medium text-gray-900">
                                 {row.row_type === "folder"
-                                    ? "Folder"
+                                    ? "Dossier"
                                     : "Document"}
                             </div>
                             {row.row_type === "folder" ? (
@@ -571,7 +571,7 @@ export function TRSidePanel({
                         {/* Column field */}
                         <div className="mb-4">
                             <div className="mb-3 text-xs font-medium text-gray-900">
-                                Column
+                                Colonne
                             </div>
                             <div className="min-h-6 truncate text-xs leading-6 text-gray-800">
                                 {column.name}
@@ -582,7 +582,7 @@ export function TRSidePanel({
                         {cell.content?.flag && (
                             <div className="mb-5">
                                 <h4 className="mb-2 text-xs font-medium text-gray-900">
-                                    Flag
+                                    Drapeau
                                 </h4>
                                 <span
                                     className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${FLAG_BADGE[cell.content.flag] ?? FLAG_BADGE.grey}`}
@@ -596,7 +596,7 @@ export function TRSidePanel({
                         {/* Results */}
                         <div className="mb-6">
                             <h4 className="mb-2 text-xs font-medium text-gray-900">
-                                Results
+                                Résultats
                             </h4>
                             <div className="text-xs leading-relaxed text-slate-600">
                                 <MarkdownContent
@@ -613,7 +613,7 @@ export function TRSidePanel({
                         {cell.content?.reasoning && (
                             <div>
                                 <h4 className="mb-2 text-xs font-medium text-gray-900">
-                                    Reasoning
+                                    Raisonnement
                                 </h4>
                                 <div className="text-xs leading-relaxed text-slate-600">
                                     <MarkdownContent
@@ -634,7 +634,7 @@ export function TRSidePanel({
                     <div className="grid grid-cols-3 grid-rows-3 gap-0.5">
                         <CellNavigatorButton
                             className="col-start-2 row-start-1"
-                            label="Previous row"
+                            label="Ligne précédente"
                             title={previousRow?.label}
                             disabled={!previousRow}
                             onClick={() =>
@@ -646,7 +646,7 @@ export function TRSidePanel({
                         </CellNavigatorButton>
                         <CellNavigatorButton
                             className="col-start-1 row-start-2"
-                            label="Previous column"
+                            label="Colonne précédente"
                             title={previousColumn?.name}
                             disabled={!previousColumn}
                             onClick={() =>
@@ -659,7 +659,7 @@ export function TRSidePanel({
                         <div className="col-start-2 row-start-2 h-7 w-7 rounded-md bg-white/35" />
                         <CellNavigatorButton
                             className="col-start-3 row-start-2"
-                            label="Next column"
+                            label="Colonne suivante"
                             title={nextColumn?.name}
                             disabled={!nextColumn}
                             onClick={() =>
@@ -671,7 +671,7 @@ export function TRSidePanel({
                         </CellNavigatorButton>
                         <CellNavigatorButton
                             className="col-start-2 row-start-3"
-                            label="Next row"
+                            label="Ligne suivante"
                             title={nextRow?.label}
                             disabled={!nextRow}
                             onClick={() =>
@@ -727,7 +727,7 @@ function CellNavigatorButton({
 
 function formatCitationLocation(citation: ParsedCitation): string {
     if (citation.sheet && citation.cell) {
-        return `${citation.sheet}, cell ${citation.cell}`;
+        return `${citation.sheet}, cellule ${citation.cell}`;
     }
     return `Page ${citation.page ?? 1}`;
 }

@@ -68,7 +68,7 @@ export default function VerifyMfaPage() {
                 setSelectedFactorId(verified[0]?.id ?? "");
                 if (verified.length === 0) {
                     setError(
-                        "No verified authenticator factor is available for this account.",
+                        "Aucun facteur d'authentification vérifié n'est disponible pour ce compte.",
                     );
                 }
             } catch (loadError) {
@@ -76,7 +76,7 @@ export default function VerifyMfaPage() {
                 setError(
                     loadError instanceof Error
                         ? loadError.message
-                        : "Unable to load authenticator verification.",
+                        : "Impossible de charger la vérification de l'authentificateur.",
                 );
             } finally {
                 if (!cancelled) setLoading(false);
@@ -125,11 +125,11 @@ export default function VerifyMfaPage() {
             <div className={`w-full max-w-md ${authGlassCardClassName}`}>
                 <div className="mb-8 space-y-2">
                     <h1 className="text-2xl font-serif">
-                        Verify your identity
+                        Vérifiez votre identité
                     </h1>
                     <p className="text-sm text-gray-500">
-                        Enter the six-digit code from your authenticator app to
-                        continue.
+                        Entrez le code à six chiffres de votre application
+                        d&apos;authentification pour continuer.
                     </p>
                 </div>
 
@@ -137,12 +137,12 @@ export default function VerifyMfaPage() {
                     {loading ? (
                         <div className="flex h-13 items-center justify-center text-sm text-gray-500">
                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            Loading authenticator...
+                            Chargement de l&apos;authentificateur...
                         </div>
                     ) : factors.length === 0 ? (
                         <p className="rounded-lg bg-gray-100 px-3 py-2 text-sm text-gray-600">
-                            No verified authenticator factor is available for
-                            this session.
+                            Aucun facteur d&apos;authentification vérifié
+                            n&apos;est disponible pour cette session.
                         </p>
                     ) : (
                         <>
@@ -160,7 +160,7 @@ export default function VerifyMfaPage() {
                                             value={factor.id}
                                         >
                                             {factor.friendly_name ||
-                                                "Authenticator app"}
+                                                "Application d'authentification"}
                                         </option>
                                     ))}
                                 </select>
@@ -185,7 +185,7 @@ export default function VerifyMfaPage() {
                             disabled={verifying}
                             className="px-3 py-1.5 text-sm font-medium text-gray-600 transition-colors hover:text-gray-950 disabled:cursor-not-allowed disabled:text-gray-400"
                         >
-                            Cancel
+                            Annuler
                         </button>
                         <PillButton
                             tone="black"
@@ -197,10 +197,10 @@ export default function VerifyMfaPage() {
                             {verifying ? (
                                 <span className="inline-flex items-center gap-1.5">
                                     <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                                    Verifying...
+                                    Vérification...
                                 </span>
                             ) : (
-                                "Verify"
+                                "Vérifier"
                             )}
                         </PillButton>
                     </div>

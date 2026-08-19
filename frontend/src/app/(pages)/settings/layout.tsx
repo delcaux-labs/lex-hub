@@ -13,17 +13,17 @@ interface TabDef {
 }
 
 const TABS: TabDef[] = [
-    { id: "account", label: "Account", href: "/settings" },
-    { id: "features", label: "Features", href: "/settings/features" },
+    { id: "account", label: "Compte", href: "/settings" },
+    { id: "features", label: "Fonctionnalités", href: "/settings/features" },
     {
         id: "privacy-data",
-        label: "Privacy & Data",
+        label: "Confidentialité et données",
         href: "/settings/privacy-data",
     },
-    { id: "security", label: "Security", href: "/settings/security" },
-    { id: "models", label: "Model Preferences", href: "/settings/models" },
-    { id: "api-keys", label: "API Keys", href: "/settings/api-keys" },
-    { id: "connectors", label: "Connectors", href: "/settings/connectors" },
+    { id: "security", label: "Sécurité", href: "/settings/security" },
+    { id: "models", label: "Préférences de modèles", href: "/settings/models" },
+    { id: "api-keys", label: "Clés API", href: "/settings/api-keys" },
+    { id: "connectors", label: "Connecteurs", href: "/settings/connectors" },
 ];
 
 export default function SettingsLayout({
@@ -57,14 +57,14 @@ export default function SettingsLayout({
         <div className="flex h-full flex-col overflow-y-auto">
             <header className="mx-auto flex h-16 w-full max-w-5xl shrink-0 items-end px-6 pb-2 md:h-24 md:pb-4">
                 <h1 className="text-4xl font-medium font-eb-garamond">
-                    Settings
+                    Paramètres
                 </h1>
             </header>
 
             <main className="mx-auto w-full max-w-5xl flex-1 px-6 pb-10 pt-4 md:pt-6">
                 <div className="grid grid-cols-1 gap-y-6 md:grid-cols-[224px_minmax(0,1fr)] md:gap-x-10">
                     <nav
-                        aria-label="Settings"
+                        aria-label="Paramètres"
                         className="z-10 -ml-3 min-w-0 self-start md:sticky md:top-4"
                     >
                         <div className="-m-1 min-w-0 p-1">

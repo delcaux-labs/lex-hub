@@ -37,19 +37,19 @@ const DELETE_DATA_COPY: Record<
     }
 > = {
     chats: {
-        title: "Delete all chats?",
+        title: "Supprimer tous les chats ?",
         message:
-            "This will permanently delete your assistant and tabular review chat history. This action cannot be undone.",
+            "Cette action supprimera définitivement l'historique de vos chats d'assistant et de revue tabulaire. Cette action est irréversible.",
     },
     "tabular-reviews": {
-        title: "Delete all tabular reviews?",
+        title: "Supprimer toutes les revues tabulaires ?",
         message:
-            "This will permanently delete all tabular reviews you own, including their cells and review chats. This action cannot be undone.",
+            "Cette action supprimera définitivement toutes les revues tabulaires dont vous êtes propriétaire, y compris leurs cellules et chats de revue. Cette action est irréversible.",
     },
     projects: {
-        title: "Delete all projects?",
+        title: "Supprimer tous les projets ?",
         message:
-            "This will permanently delete all projects you own, including their documents, chats, and tabular reviews. This action cannot be undone.",
+            "Cette action supprimera définitivement tous les projets dont vous êtes propriétaire, y compris leurs documents, chats et revues tabulaires. Cette action est irréversible.",
     },
 };
 
@@ -96,7 +96,7 @@ export default function PrivacyDataPage() {
                 setPendingMfaAction("export-account");
                 return;
             }
-            alert("Failed to export account data. Please try again.");
+            alert("Impossible d'exporter les données du compte. Veuillez réessayer.");
         } finally {
             setIsExportingAccount(false);
         }
@@ -121,7 +121,7 @@ export default function PrivacyDataPage() {
                 setPendingMfaAction("export-chats");
                 return;
             }
-            alert("Failed to export chats. Please try again.");
+            alert("Impossible d'exporter les chats. Veuillez réessayer.");
         } finally {
             setIsExportingChats(false);
         }
@@ -146,7 +146,7 @@ export default function PrivacyDataPage() {
                 setPendingMfaAction("export-tabular-reviews");
                 return;
             }
-            alert("Failed to export tabular reviews. Please try again.");
+            alert("Impossible d'exporter les revues tabulaires. Veuillez réessayer.");
         } finally {
             setIsExportingTabularReviews(false);
         }
@@ -184,7 +184,7 @@ export default function PrivacyDataPage() {
                 setPendingMfaAction(action);
                 return;
             }
-            alert("Failed to delete data. Please try again.");
+            alert("Impossible de supprimer les données. Veuillez réessayer.");
         } finally {
             setDeletingAction(null);
         }
@@ -215,17 +215,17 @@ export default function PrivacyDataPage() {
         <div className="space-y-8">
             <section className="space-y-3">
                 <h2 className="text-2xl font-medium font-serif text-gray-900">
-                    Export data
+                    Exporter les données
                 </h2>
                 <SettingsSection>
                     <div className="flex flex-col gap-3 px-4 py-5 sm:flex-row sm:items-center sm:justify-between">
                         <div className="space-y-1">
                             <p className="text-sm font-medium text-gray-700">
-                                Export chats
+                                Exporter les chats
                             </p>
                             <p className="text-sm text-gray-500">
-                                Download assistant and tabular review chat
-                                history as JSON.
+                                Télécharger l'historique des chats de l'assistant et des
+                                revues tabulaires au format JSON.
                             </p>
                         </div>
                         <PillButton
@@ -238,17 +238,17 @@ export default function PrivacyDataPage() {
                             {!isExportingChats && (
                                 <Download className="h-4 w-4 shrink-0" />
                             )}
-                            {isExportingChats ? "Exporting..." : "Export"}
+                            {isExportingChats ? "Exportation en cours..." : "Exporter"}
                         </PillButton>
                     </div>
                     <div className="flex flex-col gap-3 px-4 py-5 sm:flex-row sm:items-center sm:justify-between">
                         <div className="space-y-1">
                             <p className="text-sm font-medium text-gray-700">
-                                Export tabular reviews
+                                Exporter les revues tabulaires
                             </p>
                             <p className="text-sm text-gray-500">
-                                Download all owned tabular reviews, cells, and
-                                review chat records as JSON.
+                                Télécharger toutes les revues tabulaires, cellules et
+                                enregistrements de chat dont vous êtes propriétaire au format JSON.
                             </p>
                         </div>
                         <PillButton
@@ -262,18 +262,18 @@ export default function PrivacyDataPage() {
                                 <Download className="h-4 w-4 shrink-0" />
                             )}
                             {isExportingTabularReviews
-                                ? "Exporting..."
-                                : "Export"}
+                                ? "Exportation en cours..."
+                                : "Exporter"}
                         </PillButton>
                     </div>
                     <div className="flex flex-col gap-3 px-4 py-5 sm:flex-row sm:items-center sm:justify-between">
                         <div className="space-y-1">
                             <p className="text-sm font-medium text-gray-700">
-                                Export account JSON
+                                Exporter le JSON du compte
                             </p>
                             <p className="text-sm text-gray-500">
-                                Download account metadata, projects, document
-                                metadata, workflows, and review data as JSON.
+                                Télécharger les métadonnées du compte, projets,
+                                métadonnées de documents, workflows et données de revues au format JSON.
                             </p>
                         </div>
                         <PillButton
@@ -286,7 +286,7 @@ export default function PrivacyDataPage() {
                             {!isExportingAccount && (
                                 <Download className="h-4 w-4 shrink-0" />
                             )}
-                            {isExportingAccount ? "Exporting..." : "Export"}
+                            {isExportingAccount ? "Exportation en cours..." : "Exporter"}
                         </PillButton>
                     </div>
                 </SettingsSection>
@@ -294,17 +294,17 @@ export default function PrivacyDataPage() {
 
             <section className="space-y-3">
                 <h2 className="text-2xl font-medium font-serif text-gray-900">
-                    Delete data
+                    Supprimer les données
                 </h2>
                 <SettingsSection>
                     <div className="flex flex-col gap-3 px-4 py-5 sm:flex-row sm:items-center sm:justify-between">
                         <div className="space-y-1">
                             <p className="text-sm font-medium text-gray-700">
-                                Delete all chats
+                                Supprimer tous les chats
                             </p>
                             <p className="text-sm text-gray-500">
-                                Permanently delete your assistant and tabular
-                                review chat history.
+                                Supprimer définitivement l'historique des chats de
+                                l'assistant et des revues tabulaires.
                             </p>
                         </div>
                         <PillButton
@@ -315,17 +315,17 @@ export default function PrivacyDataPage() {
                             className="w-full shrink-0 sm:w-auto"
                         >
                             <Trash2 className="h-4 w-4 shrink-0" />
-                            Delete
+                            Supprimer
                         </PillButton>
                     </div>
                     <div className="flex flex-col gap-3 px-4 py-5 sm:flex-row sm:items-center sm:justify-between">
                         <div className="space-y-1">
                             <p className="text-sm font-medium text-gray-700">
-                                Delete all tabular reviews
+                                Supprimer toutes les revues tabulaires
                             </p>
                             <p className="text-sm text-gray-500">
-                                Permanently delete all tabular reviews you own,
-                                including cells and review chats.
+                                Supprimer définitivement toutes les revues tabulaires dont
+                                vous êtes propriétaire, y compris les cellules et chats de revue.
                             </p>
                         </div>
                         <PillButton
@@ -338,17 +338,17 @@ export default function PrivacyDataPage() {
                             className="w-full shrink-0 sm:w-auto"
                         >
                             <Trash2 className="h-4 w-4 shrink-0" />
-                            Delete
+                            Supprimer
                         </PillButton>
                     </div>
                     <div className="flex flex-col gap-3 px-4 py-5 sm:flex-row sm:items-center sm:justify-between">
                         <div className="space-y-1">
                             <p className="text-sm font-medium text-gray-700">
-                                Delete all projects
+                                Supprimer tous les projets
                             </p>
                             <p className="text-sm text-gray-500">
-                                Permanently delete all projects you own,
-                                including documents, chats, and tabular reviews.
+                                Supprimer définitivement tous les projets dont vous
+                                êtes propriétaire, y compris les documents, chats et revues tabulaires.
                             </p>
                         </div>
                         <PillButton
@@ -359,7 +359,7 @@ export default function PrivacyDataPage() {
                             className="w-full shrink-0 sm:w-auto"
                         >
                             <Trash2 className="h-4 w-4 shrink-0" />
-                            Delete
+                            Supprimer
                         </PillButton>
                     </div>
                 </SettingsSection>
@@ -368,9 +368,9 @@ export default function PrivacyDataPage() {
                 open={!!pendingDeleteAction}
                 title={pendingDeleteCopy?.title}
                 message={pendingDeleteCopy?.message}
-                confirmLabel="Delete"
+                confirmLabel="Supprimer"
                 confirmStatus={deletingAction ? "loading" : "idle"}
-                cancelLabel="Cancel"
+                cancelLabel="Annuler"
                 onCancel={() => {
                     if (deletingAction) return;
                     setPendingDeleteAction(null);
@@ -384,8 +384,8 @@ export default function PrivacyDataPage() {
                 open={!!pendingMfaAction}
                 onCancel={() => setPendingMfaAction(null)}
                 onVerified={() => void handleMfaVerified()}
-                title="Two-factor verification required"
-                message="This action is sensitive. Enter a code from your authenticator app to continue."
+                title="Vérification à deux facteurs requise"
+                message="Cette action est sensible. Saisissez un code depuis votre application d'authentification pour continuer."
             />
         </div>
     );

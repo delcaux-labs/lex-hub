@@ -56,17 +56,17 @@ type ReviewScope = TabularReviewScope;
 type ReviewSortKey = "name" | "columns" | "documents" | "created";
 
 const REVIEW_SCOPES: { id: ReviewScope; label: string }[] = [
-    { id: "all", label: "All" },
-    { id: "in-project", label: "In Project" },
-    { id: "standalone", label: "Standalone" },
+    { id: "all", label: "Tous" },
+    { id: "in-project", label: "Dans un projet" },
+    { id: "standalone", label: "Indépendant" },
 ];
 const REVIEW_SCOPE_IDS = REVIEW_SCOPES.map((scope) => scope.id);
 const SORT_OPTIONS: TableFilterOption<TableSortDirection>[] = [
-    { value: "asc", label: "Ascending" },
-    { value: "desc", label: "Descending" },
+    { value: "asc", label: "Croissant" },
+    { value: "desc", label: "Décroissant" },
 ];
 function formatDate(iso: string) {
-    return new Date(iso).toLocaleDateString(undefined, {
+    return new Date(iso).toLocaleDateString("fr-FR", {
         day: "numeric",
         month: "short",
         year: "numeric",
@@ -252,7 +252,7 @@ export default function TabularReviewsPage() {
 
     function requestReviewDetails(review: TabularReview) {
         if (user?.id && review.user_id !== user.id) {
-            setOwnerOnlyAction("edit tabular review details");
+            setOwnerOnlyAction("modifier les détails de la revue tabulaire");
             return;
         }
         setDetailsReview(review);
@@ -264,7 +264,7 @@ export default function TabularReviewsPage() {
     }) {
         if (!detailsReview) return;
         if (user?.id && detailsReview.user_id !== user.id) {
-            setOwnerOnlyAction("edit tabular review details");
+            setOwnerOnlyAction("modifier les détails de la revue tabulaire");
             return;
         }
         const updated = await updateTabularReview(detailsReview.id, {
@@ -323,10 +323,10 @@ export default function TabularReviewsPage() {
         );
         const notices = [
             blocked > 0
-                ? `${blocked} selected review${blocked === 1 ? " was" : "s were"} skipped because only the review creator can delete them.`
+                ? `${blocked} revue(s) sélectionnée(s) ${blocked === 1 ? "a été ignorée" : "ont été ignorées"} car seul le créateur de la revue peut les supprimer.`
                 : null,
             failedIds.length > 0
-                ? `${failedIds.length} review${failedIds.length === 1 ? " was" : "s were"} not deleted because the request failed. ${failedIds.length === 1 ? "It remains" : "They remain"} selected so you can try again.`
+                ? `${failedIds.length} revue(s) n'${failedIds.length === 1 ? "a pas été supprimée" : "ont pas été supprimées"} car la requête a échoué. ${failedIds.length === 1 ? "Elle reste sélectionnée" : "Elles restent sélectionnées"} pour que vous puissiez réessayer.`
                 : null,
         ].filter((notice): notice is string => notice !== null);
         if (notices.length > 0) setBulkDeleteNotice(notices.join(" "));
@@ -334,7 +334,7 @@ export default function TabularReviewsPage() {
 
     async function handleDeleteReviewRow(review: TabularReview) {
         if (user?.id && review.user_id !== user.id) {
-            setOwnerOnlyAction("delete this tabular review");
+            setOwnerOnlyAction("supprimer cette revue tabulaire");
             return;
         }
         setDeletingReviewIds((current) => new Set(current).add(review.id));
@@ -354,9 +354,9 @@ export default function TabularReviewsPage() {
 
     const projectFilterButton = (
         <TableFilters
-            label="Filter by project"
+            label="Filtrer par projet"
             value={projectFilter}
-            allLabel="All Projects"
+            allLabel="Tous les projets"
             options={projects.map((project) => ({
                 value: project.id,
                 label: project.name,
@@ -373,9 +373,9 @@ export default function TabularReviewsPage() {
         sort?.key === "created" ? sort.direction : null;
     const nameFilterButton = (
         <TableFilters
-            label="Sort by review name"
+            label="Trier par nom de revue"
             value={nameSortDirection}
-            allLabel="Default Order"
+            allLabel="Ordre par défaut"
             widthClassName="w-40"
             align="right"
             options={SORT_OPTIONS}
@@ -384,9 +384,9 @@ export default function TabularReviewsPage() {
     );
     const columnsFilterButton = (
         <TableFilters
-            label="Sort by columns"
+            label="Trier par colonnes"
             value={columnsSortDirection}
-            allLabel="Default Order"
+            allLabel="Ordre par défaut"
             widthClassName="w-40"
             options={SORT_OPTIONS}
             onChange={(direction) => handleSortChange("columns", direction)}
@@ -394,9 +394,9 @@ export default function TabularReviewsPage() {
     );
     const documentsFilterButton = (
         <TableFilters
-            label="Sort by documents"
+            label="Trier par documents"
             value={documentsSortDirection}
-            allLabel="Default Order"
+            allLabel="Ordre par défaut"
             widthClassName="w-40"
             options={SORT_OPTIONS}
             onChange={(direction) => handleSortChange("documents", direction)}
@@ -404,9 +404,9 @@ export default function TabularReviewsPage() {
     );
     const createdFilterButton = (
         <TableFilters
-            label="Sort by created date"
+            label="Trier par date de création"
             value={createdSortDirection}
-            allLabel="Default Order"
+            allLabel="Ordre par défaut"
             widthClassName="w-40"
             options={SORT_OPTIONS}
             onChange={(direction) => handleSortChange("created", direction)}
@@ -426,7 +426,7 @@ export default function TabularReviewsPage() {
                             onClick={requestDeleteSelected}
                             className="w-full px-3 py-1.5 text-left text-xs text-red-600 transition-colors hover:bg-red-500/10"
                         >
-                            Delete
+                            Supprimer
                         </button>
                     </LiquidDropdownSurface>
                 )}
@@ -443,18 +443,18 @@ export default function TabularReviewsPage() {
                         type: "search",
                         value: search,
                         onChange: setSearch,
-                        placeholder: "Search reviews…",
+                        placeholder: "Rechercher des revues…",
                     },
                     {
                         type: "new",
                         onClick: () => setNewTROpen(true),
                         loading: creating,
-                        title: "New tabular review",
+                        title: "Nouvelle revue tabulaire",
                     },
                 ]}
             >
                 <h1 className="text-2xl font-medium font-serif text-gray-900">
-                    Tabular Reviews
+                    Revues tabulaires
                 </h1>
             </PageHeader>
 
@@ -489,15 +489,15 @@ export default function TabularReviewsPage() {
                                     }}
                                     onChange={toggleAll}
                                     className={TABLE_CHECKBOX_CLASS}
-                                    aria-label="Select all reviews"
+                                    aria-label="Sélectionner toutes les revues"
                                 />
                             )}
-                            <span className="mr-1">Name</span>
+                            <span className="mr-1">Nom</span>
                             {!loading && nameFilterButton}
                         </TableStickyCell>
                         <TableHeaderCell className="ml-auto w-24">
                             <div className="flex items-center gap-1">
-                                <span>Columns</span>
+                                <span>Colonnes</span>
                                 {!loading && columnsFilterButton}
                             </div>
                         </TableHeaderCell>
@@ -509,13 +509,13 @@ export default function TabularReviewsPage() {
                         </TableHeaderCell>
                         <TableHeaderCell className="w-52">
                             <div className="flex items-center gap-1">
-                                <span>Project</span>
+                                <span>Projet</span>
                                 {!loading && projectFilterButton}
                             </div>
                         </TableHeaderCell>
                         <TableHeaderCell className="w-32">
                             <div className="flex items-center gap-1">
-                                <span>Created</span>
+                                <span>Créé</span>
                                 {!loading && createdFilterButton}
                             </div>
                         </TableHeaderCell>
@@ -553,10 +553,10 @@ export default function TabularReviewsPage() {
                 ) : loadError ? (
                     <TableEmptyState>
                         <p className="text-lg font-medium font-serif text-gray-900">
-                            Unable to load reviews
+                            Impossible de charger les revues
                         </p>
                         <p className="mt-1 text-xs text-gray-400">
-                            Check your connection and try again.
+                            Vérifiez votre connexion et réessayez.
                         </p>
                         <PillButton
                             tone="black"
@@ -564,7 +564,7 @@ export default function TabularReviewsPage() {
                             onClick={retry}
                             className="mt-4 px-3"
                         >
-                            Try again
+                            Réessayer
                         </PillButton>
                     </TableEmptyState>
                 ) : filtered.length === 0 ? (
@@ -575,11 +575,10 @@ export default function TabularReviewsPage() {
                             <>
                                 <TabularReviewSkeuoIcon className="mb-4 h-8 w-8" />
                                 <p className="text-2xl font-medium font-serif text-gray-900">
-                                    Tabular Reviews
+                                    Revues tabulaires
                                 </p>
                                 <p className="mt-1 text-xs text-gray-400 max-w-xs text-left">
-                                    Extract data from documents into tables
-                                    using AI.
+                                    Extrayez des données de documents dans des tableaux grâce à l'IA.
                                 </p>
                                 <PillButton
                                     tone="black"
@@ -589,12 +588,12 @@ export default function TabularReviewsPage() {
                                     className="mt-4 px-3"
                                 >
                                     <Plus className="h-3.5 w-3.5" />
-                                    Create
+                                    Créer
                                 </PillButton>
                             </>
                         ) : (
                             <p className="text-sm text-gray-400">
-                                No reviews found
+                                Aucune revue trouvée
                             </p>
                         )}
                     </TableEmptyState>
@@ -666,7 +665,7 @@ export default function TabularReviewsPage() {
                                             toggleOne(review.id)
                                         }
                                         label={
-                                            review.title ?? "Untitled Review"
+                                            review.title ?? "Revue sans titre"
                                         }
                                     />
                                     <TableCell className="ml-auto w-24">
@@ -747,15 +746,15 @@ export default function TabularReviewsPage() {
             />
             <WarningPopup
                 open={!!bulkDeleteNotice}
-                title="Some reviews were not deleted"
+                title="Certaines revues n'ont pas été supprimées"
                 message={bulkDeleteNotice}
                 onClose={() => setBulkDeleteNotice(null)}
             />
             <ConfirmPopup
                 open={confirmDeleteAllOpen && selectedIds.length > 0}
-                title="Delete all selected reviews?"
-                message={`This will permanently delete every selected review you own, including selected reviews not currently shown. Their review results and associated data will also be deleted. Reviews owned by others will be skipped. ${selectedIds.length} reviews are selected.`}
-                confirmLabel="Delete"
+                title="Supprimer toutes les revues sélectionnées ?"
+                message={`Cette action supprimera définitivement toutes les revues sélectionnées que vous possédez, y compris les revues sélectionnées non affichées actuellement. Leurs résultats de revue et données associées seront également supprimés. Les revues appartenant à d'autres utilisateurs seront ignorées. ${selectedIds.length} revue(s) sélectionnée(s).`}
+                confirmLabel="Supprimer"
                 onCancel={() => setConfirmDeleteAllOpen(false)}
                 onConfirm={() => void handleDeleteSelected()}
             />

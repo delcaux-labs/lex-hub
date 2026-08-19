@@ -104,12 +104,12 @@ function SkillViewer({ skill }: { skill: string }) {
             onClick={() => void copy()}
             className="flex items-center gap-1 text-xs text-gray-400 transition-colors hover:text-gray-700"
           >
-            {copied ? <Check className="h-3 w-3" /> : "Copy"}
+            {copied ? <Check className="h-3 w-3" /> : "Copier"}
           </button>
           <button
             type="button"
             aria-label={
-              showRaw ? "Show rendered SKILL.md" : "Show raw SKILL.md"
+              showRaw ? "Afficher le rendu SKILL.md" : "Afficher le SKILL.md brut"
             }
             aria-pressed={showRaw}
             onClick={() => setShowRaw((current) => !current)}
@@ -135,7 +135,7 @@ function SkillViewer({ skill }: { skill: string }) {
               remarkPlugins={[remarkGfm]}
               components={markdownComponents}
             >
-              {markdown || "_No instructions provided._"}
+              {markdown || "_Aucune instruction fournie._"}
             </ReactMarkdown>
           </div>
         )}
@@ -156,7 +156,7 @@ function DetailTabs({
   return (
     <div
       role="tablist"
-      aria-label="Add-on workflow detail view"
+      aria-label="Vue des détails de l'add-on de workflow"
       className="inline-flex gap-2"
     >
       {tabs.map((tab) => (
@@ -192,9 +192,9 @@ function MetadataItem({ label, value }: { label: string; value: string }) {
 
 function formatFileSize(size: number | null) {
   if (size === null) return "—";
-  if (size < 1024) return `${size} B`;
-  if (size < 1024 * 1024) return `${Math.round(size / 1024)} KB`;
-  return `${(size / (1024 * 1024)).toFixed(1)} MB`;
+  if (size < 1024) return `${size} o`;
+  if (size < 1024 * 1024) return `${Math.round(size / 1024)} Ko`;
+  return `${(size / (1024 * 1024)).toFixed(1)} Mo`;
 }
 
 export function WorkflowAddonPreviewModal({
@@ -251,11 +251,11 @@ function WorkflowAddonPreviewDialog({
   const references = addon.reference_files ?? [];
   const tabs: { id: DetailView; label: string }[] =
     addon.type === "tabular"
-      ? [{ id: "columns", label: "Columns" }]
+      ? [{ id: "columns", label: "Colonnes" }]
       : [
           { id: "skill", label: "SKILL.md" },
           ...(references.length > 0
-            ? [{ id: "assets" as const, label: "Assets" }]
+            ? [{ id: "assets" as const, label: "Ressources" }]
             : []),
         ];
 
@@ -265,7 +265,7 @@ function WorkflowAddonPreviewDialog({
       onClose={onClose}
       breadcrumbs={["Workflows", "Add-ons", addon.title]}
       primaryAction={{
-        label: importing ? "Importing…" : "Import",
+        label: importing ? "Importation en cours…" : "Importer",
         icon: <Plus className="h-4 w-4" />,
         variant: "blue",
         disabled: importing,
@@ -282,19 +282,19 @@ function WorkflowAddonPreviewDialog({
         <section className="shrink-0">
           <div className="flex flex-wrap items-end gap-x-8 gap-y-3">
             <MetadataItem
-              label="Contributor"
+              label="Contributeur"
               value={addon.contributors
                 .map((contributor) => contributor.name)
                 .join(", ")}
             />
-            <MetadataItem label="Language" value={addon.language || "—"} />
+            <MetadataItem label="Langue" value={addon.language || "—"} />
             <MetadataItem label="Version" value={addon.version || "—"} />
             <MetadataItem
-              label="Practice"
+              label="Domaine d'expertise"
               value={addon.practice || "General"}
             />
             <MetadataItem
-              label="Jurisdiction"
+              label="Juridiction"
               value={addon.jurisdictions?.join(", ") || "—"}
             />
           </div>
@@ -319,7 +319,7 @@ function WorkflowAddonPreviewDialog({
                 <div className="grid min-h-10 shrink-0 grid-cols-[52px_0.8fr_1.8fr] items-center border-b border-white/60 text-xs font-medium text-gray-500">
                   <div className="px-3 py-1.5">#</div>
                   <div className="border-l border-white/60 px-3 py-1.5">
-                    Column
+                    Colonne
                   </div>
                   <div className="border-l border-white/60 px-3 py-1.5">
                     Prompt
@@ -347,7 +347,7 @@ function WorkflowAddonPreviewDialog({
             ) : view === "assets" ? (
               <div className="flex h-full min-h-0 flex-col">
                 <div className="flex min-h-10 shrink-0 items-center border-b border-white/60 px-3 py-1.5 text-xs font-medium text-gray-500">
-                  Assets
+                  Ressources
                 </div>
                 <div className="min-h-0 flex-1 overflow-y-auto">
                   {references.map((file) => (

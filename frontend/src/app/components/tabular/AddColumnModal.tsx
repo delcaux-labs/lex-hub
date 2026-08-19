@@ -213,22 +213,22 @@ export function AddColumnModal({ open, existingCount, onClose, onAdd, editingCol
             open={open}
             onClose={handleClose}
             breadcrumbs={[
-                "Tabular Review",
-                isEditing ? "Edit column" : "New column",
+                "Revue tabulaire",
+                isEditing ? "Modifier la colonne" : "Nouvelle colonne",
             ]}
             primaryAction={{
-                label: isEditing ? "Save changes" : "Add columns",
+                label: isEditing ? "Enregistrer les modifications" : "Ajouter des colonnes",
                 type: "submit",
                 form: formId,
                 disabled: columns.some(
                     (col) => !col.name.trim() || !col.prompt.trim(),
                 ),
             }}
-            cancelAction={{ label: "Cancel", onClick: handleClose }}
+            cancelAction={{ label: "Annuler", onClick: handleClose }}
             secondaryAction={
                 isEditing && onDelete
                     ? {
-                          label: "Delete",
+                          label: "Supprimer",
                           variant: "danger",
                           onClick: onDelete,
                       }
@@ -271,7 +271,7 @@ export function AddColumnModal({ open, existingCount, onClose, onAdd, editingCol
                                                         className={`h-4 w-4 shrink-0 text-gray-600 transition-transform ${isCollapsed ? "-rotate-90" : ""}`}
                                                     />
                                                     <h3 className="font-serif text-2xl text-gray-950">
-                                                        Column {index + 1}
+                                                        Colonne {index + 1}
                                                     </h3>
                                                 </button>
                                                 {columns.length > 1 && (
@@ -281,7 +281,7 @@ export function AddColumnModal({ open, existingCount, onClose, onAdd, editingCol
                                                             removeColumn(index)
                                                         }
                                                         className="rounded-lg p-1.5 text-gray-300 transition-colors hover:bg-gray-100 hover:text-gray-500"
-                                                        aria-label="Remove column"
+                                                        aria-label="Supprimer la colonne"
                                                     >
                                                         <X className="h-4 w-4" />
                                                     </button>
@@ -290,7 +290,7 @@ export function AddColumnModal({ open, existingCount, onClose, onAdd, editingCol
                                             {!isCollapsed && (
                                                 <>
                                             <FieldLabel htmlFor={nameInputId}>
-                                                Column title
+                                                Titre de la colonne
                                             </FieldLabel>
                                 {/* Name row */}
                                 <div className="flex items-start gap-2">
@@ -326,7 +326,7 @@ export function AddColumnModal({ open, existingCount, onClose, onAdd, editingCol
                                                         : {}),
                                                 });
                                             }}
-                                            placeholder="Column name"
+                                            placeholder="Nom de colonne"
                                             className="flex-1"
                                             autoFocus={index === 0}
                                         />
@@ -339,7 +339,7 @@ export function AddColumnModal({ open, existingCount, onClose, onAdd, editingCol
                                                         : index,
                                                 )
                                             }
-                                            title="Column presets"
+                                            title="Préréglages de colonne"
                                             className="mt-1.5 rounded-lg p-1.5 text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-700"
                                         >
                                             <ChevronDown
@@ -356,7 +356,7 @@ export function AddColumnModal({ open, existingCount, onClose, onAdd, editingCol
                                                     }}
                                                     className="w-full px-3 py-2 text-left text-sm text-gray-400 hover:bg-gray-50 transition-colors border-b border-gray-100"
                                                 >
-                                                    No Preset
+                                                    Aucun préréglage
                                                 </button>
                                                 {PROMPT_PRESETS.map(
                                                     (preset) => (
@@ -464,12 +464,12 @@ export function AddColumnModal({ open, existingCount, onClose, onAdd, editingCol
                                                     handleTagKeyDown(e, index)
                                                 }
                                                 onBlur={() => commitTag(index)}
-                                                placeholder="Add tag…"
+                                                placeholder="Ajouter un tag…"
                                                 className="min-w-[80px] flex-1 bg-transparent font-sans text-sm text-gray-700 shadow-none placeholder:text-gray-400"
                                             />
                                         </div>
                                         <p className="mt-1 text-xs text-gray-400">
-                                            Press Enter or comma to add a tag.
+                                            Appuyez sur Entrée ou sur une virgule pour ajouter un tag.
                                         </p>
                                     </div>
                                 )}
@@ -498,7 +498,7 @@ export function AddColumnModal({ open, existingCount, onClose, onAdd, editingCol
                                         ) : (
                                             <Plus className="h-4 w-4" />
                                         )}
-                                        Auto-Generate Prompt
+                                        Générer automatiquement le prompt
                                     </button>
                                 </div>
                                 <ModalTextarea
@@ -510,7 +510,7 @@ export function AddColumnModal({ open, existingCount, onClose, onAdd, editingCol
                                             prompt: e.target.value,
                                         })
                                     }
-                                    placeholder="Write the analysis prompt — describe what Mike should extract from each document for this column…"
+                                    placeholder="Rédigez le prompt d'analyse — décrivez ce que l'IA doit extraire de chaque document pour cette colonne…"
                                     className="mt-2 min-h-36"
                                 />
                                                 </>
@@ -528,7 +528,7 @@ export function AddColumnModal({ open, existingCount, onClose, onAdd, editingCol
                                 className="inline-flex items-center gap-1.5 text-sm text-gray-500 transition-colors hover:text-gray-900"
                             >
                                 <Plus className="h-4 w-4" />
-                                Add another column
+                                Ajouter une autre colonne
                             </button>
                         )}
                 </div>

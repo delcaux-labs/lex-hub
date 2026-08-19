@@ -202,7 +202,7 @@ export function InitialView({ onSubmit }: InitialViewProps) {
                                 "transform 900ms cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 800ms ease-in-out 300ms",
                         }}
                     >
-                        Hi, {username}
+                        Bonjour, {username}
                     </h1>
                 </div>
             </div>
@@ -219,7 +219,7 @@ export function InitialView({ onSubmit }: InitialViewProps) {
             <div className="min-h-0 w-full max-w-4xl justify-self-center px-0 pt-1 xl:px-8">
                 <div className="text-center">
                     <p className="text-xs py-2 mb-12 text-gray-500">
-                        AI can make mistakes. Answers are not legal advice.
+                        L'IA peut faire des erreurs. Les réponses ne constituent pas un conseil juridique.
                     </p>
                 </div>
 
@@ -236,12 +236,12 @@ export function InitialView({ onSubmit }: InitialViewProps) {
                                     aria-hidden="true"
                                     className="h-3.5 w-3.5 shrink-0"
                                 />
-                                Quick actions
+                                Actions rapides
                             </span>
                             <button
                                 type="button"
                                 onClick={() => setQuickActionsModalOpen(true)}
-                                aria-label="Configure quick actions"
+                                aria-label="Configurer les actions rapides"
                                 className="absolute left-full ml-1.5 flex h-5 w-5 items-center justify-center text-gray-400 opacity-0 transition-all hover:text-gray-700 group-hover:opacity-100 focus:opacity-100"
                             >
                                 <MoreHorizontal className="h-3.5 w-3.5" />

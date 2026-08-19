@@ -120,7 +120,7 @@ export const TRTable = forwardRef<TRTableHandle, Props>(function TRTable(
         documents.map((document) => [document.id, document]),
     );
     const firstColumnLabel =
-        documentGrouping === "folder" ? "Folder / Document" : "Document";
+        documentGrouping === "folder" ? "Dossier / Document" : "Document";
     const totalContentWidth =
         DOC_COL_W_PX + sortedColumns.length * DATA_COL_W_PX + 32;
     const skeletonContentWidth =
@@ -256,10 +256,10 @@ export const TRTable = forwardRef<TRTableHandle, Props>(function TRTable(
                     <div className="flex flex-1 flex-col items-start justify-center w-full max-w-xs mx-auto">
                         <TabularReviewSkeuoIcon className="mb-4 h-8 w-8" />
                         <p className="text-2xl font-medium font-serif text-gray-900">
-                            Tabular Review
+                            Revue tabulaire
                         </p>
                         <p className="mt-1 text-xs text-gray-400 text-left">
-                            Add columns and documents to get started.
+                            Ajoutez des colonnes et des documents pour commencer.
                         </p>
                         <div className="mt-4 flex items-center gap-2">
                             <PillButton
@@ -269,7 +269,7 @@ export const TRTable = forwardRef<TRTableHandle, Props>(function TRTable(
                                 className="px-3"
                             >
                                 <Plus className="h-3.5 w-3.5" />
-                                Add Columns
+                                Ajouter des colonnes
                             </PillButton>
                             <PillButton
                                 tone="white"
@@ -278,7 +278,7 @@ export const TRTable = forwardRef<TRTableHandle, Props>(function TRTable(
                                 className="px-3"
                             >
                                 <Upload className="h-3.5 w-3.5" />
-                                Add Documents
+                                Ajouter des documents
                             </PillButton>
                         </div>
                     </div>
@@ -307,7 +307,7 @@ export const TRTable = forwardRef<TRTableHandle, Props>(function TRTable(
                             }}
                             onChange={toggleAll}
                             className={TABLE_CHECKBOX_CLASS}
-                            aria-label={`Select all ${firstColumnLabel.toLowerCase()}`}
+                            aria-label={`Sélectionner tout ${firstColumnLabel.toLowerCase()}`}
                         />
                         <span>{firstColumnLabel}</span>
                     </div>
@@ -358,7 +358,7 @@ export const TRTable = forwardRef<TRTableHandle, Props>(function TRTable(
                                 type="checkbox"
                                 disabled
                                 className="mr-3 h-2.5 w-2.5 shrink-0 rounded border-gray-200 cursor-default accent-black disabled:opacity-100"
-                                aria-label={`Select ${filename}`}
+                                aria-label={`Sélectionner ${filename}`}
                             />
                             <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin shrink-0" />
                             <span className="line-clamp-1" title={filename}>

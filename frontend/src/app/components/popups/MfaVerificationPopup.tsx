@@ -41,8 +41,8 @@ export function MfaVerificationPopup({
     open,
     onCancel,
     onVerified,
-    title = "Two-factor verification required",
-    message = "Enter a code from your authenticator app to continue.",
+    title = "Vérification à deux facteurs requise",
+    message = "Saisissez un code depuis votre application d'authentification pour continuer.",
 }: MfaVerificationPopupProps) {
     const [factors, setFactors] = useState<MfaFactor[]>([]);
     const [selectedFactorId, setSelectedFactorId] = useState("");
@@ -129,7 +129,7 @@ export function MfaVerificationPopup({
             size="sm"
             className="h-auto min-h-[310px] max-h-[min(92vh,400px)]"
             cancelAction={{
-                label: "Cancel",
+                label: "Annuler",
                 onClick: onCancel,
                 disabled: verifying,
             }}
@@ -137,10 +137,10 @@ export function MfaVerificationPopup({
                 label: verifying ? (
                     <span className="inline-flex items-center gap-1.5">
                         <Loader2 className="h-3 w-3 animate-spin" />
-                        Verifying...
+                        Vérification en cours...
                     </span>
                 ) : (
-                    "Verify"
+                    "Vérifier"
                 ),
                 onClick: () => void verify(),
                 disabled: !canVerify,
@@ -151,12 +151,11 @@ export function MfaVerificationPopup({
                 {loading ? (
                     <div className="flex h-13 items-center justify-center text-sm text-gray-500">
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Loading authenticator...
+                        Chargement de l'authentificateur...
                     </div>
                 ) : factors.length === 0 ? (
                     <p className="rounded-lg bg-gray-100 px-3 py-2 text-sm text-gray-600">
-                        No verified authenticator factor is available for this
-                        session.
+                        Aucun facteur d'authentification vérifié n'est disponible pour cette session.
                     </p>
                 ) : (
                     <div className="space-y-4">
@@ -171,7 +170,7 @@ export function MfaVerificationPopup({
                                 {factors.map((factor) => (
                                     <option key={factor.id} value={factor.id}>
                                         {factor.friendly_name ||
-                                            "Authenticator app"}
+                                            "Application d'authentification"}
                                     </option>
                                 ))}
                             </select>
@@ -268,7 +267,7 @@ export function VerificationCodeInput({
         <div
             className="flex justify-center gap-2"
             role="group"
-            aria-label="Six digit verification code"
+            aria-label="Code de vérification à six chiffres"
         >
             {digits.map((digit, index) => (
                 <input
@@ -285,7 +284,7 @@ export function VerificationCodeInput({
                     onPaste={handlePaste}
                     onKeyDown={(event) => handleKeyDown(event, index)}
                     className="h-13 w-12 rounded-lg border border-gray-300 bg-gray-50 text-center text-2xl font-medium font-serif text-gray-950 shadow-none outline-none transition-colors focus:border-gray-400 focus:ring-2 focus:ring-gray-300/45 disabled:cursor-not-allowed disabled:opacity-45"
-                    aria-label={`Verification code digit ${index + 1}`}
+                    aria-label={`Chiffre du code de vérification ${index + 1}`}
                     maxLength={1}
                 />
             ))}

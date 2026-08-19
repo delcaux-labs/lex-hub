@@ -76,7 +76,7 @@ export function DocReadBlockUI({
         >
             <div className="flex min-w-0 items-center gap-1.5">
                 <span className="shrink-0 font-medium">
-                    {isStreaming ? "Reading" : "Read"}
+                    {isStreaming ? "Lecture en cours" : "Lu"}
                 </span>
                 {!isStreaming && onClick ? (
                     <button
@@ -113,7 +113,7 @@ export function DocFindBlockUI({
 }) {
     const matchSuffix = isStreaming
         ? ""
-        : ` (${totalMatches} ${totalMatches === 1 ? "match" : "matches"})`;
+        : ` (${totalMatches} ${totalMatches === 1 ? "correspondance" : "correspondances"})`;
 
     return (
         <DocumentEventBlockUI
@@ -122,11 +122,11 @@ export function DocFindBlockUI({
             dotColor={totalMatches > 0 ? "green" : "gray"}
         >
             <span className="font-medium">
-                {isStreaming ? "Finding" : "Found"}
+                {isStreaming ? "Recherche en cours" : "Trouvé"}
             </span>{" "}
             <span>
                 &ldquo;{query}&rdquo;{matchSuffix}
-                <span className="ml-1 text-gray-400">in </span>
+                <span className="ml-1 text-gray-400">dans </span>
                 {!isStreaming && onClick ? (
                     <button
                         type="button"

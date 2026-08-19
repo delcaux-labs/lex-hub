@@ -108,12 +108,12 @@ export function SidebarChatItem({ chat, isActive, onSelect, projectName }: Props
                                 ? "pr-3 text-gray-900"
                                 : "pr-0 text-gray-700 group-hover:pr-3",
                         )}
-                        title={projectName ? `${projectName}: ${chat.title ?? "Untitled chat"}` : (chat.title ?? "Untitled chat")}
+                        title={projectName ? `${projectName}: ${chat.title ?? "Conversation sans titre"}` : (chat.title ?? "Conversation sans titre")}
                     >
                         {projectName && (
                             <span className="text-gray-400 font-normal">{projectName}: </span>
                         )}
-                        {chat.title ?? "Untitled chat"}
+                        {chat.title ?? "Conversation sans titre"}
                     </button>
 
                     <DropdownMenu>
@@ -132,7 +132,7 @@ export function SidebarChatItem({ chat, isActive, onSelect, projectName }: Props
                             <LiquidDropdownItem
                                 onClick={() => {
                                     if (!isChatOwner) {
-                                        setOwnerOnlyAction("rename this chat");
+                                        setOwnerOnlyAction("renommer cette conversation");
                                         return;
                                     }
                                     setEditTitle(chat.title ?? "");
@@ -140,12 +140,12 @@ export function SidebarChatItem({ chat, isActive, onSelect, projectName }: Props
                                 }}
                             >
                                 <Pencil className="mr-2 h-4 w-4" />
-                                Rename
+                                Renommer
                             </LiquidDropdownItem>
                             <LiquidDropdownItem
                                 onClick={() => {
                                     if (!isChatOwner) {
-                                        setOwnerOnlyAction("delete this chat");
+                                        setOwnerOnlyAction("supprimer cette conversation");
                                         return;
                                     }
                                     void deleteChat(chat.id);
@@ -153,7 +153,7 @@ export function SidebarChatItem({ chat, isActive, onSelect, projectName }: Props
                                 className="text-red-600 focus:text-red-600"
                             >
                                 <Trash2 className="mr-2 h-4 w-4" />
-                                Delete
+                                Supprimer
                             </LiquidDropdownItem>
                         </LiquidDropdownContent>
                     </DropdownMenu>

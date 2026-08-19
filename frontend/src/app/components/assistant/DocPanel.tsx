@@ -377,7 +377,7 @@ function formatMetadataValue(item: PanelDocument["metadata"][number]): string {
         ? new Date(`${value}T00:00:00Z`)
         : new Date(value);
     if (Number.isNaN(date.getTime())) return value;
-    return new Intl.DateTimeFormat("en-US", {
+    return new Intl.DateTimeFormat("fr-FR", {
         month: "long",
         day: "numeric",
         year: "numeric",
@@ -403,12 +403,12 @@ function UrlDownloadButton({
                 target="_blank"
                 rel="noopener noreferrer"
                 download
-                aria-label="Download"
-                title="Download"
+                aria-label="Télécharger"
+                title="Télécharger"
             >
                 <Download className="h-3.5 w-3.5" />
                 <span className={compact ? "sr-only" : undefined}>
-                    Download
+                    Télécharger
                 </span>
             </a>
         </PillButton>
@@ -506,7 +506,7 @@ function DownloadButton({
             ) : (
                 <Download className="h-3.5 w-3.5" />
             )}
-            <span className={compact ? "sr-only" : undefined}>Download</span>
+            <span className={compact ? "sr-only" : undefined}>Télécharger</span>
         </PillButton>
     );
 }

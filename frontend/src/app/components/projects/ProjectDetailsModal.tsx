@@ -73,7 +73,7 @@ export function ProjectDetailsModal({
             });
             setSaved(true);
         } catch {
-            setError("Could not update project details.");
+            setError("Impossible de modifier les détails du projet.");
         } finally {
             setSaving(false);
         }
@@ -83,11 +83,11 @@ export function ProjectDetailsModal({
         <Modal
             open={open}
             onClose={onClose}
-            breadcrumbs={["Projects", project.name, "Details"]}
+            breadcrumbs={["Projets", project.name, "Détails"]}
             secondaryAction={
                 onShareProject
                     ? {
-                          label: "Share Project",
+                          label: "Partager le projet",
                           icon: <Users className="h-4 w-4" />,
                           onClick: onShareProject,
                       }
@@ -97,13 +97,13 @@ export function ProjectDetailsModal({
                 error ? (
                     <span className="text-sm text-red-600">{error}</span>
                 ) : saved ? (
-                    <span className="text-sm text-gray-400">Updated</span>
+                    <span className="text-sm text-gray-400">Mis à jour</span>
                 ) : null
             }
             primaryAction={
                 canEdit
                     ? {
-                          label: saving ? "Updating..." : "Update",
+                          label: saving ? "Mise à jour en cours..." : "Mettre à jour",
                           onClick: () => void handleSave(),
                           disabled: saving || !hasChanges || !trimmedName,
                       }
@@ -114,7 +114,7 @@ export function ProjectDetailsModal({
             <div className="flex min-h-0 flex-1 flex-col gap-6 py-1">
                 <div>
                     <FieldLabel htmlFor="project-details-name">
-                        Project name
+                        Nom du projet
                     </FieldLabel>
                     <FormTextInput
                         id="project-details-name"
@@ -125,14 +125,14 @@ export function ProjectDetailsModal({
                             setError(null);
                         }}
                         disabled={!canEdit || saving}
-                        placeholder="Add project name"
+                        placeholder="Ajouter un nom de projet"
                         variant="minimal"
                     />
                 </div>
 
                 <div>
                     <FieldLabel htmlFor="project-details-cm">
-                        CM number
+                        Numéro CM
                     </FieldLabel>
                     <FormTextInput
                         id="project-details-cm"
@@ -143,7 +143,7 @@ export function ProjectDetailsModal({
                             setError(null);
                         }}
                         disabled={!canEdit || saving}
-                        placeholder="Add a CM number..."
+                        placeholder="Ajouter un numéro CM..."
                         variant="minimal"
                         className="text-xl text-gray-600"
                     />
@@ -151,7 +151,7 @@ export function ProjectDetailsModal({
 
                 <div>
                     <FieldLabel htmlFor="project-details-practice">
-                        Practice
+                        Domaine de pratique
                     </FieldLabel>
                     <ProjectPracticeField
                         id="project-details-practice"

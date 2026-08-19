@@ -45,7 +45,7 @@ describe("citation verification presentation", () => {
     const citation = documentCitation(false);
     expect(citationVerificationState(citation)).toBe("unverified");
     expect(citationVerificationAriaLabel(citation)).toBe(
-      "Citation 1. Could not verify quote",
+      "Citation 1. Impossible de vérifier la citation",
     );
     expect(citationVerificationPillClassName(citation)).toContain("!border-0");
     expect(citationVerificationPillClassName(citation)).toContain(
@@ -68,16 +68,16 @@ describe("citation verification presentation", () => {
     const unverifiedCase = { ...caseCitation, verified: false };
     expect(citationVerificationState(unverifiedCase)).toBe("unverified");
     expect(citationVerificationAriaLabel(unverifiedCase)).toBe(
-      "Citation 2. Could not verify quote",
+      "Citation 2. Impossible de vérifier la citation",
     );
   });
 
   it("renders an accessible per-quote warning badge", () => {
     render(<CitationVerificationBadge state="unverified" />);
-    const badge = screen.getByText("Could not verify quote");
+    const badge = screen.getByText("Impossible de vérifier la citation");
     expect(badge).toHaveAttribute(
       "title",
-      "Quote could not be matched to the source text.",
+      "L'extrait n'a pas pu être associé au texte source.",
     );
     expect(badge).toHaveClass("backdrop-blur-xl");
   });
@@ -106,8 +106,8 @@ describe("citation verification presentation", () => {
 
     expect(screen.getByLabelText("Citation 7")).toHaveTextContent("7");
     expect(screen.queryByText("Citation")).not.toBeInTheDocument();
-    expect(screen.getByText("Could not verify quote")).toBeVisible();
-    expect(screen.getByRole("button", { name: "View" })).toBeDisabled();
+    expect(screen.getByText("Impossible de vérifier la citation")).toBeVisible();
+    expect(screen.getByRole("button", { name: "Afficher" })).toBeDisabled();
     expect(screen.getByText(/Model supplied quote/)).not.toHaveClass(
       "bg-blue-100/70",
     );
@@ -135,7 +135,7 @@ describe("citation verification presentation", () => {
     );
 
     expect(screen.getByText(/1,250,000/)).toHaveTextContent(
-      "“1,250,000” (Summary, cell B7)",
+      "“1,250,000” (Summary, cellule B7)",
     );
     expect(screen.getByLabelText("Citation 4")).toHaveTextContent("4");
   });

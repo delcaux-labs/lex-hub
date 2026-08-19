@@ -8,10 +8,10 @@ describe("CiteButton", () => {
         vi.restoreAllMocks();
     });
 
-    it("renders the default 'Cite' label", () => {
+    it("renders the default 'Citer' label", () => {
         render(<CiteButton quoteText="hello" quoteLabel="Page 2" />);
         expect(
-            screen.getByRole("button", { name: /cite/i }),
+            screen.getByRole("button", { name: /citer/i }),
         ).toBeInTheDocument();
     });
 
@@ -23,10 +23,10 @@ describe("CiteButton", () => {
                 showText={false}
             />,
         );
-        expect(screen.queryByText("Cite")).not.toBeInTheDocument();
+        expect(screen.queryByText("Citer")).not.toBeInTheDocument();
     });
 
-    it("copies the quote and citation, then shows 'Copied'", async () => {
+    it("copies the quote and citation, then shows 'Copié'", async () => {
         // userEvent.setup() installs a clipboard stub on navigator; spy on it.
         const user = userEvent.setup();
         const writeText = vi.spyOn(navigator.clipboard, "writeText");
@@ -35,6 +35,6 @@ describe("CiteButton", () => {
         await user.click(screen.getByRole("button"));
 
         expect(writeText).toHaveBeenCalledWith(`"he said 'hi'" (Page 2)`);
-        expect(await screen.findByText("Copied")).toBeInTheDocument();
+        expect(await screen.findByText("Copié")).toBeInTheDocument();
     });
 });

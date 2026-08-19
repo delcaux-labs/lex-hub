@@ -25,7 +25,7 @@ interface Props {
 export function OwnerOnlyPopup({
     open,
     onClose,
-    title = "Owner-only action",
+    title = "Action réservée au propriétaire",
     action,
     ownerEmail,
     message,
@@ -35,8 +35,8 @@ export function OwnerOnlyPopup({
     const body =
         message ??
         (action
-            ? `Only the project owner can ${action}.`
-            : "Only the project owner can perform this action.");
+            ? `Seul le propriétaire du projet peut ${action}.`
+            : "Seul le propriétaire du projet peut effectuer cette action.");
 
     return (
         <WarningPopup
@@ -48,8 +48,8 @@ export function OwnerOnlyPopup({
         >
             {ownerEmail && (
                 <p className="mt-1 text-xs text-gray-600">
-                    Ask <span className="text-gray-600">{ownerEmail}</span> if
-                    you need access.
+                    Demandez à <span className="text-gray-600">{ownerEmail}</span> si
+                    vous avez besoin d'accès.
                 </p>
             )}
         </WarningPopup>

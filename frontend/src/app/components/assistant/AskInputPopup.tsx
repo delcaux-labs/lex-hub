@@ -273,7 +273,7 @@ export function AskInputPopup({
                     <div className="flex min-w-0 items-center">
                         <div className="text-sm text-gray-500">
                             {submitted ? (
-                                "Inputs sent"
+                                "Réponses envoyées"
                             ) : (
                                 <div className="flex flex-wrap gap-x-1.5 gap-y-1">
                                     {event.items.map((item) => {
@@ -311,7 +311,7 @@ export function AskInputPopup({
                         <TabPillButton
                             type="button"
                             onClick={dismiss}
-                            aria-label="Dismiss"
+                            aria-label="Ignorer"
                             className="h-6 w-6 shrink-0 px-0"
                         >
                             <X className="h-3 w-3" />
@@ -427,8 +427,8 @@ export function AskInputPopup({
                                         className="px-1 font-sans text-[10px] text-gray-500 transition-colors hover:text-gray-800"
                                     >
                                         {skipped.has(activeItem.id)
-                                            ? "Unskip"
-                                            : "Skip"}
+                                            ? "Rétablir"
+                                            : "Ignorer"}
                                     </button>
                                     <PillButton
                                         tone="black"
@@ -445,11 +445,11 @@ export function AskInputPopup({
                                     >
                                         {confirmed.has(activeItem.id) ? (
                                             <>
-                                                Confirmed
+                                                Confirmé
                                                 <Check className="h-3 w-3" />
                                             </>
                                         ) : (
-                                            "Confirm"
+                                            "Confirmer"
                                         )}
                                     </PillButton>
                                 </div>
@@ -479,7 +479,7 @@ export function AskInputPopup({
                         selected.filter((doc) => !existing.has(doc.id)),
                     );
                 }}
-                breadcrumb={["Assistant", "Add Documents"]}
+                breadcrumb={["Assistant", "Ajouter des documents"]}
                 initialSelectedDocuments={
                     docSelectorTarget
                         ? docsForItem(docSelectorTarget.inputId)
@@ -572,13 +572,13 @@ function OptionInput({
                                         e.target.style.height = "auto";
                                         e.target.style.height = `${e.target.scrollHeight}px`;
                                     }}
-                                    placeholder="Type your answer..."
+                                    placeholder="Saisissez votre réponse..."
                                     className="flex-1 resize-none overflow-hidden bg-transparent text-sm leading-5 text-gray-600 outline-none placeholder:text-gray-400"
                                 />
                             </span>
                         ) : (
                             <span className="min-w-0 flex-1 text-sm text-gray-700">
-                                {item.other_label || "Other"}
+                                {item.other_label || "Autre"}
                             </span>
                         )}
                         {otherOpen && (
@@ -594,7 +594,7 @@ function OptionInput({
 function DocumentPrompt() {
     return (
         <p className="mt-0.5 text-sm text-gray-800">
-            Add the following documents if available:
+            Ajoutez les documents suivants si disponibles :
         </p>
     );
 }
@@ -691,8 +691,8 @@ function DocumentInput({
                             </span>
                             <span className="mt-0.5 shrink-0 whitespace-nowrap font-sans text-[10px] text-gray-500">
                                 {docs.length > 0
-                                    ? `${docs.length} file${docs.length === 1 ? "" : "s"} added`
-                                    : "+ Add"}
+                                    ? `${docs.length} fichier${docs.length === 1 ? "" : "s"} ajouté${docs.length === 1 ? "" : "s"}`
+                                    : "+ Ajouter"}
                             </span>
                         </span>
                     </div>

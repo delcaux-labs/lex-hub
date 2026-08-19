@@ -389,7 +389,7 @@ export function AssistantMessage({
                     showConnector={showConnector}
                     isStreaming
                 >
-                    <span>Thinking...</span>
+                    <span>Réflexion...</span>
                 </EventBlock>
             );
         }
@@ -406,7 +406,7 @@ export function AssistantMessage({
                     dotColor={isError ? "red" : "gray"}
                 >
                     <span className="font-medium">
-                        {event.isStreaming ? "Using connector..." : label}
+                        {event.isStreaming ? "Utilisation du connecteur..." : label}
                     </span>
                     {isError && event.error && (
                         <p className="mt-0.5 text-xs text-red-600">
@@ -574,20 +574,20 @@ export function AssistantMessage({
             const count = event.result_count ?? 0;
             const detail = event.isStreaming
                 ? event.query
-                    ? `for "${event.query}"`
+                    ? `pour "${event.query}"`
                     : undefined
                 : event.error
                   ? event.error
-                  : `${count} ${count === 1 ? "result" : "results"}${event.query ? ` for "${event.query}"` : ""}`;
+                  : `${count} ${count === 1 ? "résultat" : "résultats"}${event.query ? ` pour "${event.query}"` : ""}`;
             return (
                 <CourtListenerBlock
                     key={globalIdx}
                     label={
                         event.isStreaming
-                            ? "Searching case law"
+                            ? "Recherche de jurisprudence"
                             : event.error
-                              ? "Case law search failed"
-                              : "Searched case law"
+                              ? "Échec de la recherche de jurisprudence"
+                              : "Jurisprudence recherchée"
                     }
                     detail={detail}
                     isStreaming={!!event.isStreaming}
@@ -599,7 +599,7 @@ export function AssistantMessage({
         if (event.type === "courtlistener_get_cases") {
             const caseCount = event.case_count ?? event.cluster_ids.length;
             const displayLabel = `${caseCount} ${
-                caseCount === 1 ? "case" : "cases"
+                caseCount === 1 ? "décision" : "décisions"
             }`;
             const detail = event.error ? event.error : undefined;
             const items: CourtListenerBlockItem[] =
@@ -621,10 +621,10 @@ export function AssistantMessage({
                     key={globalIdx}
                     label={
                         event.isStreaming
-                            ? `Fetching ${displayLabel}`
+                            ? `Récupération de ${displayLabel}`
                             : event.error
-                              ? "Case fetch failed"
-                              : `Fetched ${displayLabel}`
+                              ? "Échec de la récupération des décisions"
+                              : `${displayLabel} récupérées`
                     }
                     detail={detail}
                     isStreaming={!!event.isStreaming}
@@ -652,13 +652,13 @@ export function AssistantMessage({
                 );
                 const caseCount = caseIds.size || searches.length;
                 const searchLabel = `${searches.length} ${
-                    searches.length === 1 ? "search" : "searches"
-                } in ${caseCount} ${caseCount === 1 ? "case" : "cases"}`;
+                    searches.length === 1 ? "recherche" : "recherches"
+                } dans ${caseCount} ${caseCount === 1 ? "décision" : "décisions"}`;
                 const detail = event.isStreaming
                     ? undefined
                     : event.error
                       ? event.error
-                      : `(${matches} ${matches === 1 ? "match" : "matches"})`;
+                      : `(${matches} ${matches === 1 ? "correspondance" : "correspondances"})`;
                 const items: CourtListenerBlockItem[] = searches.map(
                     (search) => ({
                         caseName: search.case_name ?? null,
@@ -678,10 +678,10 @@ export function AssistantMessage({
                         key={globalIdx}
                         label={
                             event.isStreaming
-                                ? `Running ${searchLabel}`
+                                ? `Exécution de ${searchLabel}`
                                 : event.error
-                                  ? "Case searches failed"
-                                  : `Ran ${searchLabel}`
+                                  ? "Échec des recherches de décisions"
+                                  : `${searchLabel} exécutées`
                         }
                         detail={detail}
                         isStreaming={!!event.isStreaming}
@@ -694,23 +694,23 @@ export function AssistantMessage({
             const matches = event.total_matches ?? 0;
             const caseLabel =
                 [event.case_name, event.citation].filter(Boolean).join(", ") ||
-                (event.cluster_id ? `cluster ${event.cluster_id}` : "case");
+                (event.cluster_id ? `cluster ${event.cluster_id}` : "décision");
             const detail = event.isStreaming
                 ? event.query
-                    ? `for "${event.query}" in ${caseLabel}`
+                    ? `pour "${event.query}" dans ${caseLabel}`
                     : caseLabel
                 : event.error
                   ? event.error
-                  : `${matches} ${matches === 1 ? "match" : "matches"}${event.query ? ` for "${event.query}"` : ""} in ${caseLabel}`;
+                  : `${matches} ${matches === 1 ? "correspondance" : "correspondances"}${event.query ? ` pour "${event.query}"` : ""} dans ${caseLabel}`;
             return (
                 <CourtListenerBlock
                     key={globalIdx}
                     label={
                         event.isStreaming
-                            ? "Searching case"
+                            ? "Recherche dans la décision"
                             : event.error
-                              ? "Case search failed"
-                              : "Searched case"
+                              ? "Échec de la recherche dans la décision"
+                              : "Décision recherchée"
                     }
                     detail={detail}
                     isStreaming={!!event.isStreaming}
@@ -723,23 +723,23 @@ export function AssistantMessage({
             const count = event.opinion_count ?? 0;
             const caseLabel =
                 [event.case_name, event.citation].filter(Boolean).join(", ") ||
-                "case";
+                "décision";
             const detail = event.isStreaming
                 ? undefined
                 : event.error
                   ? event.error
                   : count > 0
-                    ? `(${count} ${count === 1 ? "opinion" : "opinions"})`
+                    ? `(${count} ${count === 1 ? "avis" : "avis"})`
                     : undefined;
             return (
                 <CourtListenerBlock
                     key={globalIdx}
                     label={
                         event.isStreaming
-                            ? `Reading case ${caseLabel}`
+                            ? `Lecture de la décision ${caseLabel}`
                             : event.error
-                              ? `Case read failed ${caseLabel}`
-                              : `Read case ${caseLabel}`
+                              ? `Échec de la lecture de la décision ${caseLabel}`
+                              : `Décision lue ${caseLabel}`
                     }
                     detail={detail}
                     isStreaming={!!event.isStreaming}
@@ -756,7 +756,7 @@ export function AssistantMessage({
                 ? undefined
                 : event.error
                   ? event.error
-                  : `(${matches} ${matches === 1 ? "match" : "matches"})`;
+                  : `(${matches} ${matches === 1 ? "correspondance" : "correspondances"})`;
             // Adjacent `case_citation` events are emitted between the start
             // and final verify_citations events (one per matched citation) —
             // collect them so the user can expand to see resolved cases.
@@ -777,10 +777,10 @@ export function AssistantMessage({
                     key={globalIdx}
                     label={
                         event.isStreaming
-                            ? `Verifying ${citationLabel}`
+                            ? `Vérification de ${citationLabel}`
                             : event.error
-                              ? "Citation verification failed"
-                              : `Verified ${citationLabel}`
+                              ? "Échec de la vérification des citations"
+                              : `${citationLabel} vérifiées`
                     }
                     detail={detail}
                     isStreaming={!!event.isStreaming}
@@ -1109,6 +1109,9 @@ export function AssistantMessage({
                 <div className="flex items-center gap-2 py-2 font-sans justify-start">
                     {!isStreaming && (
                         <button
+                            type="button"
+                            title={isCopied ? "Copié" : "Copier"}
+                            aria-label={isCopied ? "Copié" : "Copier"}
                             className="p-1.5 rounded text-gray-500 hover:text-gray-700 hover:bg-gray-100"
                             onClick={handleCopy}
                         >

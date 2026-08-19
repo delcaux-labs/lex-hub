@@ -29,15 +29,15 @@ import type { Chat } from "@/app/components/shared/types";
 import { formatDate } from "./ProjectPageParts";
 
 function creatorLabel(chat: Chat, currentUserId?: string | null) {
-    if (currentUserId && chat.user_id === currentUserId) return "Me";
-    return chat.creator_display_name?.trim() || "Shared";
+    if (currentUserId && chat.user_id === currentUserId) return "Moi";
+    return chat.creator_display_name?.trim() || "Partagé";
 }
 
 type ProjectChatSortKey = "name" | "created";
 
 const SORT_OPTIONS: TableFilterOption<TableSortDirection>[] = [
-    { value: "asc", label: "Ascending" },
-    { value: "desc", label: "Descending" },
+    { value: "asc", label: "Croissant" },
+    { value: "desc", label: "Décroissant" },
 ];
 
 export function ProjectAssistantTable({
@@ -127,8 +127,8 @@ export function ProjectAssistantTable({
             }
 
             return (
-                (a.title ?? "Untitled Chat").localeCompare(
-                    b.title ?? "Untitled Chat",
+                (a.title ?? "Chat sans titre").localeCompare(
+                    b.title ?? "Chat sans titre",
                 ) * multiplier
             );
         });
@@ -145,9 +145,9 @@ export function ProjectAssistantTable({
         sort?.key === "created" ? sort.direction : null;
     const nameFilterButton = (
         <TableFilters
-            label="Sort by chat name"
+            label="Trier par nom de chat"
             value={nameSortDirection}
-            allLabel="Default Order"
+            allLabel="Ordre par défaut"
             widthClassName="w-40"
             align="right"
             options={SORT_OPTIONS}
@@ -156,9 +156,9 @@ export function ProjectAssistantTable({
     );
     const creatorFilterButton = (
         <TableFilters
-            label="Filter by creator"
+            label="Filtrer par créateur"
             value={creatorFilter}
-            allLabel="All Creators"
+            allLabel="Tous les créateurs"
             widthClassName="w-44"
             options={creatorOptions}
             onChange={handleCreatorFilterChange}
@@ -166,9 +166,9 @@ export function ProjectAssistantTable({
     );
     const createdFilterButton = (
         <TableFilters
-            label="Sort by created date"
+            label="Trier par date de création"
             value={createdSortDirection}
-            allLabel="Default Order"
+            allLabel="Ordre par défaut"
             widthClassName="w-40"
             options={SORT_OPTIONS}
             onChange={(direction) => handleSortChange("created", direction)}
@@ -207,13 +207,13 @@ export function ProjectAssistantTable({
                     </TableStickyCell>
                     <TableHeaderCell className="ml-auto w-32">
                         <div className="flex items-center gap-1">
-                            <span>Creator</span>
+                            <span>Créateur</span>
                             {!loading && creatorFilterButton}
                         </div>
                     </TableHeaderCell>
                     <TableHeaderCell className="w-32">
                         <div className="flex items-center gap-1">
-                            <span>Created</span>
+                            <span>Créé</span>
                             {!loading && createdFilterButton}
                         </div>
                     </TableHeaderCell>
@@ -230,8 +230,7 @@ export function ProjectAssistantTable({
                         Assistant
                     </p>
                     <p className="mt-1 text-xs text-gray-400 max-w-xs">
-                        Ask questions and get answers grounded in the documents
-                        in this project.
+                        Posez des questions et obtenez des réponses basées sur les documents de ce projet.
                     </p>
                     <PillButton
                         tone="black"
@@ -240,7 +239,7 @@ export function ProjectAssistantTable({
                         className="mt-4 px-3"
                     >
                         <Plus className="h-3.5 w-3.5" />
-                        Create
+                        Créer
                     </PillButton>
                 </TableEmptyState>
             ) : (
@@ -258,11 +257,11 @@ export function ProjectAssistantTable({
                                             currentUserId &&
                                             chat.user_id !== currentUserId
                                         ) {
-                                            onOwnerOnlyAction("rename this chat");
+                                            onOwnerOnlyAction("renommer ce chat");
                                             return;
                                         }
                                         setRenameChatValue(
-                                            chat.title ?? "Untitled Chat",
+                                            chat.title ?? "Chat sans titre",
                                         );
                                         setRenamingChatId(chat.id);
                                     }}
@@ -284,7 +283,7 @@ export function ProjectAssistantTable({
                                             : [...prev, chat.id],
                                     )
                                 }
-                                label={chat.title ?? "Untitled Chat"}
+                                label={chat.title ?? "Chat sans titre"}
                                 editing={renamingChatId === chat.id}
                                 editValue={renameChatValue}
                                 onEditValueChange={setRenameChatValue}
@@ -309,11 +308,11 @@ export function ProjectAssistantTable({
                                             currentUserId &&
                                             chat.user_id !== currentUserId
                                         ) {
-                                            onOwnerOnlyAction("rename this chat");
+                                            onOwnerOnlyAction("renommer ce chat");
                                             return;
                                         }
                                         setRenameChatValue(
-                                            chat.title ?? "Untitled Chat",
+                                            chat.title ?? "Chat sans titre",
                                         );
                                         setRenamingChatId(chat.id);
                                     }}

@@ -31,7 +31,7 @@ export function ProjectPracticeField({
         selectedOption === OPTION_OTHER && value !== OPTION_OTHER ? value : "";
     const options = useMemo<ModalSelectOption[]>(
         () => [
-            { value: OPTION_NONE, label: "None" },
+            { value: OPTION_NONE, label: "Aucun" },
             ...PRACTICE_OPTIONS,
         ],
         [],
@@ -56,7 +56,7 @@ export function ProjectPracticeField({
                 value={selectedOption}
                 options={options}
                 onChange={handleSelect}
-                placeholder="Select practice"
+                placeholder="Sélectionner un domaine"
                 disabled={disabled}
             />
             {selectedOption === OPTION_OTHER && (
@@ -64,7 +64,7 @@ export function ProjectPracticeField({
                     type="text"
                     value={customValue}
                     onChange={(event) => onChange(event.target.value)}
-                    placeholder="Enter practice..."
+                    placeholder="Saisir un domaine..."
                     disabled={disabled}
                 />
             )}

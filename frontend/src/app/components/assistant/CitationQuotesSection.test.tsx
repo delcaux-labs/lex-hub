@@ -22,11 +22,11 @@ describe("CitationQuotesSection", () => {
             />,
         );
 
-        expect(screen.getByRole("button", { name: "View" })).toBeDisabled();
+        expect(screen.getByRole("button", { name: "Afficher" })).toBeDisabled();
         expect(
             screen.getByText(/Unmatched model quote/).closest("button"),
         ).toBeNull();
-        expect(screen.getByText("Could not verify quote")).toBeInTheDocument();
+        expect(screen.getByText("Impossible de vérifier la citation")).toBeInTheDocument();
     });
 
     it("uses the View button to select a verified quote", () => {
@@ -50,8 +50,8 @@ describe("CitationQuotesSection", () => {
             />,
         );
 
-        const viewButton = screen.getByRole("button", { name: "View" });
-        const citeButton = screen.getByRole("button", { name: "Cite" });
+        const viewButton = screen.getByRole("button", { name: "Afficher" });
+        const citeButton = screen.getByRole("button", { name: "Citer" });
         expect(citeButton.parentElement).toBe(viewButton.parentElement);
         expect(citeButton.parentElement).toHaveClass("justify-between");
         expect(viewButton.closest(".shadow-sm")).not.toBeNull();

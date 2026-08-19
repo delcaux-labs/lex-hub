@@ -46,6 +46,7 @@
         "luckyexcel": "^1.0.1",
         "mammoth": "^1.11.0",
         "marked": "^17.0.1",
+        "mike": "file:..",
         "next": "^16.2.6",
         "nextjs-toploader": "^3.9.17",
         "pdfjs-dist": "4.10.38",

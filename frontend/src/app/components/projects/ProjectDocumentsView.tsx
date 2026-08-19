@@ -244,7 +244,7 @@ export function ProjectDocumentsView({ projectId, folderId = null }: Props) {
             {folderBackAction && (
                 <TabPillButton onClick={folderBackAction}>
                     <ChevronLeft className="h-3.5 w-3.5" />
-                    Back
+                    Retour
                 </TabPillButton>
             )}
             {selectionActions && (
@@ -264,7 +264,7 @@ export function ProjectDocumentsView({ projectId, folderId = null }: Props) {
                                 }}
                                 className={`w-full px-3 py-1.5 text-left text-xs text-gray-600 transition-colors ${APP_SURFACE_HOVER_CLASS}`}
                             >
-                                Download
+                                Télécharger
                             </button>
                             {selectionActions.hasDocumentsInFolders && (
                                 <button
@@ -274,7 +274,7 @@ export function ProjectDocumentsView({ projectId, folderId = null }: Props) {
                                     }}
                                     className={`w-full px-3 py-1.5 text-left text-xs text-gray-600 transition-colors ${APP_SURFACE_HOVER_CLASS}`}
                                 >
-                                    Remove from subfolder
+                                    Retirer du sous-dossier
                                 </button>
                             )}
                             <button
@@ -284,7 +284,7 @@ export function ProjectDocumentsView({ projectId, folderId = null }: Props) {
                                 }}
                                 className="w-full px-3 py-1.5 text-left text-xs text-red-600 transition-colors hover:bg-red-50"
                             >
-                                Delete
+                                Supprimer
                             </button>
                         </div>
                     )}
@@ -295,7 +295,7 @@ export function ProjectDocumentsView({ projectId, folderId = null }: Props) {
                 disabled={!createFolderAction || projectLoading}
             >
                 <Plus className="h-3.5 w-3.5" />
-                <span className="hidden sm:inline">Folder</span>
+                <span className="hidden sm:inline">Dossier</span>
             </TabPillButton>
         </div>
     );
@@ -303,7 +303,7 @@ export function ProjectDocumentsView({ projectId, folderId = null }: Props) {
     if (!projectLoading && !project) {
         return (
             <div className="flex h-full items-center justify-center">
-                <p className="text-gray-400">Project not found</p>
+                <p className="text-gray-400">Projet introuvable</p>
             </div>
         );
     }
@@ -346,12 +346,12 @@ export function ProjectDocumentsView({ projectId, folderId = null }: Props) {
                             onClose={onClose}
                             onSelect={onSelect}
                             breadcrumb={[
-                                "Projects",
+                                "Projets",
                                 project.name +
                                     (project.cm_number
                                         ? ` (${project.cm_number})`
                                         : ""),
-                                "Add Documents",
+                                "Ajouter des documents",
                             ]}
                             projectId={projectId}
                         />

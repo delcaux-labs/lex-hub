@@ -82,7 +82,7 @@ export default function SettingsPage() {
                 return;
             }
             setDeleteConfirm(false);
-            alert("Failed to delete account. Please try again.");
+            alert("Impossible de supprimer le compte. Veuillez réessayer.");
         }
     };
 
@@ -106,8 +106,8 @@ export default function SettingsPage() {
             setEmailSaved(true);
             setEmailStatus(
                 pendingEmail
-                    ? `Confirmation sent to ${pendingEmail}. Your current email remains ${updatedUser.email} until the change is confirmed.`
-                    : "Email updated.",
+                    ? `Confirmation envoyée à ${pendingEmail}. Votre adresse actuelle reste ${updatedUser.email} jusqu'à ce que la modification soit confirmée.`
+                    : "E-mail mis à jour.",
             );
             setTimeout(() => setEmailSaved(false), 2000);
         } catch (error: unknown) {
@@ -115,7 +115,7 @@ export default function SettingsPage() {
             const message =
                 error instanceof Error
                     ? error.message
-                    : "Failed to update email. Please try again.";
+                    : "Impossible de mettre à jour l'adresse e-mail. Veuillez réessayer.";
 
             if (isAlreadyRegisteredEmailError(message)) {
                 setEmail(user?.pendingEmail || user?.email || "");
@@ -138,7 +138,7 @@ export default function SettingsPage() {
             setSaved(true);
             setTimeout(() => setSaved(false), 2000);
         } else {
-            alert("Failed to update display name. Please try again.");
+            alert("Impossible de mettre à jour le nom affiché. Veuillez réessayer.");
         }
     };
 
@@ -151,7 +151,7 @@ export default function SettingsPage() {
             setOrgSaved(true);
             setTimeout(() => setOrgSaved(false), 2000);
         } else {
-            alert("Failed to update organisation. Please try again.");
+            alert("Impossible de mettre à jour l'organisation. Veuillez réessayer.");
         }
     };
 
@@ -162,13 +162,13 @@ export default function SettingsPage() {
             {/* Profile Settings */}
             <section className="space-y-3">
                 <h2 className="text-2xl font-medium font-serif text-gray-900">
-                    Profile
+                    Profil
                 </h2>
                 <SettingsSection>
                     <div className="space-y-8 p-4">
                         <div>
                             <FieldLabel className="text-sm text-gray-600">
-                                Display Name
+                                Nom affiché
                             </FieldLabel>
                             <div className="space-y-2">
                                 <SettingsTextInput
@@ -177,7 +177,7 @@ export default function SettingsPage() {
                                     onChange={(e) =>
                                         setDisplayName(e.target.value)
                                     }
-                                    placeholder="Enter your name"
+                                    placeholder="Entrez votre nom"
                                 />
                                 <div className="flex justify-end">
                                     <button
@@ -191,10 +191,10 @@ export default function SettingsPage() {
                                         className="text-xs font-medium text-gray-700 transition-colors hover:text-gray-950 disabled:cursor-not-allowed disabled:text-gray-400"
                                     >
                                         {isSavingName
-                                            ? "Saving..."
+                                            ? "Enregistrement..."
                                             : saved
-                                              ? "Saved"
-                                              : "Save"}
+                                              ? "Enregistré"
+                                              : "Enregistrer"}
                                     </button>
                                 </div>
                             </div>
@@ -210,7 +210,7 @@ export default function SettingsPage() {
                                     onChange={(e) =>
                                         setOrganisation(e.target.value)
                                     }
-                                    placeholder="Enter your organisation"
+                                    placeholder="Entrez votre organisation"
                                 />
                                 <div className="flex justify-end">
                                     <button
@@ -225,10 +225,10 @@ export default function SettingsPage() {
                                         className="text-xs font-medium text-gray-700 transition-colors hover:text-gray-950 disabled:cursor-not-allowed disabled:text-gray-400"
                                     >
                                         {isSavingOrg
-                                            ? "Saving..."
+                                            ? "Enregistrement..."
                                             : orgSaved
-                                              ? "Saved"
-                                              : "Save"}
+                                              ? "Enregistré"
+                                              : "Enregistrer"}
                                     </button>
                                 </div>
                             </div>
@@ -240,7 +240,7 @@ export default function SettingsPage() {
             {/* Email */}
             <section className="space-y-3">
                 <h2 className="text-2xl font-medium font-serif text-gray-900">
-                    Email
+                    E-mail
                 </h2>
                 <SettingsSection>
                     <div className="space-y-2 p-4">
@@ -253,7 +253,7 @@ export default function SettingsPage() {
                                 setEmailWarning(null);
                                 setEmailSaved(false);
                             }}
-                            placeholder="Enter your email"
+                            placeholder="Entrez votre e-mail"
                         />
                         {emailStatus ? (
                             <p className="text-xs text-gray-500">
@@ -261,12 +261,12 @@ export default function SettingsPage() {
                             </p>
                         ) : user.pendingEmail ? (
                             <p className="text-xs text-gray-500">
-                                Pending confirmation: {user.pendingEmail}
+                                En attente de confirmation : {user.pendingEmail}
                             </p>
                         ) : null}
                         {emailStatus && (
                             <p className="text-xs text-gray-400">
-                                Current email: {user.email}
+                                E-mail actuel : {user.email}
                             </p>
                         )}
                         <div className="flex justify-end">
@@ -283,10 +283,10 @@ export default function SettingsPage() {
                                 className="text-xs font-medium text-gray-700 transition-colors hover:text-gray-950 disabled:cursor-not-allowed disabled:text-gray-400"
                             >
                                 {isSavingEmail
-                                    ? "Saving..."
+                                    ? "Enregistrement..."
                                     : emailSaved
-                                      ? "Saved"
-                                      : "Save"}
+                                      ? "Enregistré"
+                                      : "Enregistrer"}
                             </button>
                         </div>
                     </div>
@@ -296,12 +296,12 @@ export default function SettingsPage() {
             {/* Plan */}
             <section className="space-y-3">
                 <h2 className="text-2xl font-medium font-serif text-gray-900">
-                    Usage Plan
+                    Formule d'utilisation
                 </h2>
                 <SettingsSection>
                     <div className="p-4">
                         <p className="text-base font-medium text-gray-500 capitalize">
-                            {profile?.tier || "Free"}
+                            {profile?.tier === "free" || !profile?.tier ? "Gratuit" : profile.tier}
                         </p>
                     </div>
                 </SettingsSection>
@@ -310,17 +310,18 @@ export default function SettingsPage() {
             {/* Danger Zone */}
             <section className="space-y-3">
                 <h2 className="text-2xl font-medium font-serif text-red-600">
-                    Danger Zone
+                    Zone de danger
                 </h2>
                 <SettingsSection>
                     <div className="flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between">
                         <div className="space-y-1">
                             <p className="text-sm font-medium text-gray-700">
-                                Delete account
+                                Supprimer le compte
                             </p>
                             <p className="text-sm text-gray-500">
-                                Permanently delete your account and all
-                                associated data. This action cannot be undone.
+                                Supprimez définitivement votre compte et toutes
+                                les données associées. Cette action est
+                                irréversible.
                             </p>
                         </div>
                         <PillButton
@@ -331,18 +332,18 @@ export default function SettingsPage() {
                             className="w-full shrink-0 sm:w-auto"
                         >
                             <Trash2 className="h-4 w-4 shrink-0" />
-                            Delete account
+                            Supprimer le compte
                         </PillButton>
                     </div>
                 </SettingsSection>
             </section>
             <ConfirmPopup
                 open={deleteConfirm}
-                title="Delete account?"
-                message="This will permanently delete your account and all associated data. This action cannot be undone."
-                confirmLabel="Delete"
+                title="Supprimer le compte ?"
+                message="Cette action supprimera définitivement votre compte et toutes les données associées. Cette action est irréversible."
+                confirmLabel="Supprimer"
                 confirmStatus={isDeleting ? "loading" : "idle"}
-                cancelLabel="Cancel"
+                cancelLabel="Annuler"
                 onCancel={() => {
                     if (isDeleting) return;
                     setDeleteConfirm(false);
@@ -351,7 +352,7 @@ export default function SettingsPage() {
             />
             <WarningPopup
                 open={!!emailWarning}
-                title="Email already registered"
+                title="Adresse e-mail déjà enregistrée"
                 message={emailWarning}
                 onClose={() => setEmailWarning(null)}
             />
@@ -365,8 +366,8 @@ export default function SettingsPage() {
                     setAccountDeleteMfaOpen(false);
                     void handleDeleteAccount();
                 }}
-                title="Two-factor verification required"
-                message="Account deletion is sensitive. Enter a code from your authenticator app to continue."
+                title="Vérification à deux facteurs requise"
+                message="La suppression du compte est une action sensible. Saisissez un code depuis votre application d'authentification pour continuer."
             />
             <MfaVerificationPopup
                 open={emailMfaOpen}
@@ -376,8 +377,8 @@ export default function SettingsPage() {
                     setEmailMfaOpen(false);
                     void handleSaveEmail();
                 }}
-                title="Two-factor verification required"
-                message="Email changes are sensitive. Enter a code from your authenticator app to continue."
+                title="Vérification à deux facteurs requise"
+                message="La modification de l'e-mail est une action sensible. Saisissez un code depuis votre application d'authentification pour continuer."
             />
         </div>
     );

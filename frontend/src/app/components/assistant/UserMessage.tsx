@@ -45,7 +45,7 @@ export function UserMessage({ content, files, workflow, onFileClick }: Props) {
                                         key={i}
                                         type="button"
                                         onClick={() => onFileClick(f)}
-                                        aria-label={`Open ${f.filename}`}
+                                        aria-label={`Ouvrir ${f.filename}`}
                                         className={`${className} cursor-pointer transition-colors hover:bg-white/80`}
                                     >
                                         {fileContent}

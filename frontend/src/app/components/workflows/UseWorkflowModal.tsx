@@ -25,7 +25,7 @@ function SelectedWorkflowSummary({ workflow }: { workflow: Workflow }) {
     return (
         <div className="mb-3 flex shrink-0 items-center justify-between gap-3">
             <span className="shrink-0 text-xs font-medium text-gray-700">
-                Selected workflow
+                Workflow sélectionné
             </span>
             <span className="min-w-0 flex-1 truncate text-right text-xs text-gray-500">
                 {workflow.metadata.title}
@@ -188,19 +188,19 @@ export function UseWorkflowModal({ workflow, onClose, skipSelect = false }: Prop
         wf.metadata.type === "assistant"
             ? [
                   { value: "workspace" as const, label: "Assistant" },
-                  { value: "project" as const, label: "Project assistant" },
+                  { value: "project" as const, label: "Assistant de projet" },
               ]
             : [
-                  { value: "workspace" as const, label: "Tabular reviews" },
+                  { value: "workspace" as const, label: "Revues tabulaires" },
                   {
                       value: "project" as const,
-                      label: "Project tabular reviews",
+                      label: "Revues tabulaires de projet",
                   },
               ];
 
     const breadcrumbs =
         screen === "select"
-            ? ["Workflows", "Select workflow"]
+            ? ["Workflows", "Sélectionner un workflow"]
             : [
                   <button
                       key="workflows"
@@ -211,8 +211,8 @@ export function UseWorkflowModal({ workflow, onClose, skipSelect = false }: Prop
                       Workflows
                   </button>,
                   wf.metadata.title,
-                  wf.metadata.type === "assistant" ? "New Chat" : "New Review",
-                  screen === "details" ? "Details" : "Attach Documents",
+                  wf.metadata.type === "assistant" ? "Nouveau chat" : "Nouvelle revue",
+                  screen === "details" ? "Détails" : "Joindre des documents",
               ];
 
     const selectPageAction = () => {
@@ -232,17 +232,17 @@ export function UseWorkflowModal({ workflow, onClose, skipSelect = false }: Prop
             secondaryAction={
                 screen === "select"
                     ? {
-                          label: "View Page",
+                          label: "Afficher la page",
                           onClick: selectPageAction,
                       }
                     : screen === "details"
                       ? {
-                            label: "Back",
+                            label: "Retour",
                             onClick: () => setScreen("select"),
                             disabled: saving,
                         }
                       : {
-                            label: "Back",
+                            label: "Retour",
                             onClick: () => setScreen("details"),
                             disabled: saving,
                         }
@@ -250,12 +250,12 @@ export function UseWorkflowModal({ workflow, onClose, skipSelect = false }: Prop
             primaryAction={
                 screen === "select"
                     ? {
-                          label: "Use",
+                          label: "Utiliser",
                           onClick: () => setScreen("details"),
                       }
                     : screen === "details"
                       ? {
-                            label: "Next",
+                            label: "Suivant",
                             onClick: () => setScreen("documents"),
                             disabled:
                                 saving ||
@@ -266,12 +266,12 @@ export function UseWorkflowModal({ workflow, onClose, skipSelect = false }: Prop
                         }
                       : wf.metadata.type === "assistant"
                         ? {
-                              label: saving ? "Starting…" : "Start Chat",
+                              label: saving ? "Démarrage en cours…" : "Démarrer le chat",
                               onClick: handleStartChat,
                               disabled: saving || (inProject && !selectedProjectId),
                           }
                         : {
-                              label: saving ? "Creating…" : "Create Review",
+                              label: saving ? "Création en cours…" : "Créer la revue",
                               onClick: handleCreateReview,
                               disabled: saving || selectedDocuments.length === 0 || (inProject && !selectedProjectId),
                           }
@@ -302,7 +302,7 @@ export function UseWorkflowModal({ workflow, onClose, skipSelect = false }: Prop
 
                     <div className="space-y-6">
                         <div>
-                            <FieldLabel as="p">Use in</FieldLabel>
+                            <FieldLabel as="p">Utiliser dans</FieldLabel>
                             <ModalSegmentedToggle
                                 value={location}
                                 onChange={(value) => {
@@ -316,7 +316,7 @@ export function UseWorkflowModal({ workflow, onClose, skipSelect = false }: Prop
 
                         {inProject && (
                             <div>
-                                <FieldLabel htmlFor="workflow-project">Project</FieldLabel>
+                                <FieldLabel htmlFor="workflow-project">Projet</FieldLabel>
                                 <ModalSelect
                                     id="workflow-project"
                                     value={selectedProjectId ?? ""}
@@ -330,10 +330,10 @@ export function UseWorkflowModal({ workflow, onClose, skipSelect = false }: Prop
                                     }}
                                     placeholder={
                                         dirLoading
-                                            ? "Loading projects..."
+                                            ? "Chargement des projets..."
                                             : projects.length
-                                              ? "Select project..."
-                                              : "No projects found"
+                                              ? "Sélectionner un projet..."
+                                              : "Aucun projet trouvé"
                                     }
                                     disabled={dirLoading || projects.length === 0}
                                 />
@@ -343,13 +343,13 @@ export function UseWorkflowModal({ workflow, onClose, skipSelect = false }: Prop
                         {wf.metadata.type === "assistant" && (
                             <div>
                                 <FieldLabel htmlFor="workflow-additional-message">
-                                    Additional message
+                                    Message supplémentaire
                                 </FieldLabel>
                                 <ModalTextarea
                                     id="workflow-additional-message"
                                     value={assistantPrompt}
                                     onChange={(e) => setAssistantPrompt(e.target.value)}
-                                    placeholder="Add any additional instructions..."
+                                    placeholder="Ajouter des instructions supplémentaires..."
                                     rows={4}
                                 />
                             </div>

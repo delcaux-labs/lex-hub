@@ -81,16 +81,16 @@ export default function ModelPreferencesPage() {
         <div>
             <div className="flex items-center gap-2 mb-4">
                 <h2 className="text-2xl font-medium font-serif">
-                    Model Preferences
+                    Préférences de modèles
                 </h2>
             </div>
             <SettingsSection>
                 <div className="px-4 py-5">
                     <FieldLabel className="text-sm">
-                        Title generation model
+                        Modèle de génération de titres
                     </FieldLabel>
                     <p className="text-xs text-gray-400 mb-2">
-                        Used for naming chats and other lightweight titles.
+                        Utilisé pour nommer les chats et d'autres titres légers.
                     </p>
                     <ModelPreferenceDropdown
                         value={
@@ -107,11 +107,10 @@ export default function ModelPreferencesPage() {
                 </div>
                 <div className="px-4 py-5">
                     <FieldLabel className="text-sm">
-                        Tabular review model
+                        Modèle de revue tabulaire
                     </FieldLabel>
                     <p className="text-xs text-gray-400 mb-2">
-                        We recommend using a smaller model for tabular reviews
-                        to reduce token costs.
+                        Nous recommandons d'utiliser un modèle plus petit pour les revues tabulaires afin de réduire les coûts en jetons.
                     </p>
                     <ModelPreferenceDropdown
                         value={
@@ -169,7 +168,7 @@ function ModelPreferenceDropdown({
                             <AlertCircle className="h-3.5 w-3.5 shrink-0 text-red-500" />
                         )}
                         <span className="truncate text-gray-900">
-                            {selected?.label ?? "Select a model"}
+                            {selected?.label ?? "Sélectionner un modèle"}
                         </span>
                     </span>
                     {isSaving ? (
@@ -209,7 +208,7 @@ function ModelPreferenceDropdown({
                                         onSelect={() => onChange(m.id)}
                                         title={
                                             !available
-                                                ? `Add a ${providerLabel(provider)} API key to use this model`
+                                                ? `Ajoutez une clé API ${providerLabel(provider)} pour utiliser ce modèle`
                                                 : undefined
                                         }
                                     >

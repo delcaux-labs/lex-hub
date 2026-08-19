@@ -38,31 +38,31 @@ describe("NewTRModal", () => {
             />,
         );
 
-        expect(screen.getByText("Document grouping")).toBeInTheDocument();
+        expect(screen.getByText("Regroupement des documents")).toBeInTheDocument();
         expect(
             screen.getByText(
-                "Treat documents in the same folder as one review row",
+                "Traiter les documents d'un même dossier comme une seule ligne de revue",
             ),
         ).toBeInTheDocument();
 
-        fireEvent.change(screen.getByLabelText("Review name"), {
+        fireEvent.change(screen.getByLabelText("Nom de la revue"), {
             target: { value: "Closing review" },
         });
         const groupingSwitch = screen.getByRole("switch", {
-            name: "Treat documents in the same folder as one review row",
+            name: "Traiter les documents d'un même dossier comme une seule ligne de revue",
         });
         expect(groupingSwitch).toHaveAttribute("aria-checked", "false");
         fireEvent.click(groupingSwitch);
         expect(groupingSwitch).toHaveAttribute("aria-checked", "true");
-        fireEvent.click(screen.getByRole("button", { name: "Next" }));
+        fireEvent.click(screen.getByRole("button", { name: "Suivant" }));
 
         expect(screen.getByText("Document directory")).toBeInTheDocument();
         expect(screen.getByTestId("directory-tabs")).toHaveTextContent(
             "files,projects",
         );
-        expect(screen.queryByText("Document grouping")).not.toBeInTheDocument();
+        expect(screen.queryByText("Regroupement des documents")).not.toBeInTheDocument();
 
-        fireEvent.click(screen.getByRole("button", { name: "Create" }));
+        fireEvent.click(screen.getByRole("button", { name: "Créer" }));
         expect(onAdd).toHaveBeenCalledWith(
             "Closing review",
             undefined,
@@ -95,10 +95,10 @@ describe("NewTRModal", () => {
             />,
         );
 
-        fireEvent.change(screen.getByLabelText("Review name"), {
+        fireEvent.change(screen.getByLabelText("Nom de la revue"), {
             target: { value: "Project review" },
         });
-        fireEvent.click(screen.getByRole("button", { name: "Next" }));
+        fireEvent.click(screen.getByRole("button", { name: "Suivant" }));
 
         const file = new File(["agreement"], "New agreement.pdf", {
             type: "application/pdf",

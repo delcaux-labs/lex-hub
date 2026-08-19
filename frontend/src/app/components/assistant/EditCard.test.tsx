@@ -24,7 +24,7 @@ describe("EditCard", () => {
             />,
         );
 
-        expect(screen.getByLabelText("Tracked change 3")).toHaveTextContent(
+        expect(screen.getByLabelText("Modification suivie 3")).toHaveTextContent(
             "3",
         );
         expect(screen.getByText(annotation.reason)).toHaveClass(
@@ -38,7 +38,7 @@ describe("EditCard", () => {
             "role",
             "button",
         );
-        fireEvent.click(screen.getByRole("button", { name: "View" }));
+        fireEvent.click(screen.getByRole("button", { name: "Afficher" }));
         expect(onViewClick).toHaveBeenCalledWith(annotation);
     });
 });

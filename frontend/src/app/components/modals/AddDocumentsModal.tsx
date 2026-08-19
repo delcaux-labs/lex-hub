@@ -289,7 +289,7 @@ export function AddDocumentsModal({
             keepMounted={keepMounted}
             breadcrumbs={breadcrumb}
             secondaryAction={{
-                label: uploading ? "Uploading…" : "Upload",
+                label: uploading ? "Téléversement en cours…" : "Téléverser",
                 icon: uploading ? (
                     <Loader2 className="h-3.5 w-3.5 animate-spin" />
                 ) : (
@@ -299,7 +299,7 @@ export function AddDocumentsModal({
                 disabled: uploading,
             }}
             primaryAction={{
-                label: uploading ? "Saving…" : "Confirm",
+                label: uploading ? "Enregistrement en cours…" : "Confirmer",
                 onClick: handleConfirm,
                 disabled: selectedDocuments.length === 0 || uploading,
             }}
@@ -321,7 +321,7 @@ export function AddDocumentsModal({
                         type="button"
                         onClick={() => setUploadWarning(null)}
                         className="shrink-0 rounded p-0.5 text-black hover:bg-gray-100"
-                        aria-label="Dismiss warning"
+                        aria-label="Ignorer l'avertissement"
                     >
                         <X className="h-3.5 w-3.5" />
                     </button>

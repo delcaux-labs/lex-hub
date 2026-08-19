@@ -26,8 +26,8 @@ export function TRWorkflowModal({
             onSelect={onApply}
             workflowType="tabular"
             breadcrumbs={breadcrumbs}
-            primaryLabel="Apply"
-            selectingLabel="Applying..."
+            primaryLabel="Appliquer"
+            selectingLabel="Application en cours..."
             selecting={applying}
             closeOnSelect={false}
             disabledWorkflow={(workflow) => !workflow.columns_config?.length}

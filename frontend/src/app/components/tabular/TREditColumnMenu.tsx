@@ -246,19 +246,19 @@ export function TREditColumnMenu({
                     >
                     <div className="flex items-center justify-between mb-3">
                         <p className="font-serif text-lg font-medium text-gray-900">
-                            Edit Column
+                            Modifier la colonne
                         </p>
                         <button
                             type="button"
                             onClick={() => setOpen(false)}
-                            aria-label="Close"
+                            aria-label="Fermer"
                             className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-white/70 bg-white/55 text-gray-500 shadow-[inset_0_1px_0_rgba(255,255,255,0.75),inset_0_-1px_0_rgba(255,255,255,0.55),0_6px_18px_rgba(15,23,42,0.08)] backdrop-blur-xl transition-colors hover:bg-white/75 hover:text-gray-700"
                         >
                             <X className="h-3.5 w-3.5" />
                         </button>
                     </div>
                     <label className="text-xs font-medium text-gray-800">
-                        Label
+                        Libellé
                     </label>
                     <input
                         type="text"
@@ -355,7 +355,7 @@ export function TREditColumnMenu({
                                     onKeyDown={handleTagKeyDown}
                                     onBlur={commitTag}
                                     placeholder={
-                                        tags.length === 0 ? "Add tags…" : ""
+                                        tags.length === 0 ? "Ajouter des tags…" : ""
                                     }
                                     className="min-w-[60px] flex-1 bg-transparent text-xs text-gray-700 placeholder-gray-300 focus:outline-none"
                                 />
@@ -380,7 +380,7 @@ export function TREditColumnMenu({
                                 ) : (
                                     <Plus className="h-3 w-3" />
                                 )}
-                                Auto-generate
+                                Générer automatiquement
                             </button>
                         </div>
                         <textarea
@@ -397,7 +397,7 @@ export function TREditColumnMenu({
                             onClick={handleDelete}
                             disabled={deleting || saving}
                         >
-                            Delete
+                            Supprimer
                         </PillButton>
                         <PillButton
                             tone="black"
@@ -412,7 +412,7 @@ export function TREditColumnMenu({
                             }
                             className="px-3"
                         >
-                            {saving ? "Saving…" : "Save"}
+                            {saving ? "Enregistrement…" : "Enregistrer"}
                         </PillButton>
                     </div>
                     </div>,

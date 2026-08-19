@@ -28,7 +28,7 @@ describe("CitationsBlock verification states", () => {
 
     expect(
       screen.getByRole("button", {
-        name: "Citation 1. Could not verify quote",
+        name: "Citation 1. Impossible de vérifier la citation",
       }),
     ).toHaveClass("!border-0", "!bg-red-100/85");
     const verifiedButton = screen.getByRole("button", {
@@ -40,9 +40,9 @@ describe("CitationsBlock verification states", () => {
 
   it("includes only unverified warnings in citation tooltips", () => {
     expect(citationTooltip(documentCitation(3, false))).toContain(
-      "Quote could not be matched to the source text.",
+      "L'extrait n'a pas pu être associé au texte source.",
     );
-    expect(citationTooltip(documentCitation(3, true))).not.toContain("matched");
+    expect(citationTooltip(documentCitation(3, true))).not.toContain("associé");
   });
 
   it("leaves case citations outside document verification styling", () => {

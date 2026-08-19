@@ -41,7 +41,7 @@ export function CiteButton({
         <button
             onClick={handleClick}
             className={`transition-colors flex items-center gap-1 ${className}`}
-            title="Copy Quote and Citation"
+            title="Copier la citation et l'extrait"
         >
             {isCopied ? (
                 <Check
@@ -59,7 +59,7 @@ export function CiteButton({
                             : textClassName
                     }
                 >
-                    {isCopied ? "Copied" : "Cite"}
+                    {isCopied ? "Copié" : "Citer"}
                 </span>
             )}
         </button>

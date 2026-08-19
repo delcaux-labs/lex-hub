@@ -38,11 +38,11 @@ import {
 
 const NAV_ITEMS = [
     { href: "/assistant", label: "Assistant", icon: ChatSkeuoIcon },
-    { href: "/projects", label: "Projects", icon: FolderSkeuoIcon },
-    { href: "/library", label: "Library", icon: LibrarySkeuoIcon },
+    { href: "/projects", label: "Projets", icon: FolderSkeuoIcon },
+    { href: "/library", label: "Bibliothèque", icon: LibrarySkeuoIcon },
     {
         href: "/tabular-reviews",
-        label: "Tabular Review",
+        label: "Revue tabulaire",
         icon: TabularReviewSkeuoIcon,
     },
     { href: "/workflows", label: "Workflows", icon: WorkflowSkeuoIcon },
@@ -234,7 +234,7 @@ export function AppSidebar({ isOpen, onToggle }: AppSidebarProps) {
 
     const getUserTier = () => {
         if (!profile) return "";
-        return profile.tier || "Free";
+        return profile.tier || "Gratuit";
     };
 
     if (!user) return null;
@@ -291,7 +291,7 @@ export function AppSidebar({ isOpen, onToggle }: AppSidebarProps) {
                             "rounded-md",
                             APP_SURFACE_HOVER_CLASS,
                         )}
-                        title={isOpen ? "Close sidebar" : "Open sidebar"}
+                        title={isOpen ? "Fermer le menu latéral" : "Ouvrir le menu latéral"}
                     >
                         <PanelLeft className="h-4 w-4" />
                     </button>
@@ -352,7 +352,7 @@ export function AppSidebar({ isOpen, onToggle }: AppSidebarProps) {
                                     shouldAnimate ? "sidebar-fade-in" : ""
                                 }`}
                             >
-                                <span>Recent Projects</span>
+                                <span>Projets récents</span>
                                 <ChevronDown
                                     className={`h-3.5 w-3.5 transition-transform ${
                                         projectsCollapsed ? "-rotate-90" : ""
@@ -391,7 +391,7 @@ export function AppSidebar({ isOpen, onToggle }: AppSidebarProps) {
                                                     : ""
                                             }`}
                                         >
-                                            No projects yet
+                                            Aucun projet pour le moment
                                         </div>
                                     ) : (
                                         <div
@@ -460,7 +460,7 @@ export function AppSidebar({ isOpen, onToggle }: AppSidebarProps) {
                                     shouldAnimate ? "sidebar-fade-in" : ""
                                 }`}
                             >
-                                <span>Assistant History</span>
+                                <span>Historique de l&apos;assistant</span>
                                 <ChevronDown
                                     className={`h-3.5 w-3.5 transition-transform ${
                                         historyCollapsed ? "-rotate-90" : ""
@@ -497,7 +497,7 @@ export function AppSidebar({ isOpen, onToggle }: AppSidebarProps) {
                                                 : ""
                                         }`}
                                     >
-                                        No chats yet
+                                        Aucune conversation pour le moment
                                     </div>
                                 ) : (
                                     <>
@@ -609,7 +609,7 @@ export function AppSidebar({ isOpen, onToggle }: AppSidebarProps) {
                                         )}
                                     >
                                         <HistorySkeuoIcon className="h-4 w-4" />
-                                        History
+                                        Historique
                                     </button>
                                     <button
                                         onClick={() => {
@@ -622,7 +622,7 @@ export function AppSidebar({ isOpen, onToggle }: AppSidebarProps) {
                                         )}
                                     >
                                         <SettingsSkeuoIcon className="h-4 w-4" />
-                                        Settings
+                                        Paramètres
                                     </button>
                                     <button
                                         onClick={() => {
@@ -637,7 +637,7 @@ export function AppSidebar({ isOpen, onToggle }: AppSidebarProps) {
                                         )}
                                     >
                                         <SignOutSkeuoIcon className="h-4 w-4" />
-                                        Sign out
+                                        Se déconnecter
                                     </button>
                                 </div>
                             )}

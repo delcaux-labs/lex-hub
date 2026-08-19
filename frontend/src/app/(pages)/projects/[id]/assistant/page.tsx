@@ -44,7 +44,7 @@ function SelectedChatActions({
                         onClick={onDelete}
                         className="w-full px-3 py-1.5 text-left text-xs text-red-600 transition-colors hover:bg-red-50"
                     >
-                        Delete
+                        Supprimer
                     </button>
                 </div>
             )}
@@ -104,7 +104,7 @@ export default function ProjectAssistantPage({ params }: Props) {
 
     async function handleDeleteChatRow(chat: Chat) {
         if (user?.id && chat.user_id !== user.id) {
-            setOwnerOnlyAction("delete this chat");
+            setOwnerOnlyAction("supprimer ce chat");
             return;
         }
         await deleteChat(chat.id);
@@ -126,7 +126,7 @@ export default function ProjectAssistantPage({ params }: Props) {
         );
         if (blocked > 0) {
             setOwnerOnlyAction(
-                `delete ${blocked} of the selected chats - only the chat creator can delete a chat`,
+                `supprimer ${blocked} des chats sélectionnés — seul le créateur du chat peut supprimer un chat`,
             );
         }
     }, [chats, selectedChatIds, setOwnerOnlyAction, setProjectChats, user?.id]);

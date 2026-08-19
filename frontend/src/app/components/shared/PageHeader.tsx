@@ -269,7 +269,7 @@ function PageHeaderNewActionControl({
     action: PageHeaderNewAction;
     disabled: boolean;
 }) {
-    const title = action.title ?? "New";
+    const title = action.title ?? "Nouveau";
     return (
         <HeaderButtonUI
             onClick={action.onClick}
@@ -296,7 +296,7 @@ function PageHeaderSearchActionControl({
 }) {
     const [open, setOpen] = useState(false);
     const ref = useRef<HTMLDivElement>(null);
-    const placeholder = action.placeholder ?? "Search…";
+    const placeholder = action.placeholder ?? "Rechercher…";
     const hasValue = action.value.length > 0;
     const expanded = open || hasValue;
 
@@ -340,7 +340,7 @@ function PageHeaderSearchActionControl({
                                 setOpen(false);
                             }}
                             disabled={disabled}
-                            aria-label="Clear search"
+                            aria-label="Effacer la recherche"
                             className="shrink-0 rounded-full p-0.5 text-gray-400 transition-colors hover:bg-black/5 hover:text-gray-600"
                         >
                             <X className="h-3.5 w-3.5" />
@@ -434,8 +434,8 @@ function PageHeaderBreadcrumbs({ items }: { items: PageHeaderBreadcrumb[] }) {
                 <button
                     onClick={parent.onClick}
                     className="shrink-0 text-gray-400 transition-colors hover:text-gray-600 sm:hidden"
-                    title={parent.title ?? "Back"}
-                    aria-label={parent.title ?? "Back"}
+                    title={parent.title ?? "Retour"}
+                    aria-label={parent.title ?? "Retour"}
                 >
                     <ChevronLeft className="h-5 w-5" />
                 </button>
@@ -588,8 +588,8 @@ function CollapsedBreadcrumbGroup({
                     <button
                         type="button"
                         className="text-gray-500 transition-colors hover:text-gray-700"
-                        aria-label="Show collapsed breadcrumbs"
-                        title="Show path"
+                        aria-label="Afficher le chemin complet"
+                        title="Afficher le chemin"
                     >
                         …
                     </button>

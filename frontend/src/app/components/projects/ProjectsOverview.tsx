@@ -59,11 +59,11 @@ function formatDate(iso: string) {
 }
 
 function getProjectOwnerLabel(project: Project, currentUserId?: string | null) {
-    if (project.is_owner ?? project.user_id === currentUserId) return "Me";
+    if (project.is_owner ?? project.user_id === currentUserId) return "Moi";
     return (
         project.owner_display_name?.trim() ||
         project.owner_email?.trim() ||
-        "Shared"
+        "Partagé"
     );
 }
 
@@ -77,13 +77,13 @@ type ProjectSortKey =
     | "created";
 
 const SORT_OPTIONS: TableFilterOption<TableSortDirection>[] = [
-    { value: "asc", label: "Ascending" },
-    { value: "desc", label: "Descending" },
+    { value: "asc", label: "Croissant" },
+    { value: "desc", label: "Décroissant" },
 ];
 const PROJECT_FILTERS: { id: ProjectFilter; label: string }[] = [
-    { id: "all", label: "All" },
-    { id: "mine", label: "Mine" },
-    { id: "shared-with-me", label: "Shared with me" },
+    { id: "all", label: "Tous" },
+    { id: "mine", label: "Les miens" },
+    { id: "shared-with-me", label: "Partagés avec moi" },
 ];
 const PROJECT_FILTER_IDS = PROJECT_FILTERS.map((filter) => filter.id);
 
@@ -139,7 +139,7 @@ export function ProjectsOverview() {
         ownerUserIdFilter: ownerFilter,
         sort,
     });
-    const loadError = loadErrorObj ? "Could not load projects." : null;
+    const loadError = loadErrorObj ? "Impossible de charger les projets." : null;
     const effectiveLoading = loading && !previewEmptyStates;
     const visibleProjects = useMemo(
         () => (previewEmptyStates ? [] : projects),
@@ -234,9 +234,9 @@ export function ProjectsOverview() {
         sort?.key === "created" ? sort.direction : null;
     const nameFilterButton = (
         <TableFilters
-            label="Sort by project name"
+            label="Trier par nom de projet"
             value={nameSortDirection}
-            allLabel="Default Order"
+            allLabel="Ordre par défaut"
             widthClassName="w-40"
             align="right"
             options={SORT_OPTIONS}
@@ -245,9 +245,9 @@ export function ProjectsOverview() {
     );
     const cmFilterButton = (
         <TableFilters
-            label="Sort by CM"
+            label="Trier par CM"
             value={cmSortDirection}
-            allLabel="Default Order"
+            allLabel="Ordre par défaut"
             widthClassName="w-40"
             options={SORT_OPTIONS}
             onChange={(direction) => handleSortChange("cm", direction)}
@@ -255,9 +255,9 @@ export function ProjectsOverview() {
     );
     const practiceFilterButton = (
         <TableFilters
-            label="Filter by practice"
+            label="Filtrer par domaine"
             value={practiceFilter}
-            allLabel="All Practices"
+            allLabel="Tous les domaines"
             options={practices.map((practice) => ({
                 value: practice,
                 label: practice,
@@ -267,9 +267,9 @@ export function ProjectsOverview() {
     );
     const ownerFilterButton = (
         <TableFilters
-            label="Filter by owner"
+            label="Filtrer par propriétaire"
             value={ownerFilter}
-            allLabel="All Owners"
+            allLabel="Tous les propriétaires"
             widthClassName="w-44"
             options={ownerOptions}
             onChange={handleOwnerFilterChange}
@@ -277,9 +277,9 @@ export function ProjectsOverview() {
     );
     const filesFilterButton = (
         <TableFilters
-            label="Sort by files"
+            label="Trier par fichiers"
             value={filesSortDirection}
-            allLabel="Default Order"
+            allLabel="Ordre par défaut"
             widthClassName="w-40"
             options={SORT_OPTIONS}
             onChange={(direction) => handleSortChange("files", direction)}
@@ -287,9 +287,9 @@ export function ProjectsOverview() {
     );
     const chatsFilterButton = (
         <TableFilters
-            label="Sort by chats"
+            label="Trier par chats"
             value={chatsSortDirection}
-            allLabel="Default Order"
+            allLabel="Ordre par défaut"
             widthClassName="w-40"
             options={SORT_OPTIONS}
             onChange={(direction) => handleSortChange("chats", direction)}
@@ -297,9 +297,9 @@ export function ProjectsOverview() {
     );
     const reviewsFilterButton = (
         <TableFilters
-            label="Sort by tabular reviews"
+            label="Trier par revues tabulaires"
             value={reviewsSortDirection}
-            allLabel="Default Order"
+            allLabel="Ordre par défaut"
             widthClassName="w-40"
             options={SORT_OPTIONS}
             onChange={(direction) => handleSortChange("reviews", direction)}
@@ -307,9 +307,9 @@ export function ProjectsOverview() {
     );
     const createdFilterButton = (
         <TableFilters
-            label="Sort by created date"
+            label="Trier par date de création"
             value={createdSortDirection}
-            allLabel="Default Order"
+            allLabel="Ordre par défaut"
             widthClassName="w-40"
             options={SORT_OPTIONS}
             onChange={(direction) => handleSortChange("created", direction)}
@@ -326,7 +326,7 @@ export function ProjectsOverview() {
             detailsProject.is_owner === false ||
             (user?.id && detailsProject.user_id !== user.id)
         ) {
-            setOwnerOnlyAction("edit project details");
+            setOwnerOnlyAction("modifier les détails du projet");
             return;
         }
         const name = values.name.trim();
@@ -381,7 +381,7 @@ export function ProjectsOverview() {
         setProjects((prev) => prev.filter((p) => !deletedIds.includes(p.id)));
         if (blocked > 0) {
             setOwnerOnlyAction(
-                `delete ${blocked} of the selected projects — only the project owner can delete a project`,
+                `supprimer ${blocked} des projets sélectionnés — seul le propriétaire du projet peut supprimer un projet`,
             );
         }
     }
@@ -401,7 +401,7 @@ export function ProjectsOverview() {
                             onClick={requestDeleteSelected}
                             className="w-full px-3 py-1.5 text-left text-xs text-red-600 hover:bg-red-50 transition-colors"
                         >
-                            Delete
+                            Supprimer
                         </button>
                     </div>
                 )}
@@ -418,17 +418,17 @@ export function ProjectsOverview() {
                         type: "search",
                         value: search,
                         onChange: setSearch,
-                        placeholder: "Search projects…",
+                        placeholder: "Rechercher des projets…",
                     },
                     {
                         type: "new",
                         onClick: () => setModalOpen(true),
-                        title: "New project",
+                        title: "Nouveau projet",
                     },
                 ]}
             >
                 <h1 className="text-2xl font-medium font-serif text-gray-900">
-                    Projects
+                    Projets
                 </h1>
             </PageHeader>
 
@@ -465,10 +465,10 @@ export function ProjectsOverview() {
                                     }}
                                     onChange={toggleAll}
                                     className={TABLE_CHECKBOX_CLASS}
-                                    aria-label="Select all projects"
+                                    aria-label="Sélectionner tous les projets"
                                 />
                             )}
-                            <span className="mr-1">Name</span>
+                            <span className="mr-1">Nom</span>
                             {!loading && nameFilterButton}
                         </TableStickyCell>
                         <TableHeaderCell className="ml-auto w-32">
@@ -479,19 +479,19 @@ export function ProjectsOverview() {
                         </TableHeaderCell>
                         <TableHeaderCell className="w-36">
                             <div className="flex items-center gap-1">
-                                <span>Practice</span>
+                                <span>Domaine</span>
                                 {!loading && practiceFilterButton}
                             </div>
                         </TableHeaderCell>
                         <TableHeaderCell className="w-32">
                             <div className="flex items-center gap-1">
-                                <span>Owner</span>
+                                <span>Propriétaire</span>
                                 {!loading && ownerFilterButton}
                             </div>
                         </TableHeaderCell>
                         <TableHeaderCell className="w-24">
                             <div className="flex items-center gap-1">
-                                <span>Files</span>
+                                <span>Fichiers</span>
                                 {!loading && filesFilterButton}
                             </div>
                         </TableHeaderCell>
@@ -503,13 +503,13 @@ export function ProjectsOverview() {
                         </TableHeaderCell>
                         <TableHeaderCell className="w-36">
                             <div className="flex items-center gap-1">
-                                <span>Tabular Reviews</span>
+                                <span>Revues tabulaires</span>
                                 {!loading && reviewsFilterButton}
                             </div>
                         </TableHeaderCell>
                         <TableHeaderCell className="w-32">
                             <div className="flex items-center gap-1">
-                                <span>Created</span>
+                                <span>Créé</span>
                                 {!loading && createdFilterButton}
                             </div>
                         </TableHeaderCell>
@@ -561,7 +561,7 @@ export function ProjectsOverview() {
                     <TableEmptyState>
                         <OpenProjectSvgIcon className="mb-4 h-8 w-8" />
                         <p className="text-2xl font-medium font-serif text-gray-900">
-                            Projects
+                            Projets
                         </p>
                         <p className="mt-1 text-xs text-red-500 max-w-xs">
                             {loadError}
@@ -572,7 +572,7 @@ export function ProjectsOverview() {
                             onClick={retry}
                             className="mt-4 px-3"
                         >
-                            Try again
+                            Réessayer
                         </PillButton>
                     </TableEmptyState>
                 ) : visibleProjects.length === 0 ? (
@@ -581,12 +581,10 @@ export function ProjectsOverview() {
                             <>
                                 <OpenProjectSvgIcon className="mb-4 h-8 w-8" />
                                 <p className="text-2xl font-medium font-serif text-gray-900">
-                                    Projects
+                                    Projets
                                 </p>
                                 <p className="mt-1 text-xs text-gray-400 max-w-xs">
-                                    Upload documents into projects and to
-                                    commence chats and tabular reviews with
-                                    them.
+                                    Téléversez des documents dans des projets pour démarrer des chats et des revues tabulaires avec eux.
                                 </p>
                                 <PillButton
                                     tone="black"
@@ -595,12 +593,12 @@ export function ProjectsOverview() {
                                     className="mt-4 px-3"
                                 >
                                     <Plus className="h-3.5 w-3.5" />
-                                    Create
+                                    Créer
                                 </PillButton>
                             </>
                         ) : (
                             <p className="text-sm text-gray-400">
-                                No {activeFilter} projects
+                                Aucun projet
                             </p>
                         )}
                     </TableEmptyState>
@@ -647,7 +645,7 @@ export function ProjectsOverview() {
                                     onSelectionChange={() =>
                                         toggleOne(project.id)
                                     }
-                                    checkboxTitle={`Select ${project.name}`}
+                                    checkboxTitle={`Sélectionner ${project.name}`}
                                 >
                                     <ClosedProjectSvgIcon className="mr-2 h-4 w-4 shrink-0" />
                                     <span className="min-w-0 flex-1 truncate text-xs text-gray-800">
@@ -750,9 +748,9 @@ export function ProjectsOverview() {
             />
             <ConfirmPopup
                 open={confirmDeleteAllOpen && selectedIds.length > 0}
-                title="Delete all selected projects?"
-                message={`This will permanently delete every selected project you own, including selected projects not currently shown. Every file within those projects will also be deleted. Shared projects you do not own will be skipped. ${selectedIds.length} projects are selected.`}
-                confirmLabel="Delete"
+                title="Supprimer tous les projets sélectionnés ?"
+                message={`Cette action supprimera définitivement tous les projets sélectionnés dont vous êtes propriétaire, y compris les projets sélectionnés qui ne sont pas affichés actuellement. Tous les fichiers contenus dans ces projets seront également supprimés. Les projets partagés dont vous n'êtes pas propriétaire seront ignorés. ${selectedIds.length} projets sont sélectionnés.`}
+                confirmLabel="Supprimer"
                 onCancel={() => setConfirmDeleteAllOpen(false)}
                 onConfirm={() => void handleDeleteSelected()}
             />

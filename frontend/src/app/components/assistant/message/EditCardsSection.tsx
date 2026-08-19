@@ -114,8 +114,8 @@ function BulkEditActions({
                         versionId: annotation.version_id ?? null,
                         message:
                             verb === "accept"
-                                ? "Couldn't save one or more accepts."
-                                : "Couldn't save one or more rejects.",
+                                ? "Impossible d'enregistrer une ou plusieurs acceptations."
+                                : "Impossible d'enregistrer un ou plusieurs refus.",
                     });
                 }
                 done++;
@@ -142,7 +142,7 @@ function BulkEditActions({
                 {busy === "accept" && (
                     <Loader2 className="h-3 w-3 animate-spin" />
                 )}
-                Accept all
+                Tout accepter
             </PillButton>
             <PillButton
                 tone="white"
@@ -153,7 +153,7 @@ function BulkEditActions({
                 {busy === "reject" && (
                     <Loader2 className="h-3 w-3 animate-spin" />
                 )}
-                Reject all
+                Tout refuser
             </PillButton>
             {progress && (
                 <span className="text-xs font-sans text-gray-500">
@@ -170,7 +170,7 @@ function BulkEditActions({
                     disabled={!!busy}
                     className="ml-auto"
                 >
-                    View
+                    Afficher
                 </PillButton>
             )}
         </div>
@@ -225,11 +225,11 @@ export function EditCardsSection({
     const summary =
         pending.length > 0
             ? docCount > 1
-                ? `${pending.length} tracked changes across ${docCount} documents`
-                : `${pending.length} tracked ${pending.length === 1 ? "change" : "changes"}`
+                ? `${pending.length} modifications suivies dans ${docCount} documents`
+                : `${pending.length} modification${pending.length === 1 ? "" : "s"} suivie${pending.length === 1 ? "" : "s"}`
             : docCount > 1
-              ? `${resolvedCount} resolved tracked changes across ${docCount} documents`
-              : `${resolvedCount} resolved tracked ${resolvedCount === 1 ? "change" : "changes"}`;
+              ? `${resolvedCount} modifications suivies traitées dans ${docCount} documents`
+              : `${resolvedCount} modification${resolvedCount === 1 ? "" : "s"} suivie${resolvedCount === 1 ? "" : "s"} traitée${resolvedCount === 1 ? "" : "s"}`;
 
     return (
         <EditCardsSectionUI

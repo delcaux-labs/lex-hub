@@ -12,7 +12,7 @@ interface Props {
 
 export function UploadOverlay({
     open,
-    label = "Drop files here to add to chat",
+    label = "Déposez vos fichiers ici pour les ajouter au chat",
     warning,
     onWarningClose,
 }: Props) {

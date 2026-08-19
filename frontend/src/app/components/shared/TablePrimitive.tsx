@@ -429,7 +429,7 @@ export function TablePrimaryCell({
                         aria-label={
                             checkboxTitle ??
                             (typeof label === "string"
-                                ? `Select ${label}`
+                                ? `Sélectionner ${label}`
                                 : undefined)
                         }
                     />

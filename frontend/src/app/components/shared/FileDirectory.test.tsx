@@ -114,7 +114,7 @@ describe("FileDirectory", () => {
 
         expect(screen.getByText("Closing documents")).toBeInTheDocument();
         expect(screen.queryByText("Agreement.pdf")).not.toBeInTheDocument();
-        const nameHeader = screen.getByText("Name");
+        const nameHeader = screen.getByText("Nom");
         expect(nameHeader.parentElement?.firstElementChild).toBe(nameHeader);
 
         const folderRow = screen
@@ -162,13 +162,13 @@ describe("FileDirectory", () => {
         );
 
         expect(
-            screen.getByRole("button", { name: "Files" }),
+            screen.getByRole("button", { name: "Fichiers" }),
         ).toBeInTheDocument();
         expect(
-            screen.getByRole("button", { name: "Projects" }),
+            screen.getByRole("button", { name: "Projets" }),
         ).toBeInTheDocument();
         expect(
-            screen.queryByRole("button", { name: "Templates" }),
+            screen.queryByRole("button", { name: "Modèles" }),
         ).not.toBeInTheDocument();
     });
 
@@ -269,7 +269,7 @@ describe("FileDirectory", () => {
             screen.queryByText("Second agreement.pdf"),
         ).not.toBeInTheDocument();
 
-        fireEvent.click(screen.getByRole("button", { name: "Load more" }));
+        fireEvent.click(screen.getByRole("button", { name: "Charger plus" }));
         expect(onLoadMore).toHaveBeenCalledTimes(1);
     });
 
@@ -312,7 +312,7 @@ describe("FileDirectory", () => {
             "library-folder-1",
         );
 
-        fireEvent.click(screen.getByRole("button", { name: "Load more" }));
+        fireEvent.click(screen.getByRole("button", { name: "Charger plus" }));
         expect(loadMoreLibraryDocumentsMock).toHaveBeenCalledWith(
             "files",
             "library-folder-1",

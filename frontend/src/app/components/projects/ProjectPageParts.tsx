@@ -48,9 +48,9 @@ export function treeNameCellStyle(depth: number): CSSProperties | undefined {
 }
 
 export function formatBytes(bytes: number): string {
-    if (bytes < 1024) return `${bytes} B`;
-    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
-    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+    if (bytes < 1024) return `${bytes} o`;
+    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} Ko`;
+    return `${(bytes / (1024 * 1024)).toFixed(1)} Mo`;
 }
 
 export function formatDate(iso: string) {
@@ -179,7 +179,7 @@ export function DocVersionHistory({
                     className={`sticky left-0 z-[60] ${DOC_NAME_COL_W} bg-gray-50/80 py-2 pl-3 pr-2`}
                     style={treeNameCellStyle(depth)}
                 >
-                    <div>No version history.</div>
+                    <div>Aucun historique de versions.</div>
                 </div>
             </div>
         );
@@ -283,7 +283,7 @@ export function DocVersionHistory({
                                     >
                                         {isDeleted && (
                                             <span className="font-medium text-gray-500">
-                                                [Deleted]{" "}
+                                                [Supprimé]{" "}
                                             </span>
                                         )}
                                         {displayLabel}
@@ -337,7 +337,7 @@ export function DocVersionHistory({
                                               }
                                             : undefined
                                     }
-                                    renameLabel="Rename version"
+                                    renameLabel="Renommer la version"
                                     onDownload={() =>
                                         onDownloadVersion(
                                             docId,
@@ -400,7 +400,7 @@ export function ProjectPageHeader({
                   disabled: !onAddDocuments,
                   icon: <Upload className="h-4 w-4" />,
                   label: <span className="hidden sm:inline">Documents</span>,
-                  title: "Add documents",
+                  title: "Ajouter des documents",
               }
             : activeSection === "assistant"
               ? {
@@ -412,7 +412,7 @@ export function ProjectPageHeader({
                         <Plus className="h-4 w-4" />
                     ),
                     label: <span className="hidden sm:inline">Chat</span>,
-                    title: "Create chat",
+                    title: "Créer un chat",
                 }
               : {
                     onClick: onNewReview,
@@ -422,24 +422,24 @@ export function ProjectPageHeader({
                     ) : (
                         <Plus className="h-4 w-4" />
                     ),
-                    label: <span className="hidden sm:inline">Review</span>,
-                    title: "Create review",
+                    label: <span className="hidden sm:inline">Revue</span>,
+                    title: "Créer une revue",
                 };
 
     return (
         <PageHeader
             breadcrumbs={[
                 {
-                    label: "Projects",
+                    label: "Projets",
                     onClick: onBackToProjects,
-                    title: "Back to Projects",
+                    title: "Retour aux projets",
                 },
                 {
                     ...(project
                         ? {
                               label: project.name,
                               onClick: onProjectRoot,
-                              title: "Back to project documents",
+                              title: "Retour aux documents du projet",
                           }
                         : {
                               loading: true,
@@ -449,7 +449,7 @@ export function ProjectPageHeader({
                 ...(activeSection === "assistant"
                     ? [{ label: "Chats" }]
                     : activeSection === "reviews"
-                      ? [{ label: "Tabular Reviews" }]
+                      ? [{ label: "Revues tabulaires" }]
                       : (documentFolderBreadcrumbs ?? [])),
             ]}
             actionGroups={[
@@ -458,12 +458,12 @@ export function ProjectPageHeader({
                         type: "search",
                         value: search,
                         onChange: onSearchChange,
-                        placeholder: "Search…",
+                        placeholder: "Rechercher…",
                     },
                     {
                         onClick: onOpenPeople,
                         iconOnly: true,
-                        title: "People with access",
+                        title: "Membres ayant accès",
                         icon: <Users className="h-4 w-4" />,
                     },
                     {
@@ -473,13 +473,13 @@ export function ProjectPageHeader({
                                 items={[
                                     {
                                         label: isOwner
-                                            ? "Edit details"
-                                            : "View details",
+                                            ? "Modifier les détails"
+                                            : "Afficher les détails",
                                         icon: Pencil,
                                         onSelect: onOpenDetails,
                                     },
                                     {
-                                        label: "Delete",
+                                        label: "Supprimer",
                                         icon: Trash2,
                                         onSelect: onDeleteProject,
                                         variant: "danger",
