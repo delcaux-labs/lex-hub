@@ -44,11 +44,17 @@ describe("providerForModel", () => {
         expect(() => providerForModel("")).toThrow(/Unknown model id/);
     });
 
+    it("maps openrouter/* and ollama/* ids", () => {
+        expect(providerForModel("openrouter/deepseek/deepseek-r1")).toBe("openrouter");
+        expect(providerForModel("ollama/qwen3.6")).toBe("ollama");
+    });
+
     it("infers by prefix only, without validating against the catalog", () => {
         // Documents current behavior: any claude-/gemini-/gpt- prefix is
         // accepted even if the id is not a canonical model.
         expect(providerForModel("claude-nonexistent")).toBe("claude");
         expect(providerForModel("gpt-nonexistent")).toBe("openai");
+        expect(providerForModel("openrouter/custom-model")).toBe("openrouter");
     });
 });
 

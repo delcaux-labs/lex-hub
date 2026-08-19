@@ -52,6 +52,7 @@ const ALL_MODELS = new Set<string>([
 
 export function providerForModel(model: string): Provider {
     if (model.startsWith("ollama")) return "ollama";
+    if (model.startsWith("openrouter")) return "openrouter";
     if (model.startsWith("claude")) return "claude";
     if (model.startsWith("gemini")) return "gemini";
     if (model.startsWith("gpt-")) return "openai";
@@ -59,6 +60,6 @@ export function providerForModel(model: string): Provider {
 }
 
 export function resolveModel(id: string | null | undefined, fallback: string): string {
-    if (id && (ALL_MODELS.has(id) || id.startsWith("ollama/"))) return id;
+    if (id && (ALL_MODELS.has(id) || id.startsWith("ollama/") || id.startsWith("openrouter/"))) return id;
     return fallback;
 }

@@ -1,3 +1,7 @@
+import { initTelemetry } from "./lib/llm/telemetry";
+
+initTelemetry();
+
 import { app } from "./app";
 import { manifestPublicKey } from "./lib/manifestSigning";
 
