@@ -583,7 +583,7 @@ export const ChatInput = forwardRef<ChatInputHandle, Props>(function ChatInput(
                                                 : "hidden sm:inline"
                                         }
                                     >
-                                        Workflows
+                                        {tCommon("workflows")}
                                     </span>
                                 </button>
                             )}

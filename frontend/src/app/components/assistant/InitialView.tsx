@@ -22,6 +22,33 @@ interface InitialViewProps {
 
 const ICON_SIZE = 30;
 const GAP = 12; // gap-4 = 1rem = 16px
+function getQuickActionLabel(
+    action: QuickAction,
+    t: (key: string) => string,
+): string {
+    const raw = (action.name?.trim() || action.workflow?.title || "").toLowerCase();
+    if (raw.includes("proofread") || raw.includes("relecture") || raw.includes("korrekturlesen")) {
+        return t("builtInQuickActions.proofread");
+    }
+    if (raw.includes("compare") || raw.includes("comparer") || raw.includes("vergleichen")) {
+        return t("builtInQuickActions.compareDocuments");
+    }
+    if (raw.includes("extract") || raw.includes("extraire") || raw.includes("extrahieren")) {
+        return t("builtInQuickActions.extractKeyTerms");
+    }
+    if (
+        raw.includes("draft") ||
+        raw.includes("rédiger") ||
+        raw.includes("entwerfen") ||
+        raw.includes("template") ||
+        raw.includes("modèle") ||
+        raw.includes("vorlage")
+    ) {
+        return t("builtInQuickActions.draftFromTemplate");
+    }
+    return action.name?.trim() || action.workflow?.title || "";
+}
+
 export function InitialView({ onSubmit }: InitialViewProps) {
     const tAssistant = useTranslations("assistant");
     const { user } = useAuth();
@@ -257,8 +284,7 @@ export function InitialView({ onSubmit }: InitialViewProps) {
                                     onClick={() => handleQuickAction(action)}
                                     className="inline-flex h-8 items-center justify-center rounded-full border border-white/70 bg-white/55 px-3 font-medium text-gray-600 shadow-[0_3px_9px_rgba(15,23,42,0.06),inset_0_1px_0_rgba(255,255,255,0.86),inset_0_-1px_0_rgba(255,255,255,0.58)] backdrop-blur-xl transition-all hover:bg-white hover:text-gray-900 active:scale-[0.98] disabled:cursor-default disabled:opacity-45 disabled:active:scale-100"
                                 >
-                                    {action.name?.trim() ||
-                                        action.workflow.title}
+                                    {getQuickActionLabel(action, tAssistant)}
                                 </button>
                             ))}
                         </div>

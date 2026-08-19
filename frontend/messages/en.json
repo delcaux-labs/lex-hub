@@ -49,7 +49,11 @@
         "owner": "Owner",
         "practice": "Practice Area",
         "language": "Language",
-        "jurisdiction": "Jurisdiction"
+        "jurisdiction": "Jurisdiction",
+        "document": "Document",
+        "documents": "Documents",
+        "workflow": "Workflow",
+        "workflows": "Workflows"
     },
     "nav": {
         "assistant": "Assistant",
@@ -124,6 +128,12 @@
         "selectModel": "AI Model",
         "selectWorkflow": "Select a workflow",
         "quickActions": "Quick actions",
+        "builtInQuickActions": {
+            "proofread": "Proofread",
+            "compareDocuments": "Compare Documents",
+            "extractKeyTerms": "Extract Key Terms",
+            "draftFromTemplate": "Draft from Template"
+        },
         "citations": "Citations & sources",
         "verified": "Verified",
         "unverified": "Unverified",

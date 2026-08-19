@@ -1,6 +1,7 @@
 "use client";
 
 import { PlusIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface Props {
     onBrowseAll: () => void;
@@ -13,6 +14,9 @@ export function AddDocButton({
     selectedDocIds = [],
     hideLabel = false,
 }: Props) {
+    const tCommon = useTranslations("common");
+    const tAssistant = useTranslations("assistant");
+
     return (
         <button
             type="button"
@@ -22,8 +26,8 @@ export function AddDocButton({
                     ? "text-gray-700 hover:text-gray-900"
                     : "text-gray-400 hover:text-gray-700"
             }`}
-            title="Ajouter des documents"
-            aria-label="Ajouter des documents"
+            title={tAssistant("attachDocument")}
+            aria-label={tAssistant("attachDocument")}
         >
             {selectedDocIds.length > 0 ? (
                 <span className="font-medium tabular-nums">
@@ -33,7 +37,9 @@ export function AddDocButton({
                 <PlusIcon className="h-4 w-4 shrink-0" />
             )}
             <span className={hideLabel ? "hidden" : "hidden sm:inline"}>
-                {selectedDocIds.length === 1 ? "Document" : "Documents"}
+                {selectedDocIds.length === 1
+                    ? tCommon("document")
+                    : tCommon("documents")}
             </span>
         </button>
     );

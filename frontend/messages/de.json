@@ -49,7 +49,11 @@
         "owner": "Eigentümer",
         "practice": "Rechtsgebiet",
         "language": "Sprache",
-        "jurisdiction": "Gerichtsbarkeit"
+        "jurisdiction": "Gerichtsbarkeit",
+        "document": "Dokument",
+        "documents": "Dokumente",
+        "workflow": "Workflow",
+        "workflows": "Workflows"
     },
     "nav": {
         "assistant": "Assistent",
@@ -124,6 +128,12 @@
         "selectModel": "KI-Modell",
         "selectWorkflow": "Workflow auswählen",
         "quickActions": "Schnellaktionen",
+        "builtInQuickActions": {
+            "proofread": "Korrekturlesen",
+            "compareDocuments": "Dokumente vergleichen",
+            "extractKeyTerms": "Schlüsselbegriffe extrahieren",
+            "draftFromTemplate": "Aus Vorlage entwerfen"
+        },
         "citations": "Zitate und Quellen",
         "verified": "Verifiziert",
         "unverified": "Nicht verifiziert",
