@@ -2,6 +2,7 @@
     "name": "mike",
     "private": true,
     "scripts": {
+        "build:workflows": "node scripts/build-workflows.js",
         "test:e2e": "playwright test",
         "test:e2e:local": "bash scripts/e2e-local-stack.sh",
         "test:e2e:headed": "playwright test --headed",
