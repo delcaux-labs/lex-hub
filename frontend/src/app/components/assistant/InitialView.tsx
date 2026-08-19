@@ -3,6 +3,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { MoreHorizontal } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useAuth } from "@/app/contexts/AuthContext";
 import { useUserProfile } from "@/app/contexts/UserProfileContext";
 import { MikeIcon } from "@/app/components/chat/mike-icon";
@@ -22,6 +23,7 @@ interface InitialViewProps {
 const ICON_SIZE = 30;
 const GAP = 12; // gap-4 = 1rem = 16px
 export function InitialView({ onSubmit }: InitialViewProps) {
+    const tAssistant = useTranslations("assistant");
     const { user } = useAuth();
     const { profile } = useUserProfile();
     const [loaded, setLoaded] = useState(false);
