@@ -101,10 +101,22 @@ GENERAL GUIDANCE:
  * false they are omitted entirely so the model is not told about tools it
  * does not have.
  */
-export function buildSystemPrompt(includeResearchTools = true): string {
-    return includeResearchTools
+export function buildSystemPrompt(
+    includeResearchTools = true,
+    locale = "fr",
+): string {
+    const base = includeResearchTools
         ? `${SYSTEM_PROMPT_BEFORE_RESEARCH}\n\n${COURTLISTENER_SYSTEM_PROMPT}\n${SYSTEM_PROMPT_AFTER_RESEARCH}`
         : `${SYSTEM_PROMPT_BEFORE_RESEARCH}\n\n${SYSTEM_PROMPT_AFTER_RESEARCH}`;
+
+    const languageInstruction =
+        locale === "de"
+            ? "\n\nLANGUAGE INSTRUCTION:\nSie müssen standardmäßig auf Deutsch antworten, es sei denn, der Benutzer spricht oder fordert ausdrücklich Antworten in einer anderen Sprache an."
+            : locale === "en"
+              ? "\n\nLANGUAGE INSTRUCTION:\nYou must respond in English by default, unless the user explicitly converses or requests responses in another language."
+              : "\n\nLANGUAGE INSTRUCTION:\nVous devez répondre en français par défaut, sauf si l'utilisateur s'exprime ou demande explicitement des réponses dans une autre langue.";
+
+    return `${base}${languageInstruction}`;
 }
 
 export const SYSTEM_PROMPT = buildSystemPrompt(true);

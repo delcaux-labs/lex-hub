@@ -59,7 +59,7 @@ export function InitialView({ onSubmit }: InitialViewProps) {
                                 actions.map((action) => {
                                     const legacyActionKey =
                                         keyByTitle[
-                                            action.workflow.title.toLowerCase()
+                                        action.workflow.title.toLowerCase()
                                         ];
                                     const enabled = legacyActionKey
                                         ? legacy[legacyActionKey]
@@ -67,8 +67,8 @@ export function InitialView({ onSubmit }: InitialViewProps) {
                                     return typeof enabled === "boolean" &&
                                         enabled !== action.enabled
                                         ? updateQuickAction(action.id, {
-                                              enabled,
-                                          })
+                                            enabled,
+                                        })
                                         : action;
                                 }),
                             );
@@ -202,7 +202,7 @@ export function InitialView({ onSubmit }: InitialViewProps) {
                                 "transform 900ms cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 800ms ease-in-out 300ms",
                         }}
                     >
-                        Bonjour, {username}
+                        {tAssistant("helloUser", { name: username })}
                     </h1>
                 </div>
             </div>
@@ -211,7 +211,7 @@ export function InitialView({ onSubmit }: InitialViewProps) {
                 <ChatInput
                     ref={chatInputRef}
                     onSubmit={onSubmit}
-                    onCancel={() => {}}
+                    onCancel={() => { }}
                     isLoading={false}
                 />
             </div>
@@ -219,7 +219,7 @@ export function InitialView({ onSubmit }: InitialViewProps) {
             <div className="min-h-0 w-full max-w-4xl justify-self-center px-0 pt-1 xl:px-8">
                 <div className="text-center">
                     <p className="text-xs py-2 mb-12 text-gray-500">
-                        L'IA peut faire des erreurs. Les réponses ne constituent pas un conseil juridique.
+                        {tAssistant("disclaimer")}
                     </p>
                 </div>
 
@@ -236,12 +236,12 @@ export function InitialView({ onSubmit }: InitialViewProps) {
                                     aria-hidden="true"
                                     className="h-3.5 w-3.5 shrink-0"
                                 />
-                                Actions rapides
+                                {tAssistant("quickActions")}
                             </span>
                             <button
                                 type="button"
                                 onClick={() => setQuickActionsModalOpen(true)}
-                                aria-label="Configurer les actions rapides"
+                                aria-label={tAssistant("configureQuickActions")}
                                 className="absolute left-full ml-1.5 flex h-5 w-5 items-center justify-center text-gray-400 opacity-0 transition-all hover:text-gray-700 group-hover:opacity-100 focus:opacity-100"
                             >
                                 <MoreHorizontal className="h-3.5 w-3.5" />

@@ -224,6 +224,7 @@ projectChatRouter.post("/", requireAuth, async (req, res) => {
         api_keys: apiKeys,
         legal_research_us: legalResearchUs,
         title_model: titleModel,
+        preferred_locale: preferredLocale,
     } = await getUserModelSettings(userId, db);
     const apiMessages = buildMessages(
         messagesForLLM,
@@ -232,6 +233,7 @@ projectChatRouter.post("/", requireAuth, async (req, res) => {
         undefined,
         legalResearchUs,
         nonce,
+        preferredLocale,
     );
 
     const workflowStore = await buildWorkflowStore(userId, userEmail, db);

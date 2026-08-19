@@ -2,7 +2,7 @@ FROM node:22-slim
 
 WORKDIR /app
 COPY package*.json ./
-RUN npm ci
+RUN npm ci || npm install
 COPY . .
 
 # NEXT_PUBLIC_* are inlined at build time, so they must be present during `next build`.

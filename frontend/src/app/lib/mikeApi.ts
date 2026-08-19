@@ -371,6 +371,7 @@ export interface UserProfile {
     mfaOnLogin: boolean;
     legalResearchUs: boolean;
     quickActionsVisible: boolean;
+    preferredLocale?: "fr" | "en" | "de";
     apiKeyStatus: ApiKeyStatus;
 }
 
@@ -474,6 +475,7 @@ export async function updateUserProfile(payload: {
     tabularModel?: string;
     legalResearchUs?: boolean;
     quickActionsVisible?: boolean;
+    preferredLocale?: "fr" | "en" | "de";
 }): Promise<UserProfile> {
     return apiRequest<UserProfile>("/user/profile", {
         method: "PATCH",

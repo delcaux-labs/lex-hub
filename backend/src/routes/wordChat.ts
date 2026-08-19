@@ -390,7 +390,10 @@ wordChatRouter.post("/", requireAuth, async (req, res) => {
     nonce,
     "word_chat_messages",
   );
-  const { api_keys: configuredApiKeys } = await getUserModelSettings(
+  const {
+    api_keys: configuredApiKeys,
+    preferred_locale: preferredLocale,
+  } = await getUserModelSettings(
     userId,
     db,
   );
@@ -403,6 +406,7 @@ wordChatRouter.post("/", requireAuth, async (req, res) => {
     docIndex,
     false,
     nonce,
+    preferredLocale,
   );
   const workflowStore = await buildWorkflowStore(userId, userEmail, db);
   const assistantMessageId = randomUUID();

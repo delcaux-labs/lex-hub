@@ -2,11 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { supabase } from "@/app/lib/supabase";
 import { Button } from "@/app/components/ui/button";
 import { Input } from "@/app/components/ui/input";
 import Link from "next/link";
 import { SiteLogo } from "@/app/components/site-logo";
+import { LanguageSwitcher } from "@/app/components/shared/LanguageSwitcher";
 import { useAuth } from "@/app/contexts/AuthContext";
 
 const authGlassCardClassName =
@@ -21,6 +23,7 @@ const authToggleInactiveClassName =
     "inline-flex h-6 items-center rounded-full border border-transparent px-3 text-gray-500 transition-colors hover:bg-white/38 hover:text-gray-900";
 
 export default function LoginPage() {
+    const t = useTranslations("auth");
     const router = useRouter();
     const { isAuthenticated, authLoading } = useAuth();
     const [email, setEmail] = useState("");
@@ -52,7 +55,7 @@ export default function LoginPage() {
             setError(
                 error instanceof Error
                     ? error.message
-                    : "Une erreur est survenue lors de la connexion",
+                    : "An error occurred during login",
             );
         } finally {
             setLoading(false);
@@ -61,6 +64,9 @@ export default function LoginPage() {
 
     return (
         <div className="min-h-dvh bg-gray-50/80 flex items-start justify-center px-6 pt-32 md:pt-40 pb-10 relative">
+            <div className="fixed top-4 right-4 md:top-8 md:right-8 z-50">
+                <LanguageSwitcher />
+            </div>
             <div className="absolute top-4 md:top-8 left-1/2 -translate-x-1/2">
                 <SiteLogo size="lg" asLink />
             </div>
@@ -69,17 +75,17 @@ export default function LoginPage() {
                 <div className={`${authGlassCardClassName} mb-4`}>
                     <div className="flex justify-between items-center mb-6">
                         <h2 className="text-left text-2xl font-medium font-serif text-gray-950">
-                            Connexion
+                            {t("logIn")}
                         </h2>
                         <div className={authToggleClassName}>
                             <span className={authToggleActiveClassName}>
-                                Connexion
+                                {t("logIn")}
                             </span>
                             <Link
                                 href="/signup"
                                 className={authToggleInactiveClassName}
                             >
-                                Inscription
+                                {t("signUp")}
                             </Link>
                         </div>
                     </div>
@@ -89,14 +95,14 @@ export default function LoginPage() {
                                 htmlFor="email"
                                 className="block text-sm font-medium text-gray-700 mb-2"
                             >
-                                E-mail
+                                {t("email")}
                             </label>
                             <Input
                                 id="email"
                                 type="email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                placeholder="Entrez votre adresse e-mail"
+                                placeholder={t("emailPlaceholder")}
                                 required
                                 className={`w-full ${authInputClassName}`}
                             />
@@ -107,14 +113,14 @@ export default function LoginPage() {
                                 htmlFor="password"
                                 className="block text-sm font-medium text-gray-700 mb-2"
                             >
-                                Mot de passe
+                                {t("password")}
                             </label>
                             <Input
                                 id="password"
                                 type="password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                placeholder="Entrez votre mot de passe"
+                                placeholder={t("passwordPlaceholder")}
                                 required
                                 className={`w-full ${authInputClassName}`}
                             />
@@ -131,7 +137,7 @@ export default function LoginPage() {
                             disabled={loading}
                             className="w-full mt-5 bg-black hover:bg-gray-900 text-white"
                         >
-                            {loading ? "Connexion en cours..." : "Se connecter"}
+                            {loading ? t("loggingIn") : t("logIn")}
                         </Button>
                     </form>
                 </div>

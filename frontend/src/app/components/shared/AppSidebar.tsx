@@ -9,6 +9,7 @@ import {
     type UIEvent,
 } from "react";
 import { PanelLeft, ChevronsUpDown, ChevronDown, Loader2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useAuth } from "@/app/contexts/AuthContext";
 import { useUserProfile } from "@/app/contexts/UserProfileContext";
 import { useChatHistoryContext } from "@/app/contexts/ChatHistoryContext";
@@ -27,6 +28,7 @@ import {
 } from "@/app/components/shared/AppSidebarSkeuoIcons";
 import { HistorySkeuoIcon } from "@/app/components/shared/HistorySkeuoIcon";
 import { ProjectSvgIcon } from "@/app/components/shared/FolderSvgIcon";
+import { LanguageSwitcher } from "@/app/components/shared/LanguageSwitcher";
 import { listProjectSummaries } from "@/app/lib/mikeApi";
 import type { Project } from "@/app/components/shared/types";
 import { cn } from "@/app/lib/utils";
@@ -35,18 +37,6 @@ import {
     APP_SURFACE_ACTIVE_CLASS,
     APP_SURFACE_HOVER_CLASS,
 } from "@/app/components/ui/liquid-surface";
-
-const NAV_ITEMS = [
-    { href: "/assistant", label: "Assistant", icon: ChatSkeuoIcon },
-    { href: "/projects", label: "Projets", icon: FolderSkeuoIcon },
-    { href: "/library", label: "Bibliothèque", icon: LibrarySkeuoIcon },
-    {
-        href: "/tabular-reviews",
-        label: "Revue tabulaire",
-        icon: TabularReviewSkeuoIcon,
-    },
-    { href: "/workflows", label: "Workflows", icon: WorkflowSkeuoIcon },
-];
 
 const RECENT_PROJECT_PAGE_SIZE = 10;
 const RECENT_PROJECT_LIST_HEIGHT_CLASS = "h-44";
@@ -67,12 +57,30 @@ interface AppSidebarProps {
 }
 
 export function AppSidebar({ isOpen, onToggle }: AppSidebarProps) {
+    const tNav = useTranslations("nav");
+    const tCommon = useTranslations("common");
     const { user, signOut } = useAuth();
     const { profile } = useUserProfile();
     const { chats, loadingMoreChats, loadMoreChats, setCurrentChatId } =
         useChatHistoryContext();
     const router = useRouter();
     const pathname = usePathname();
+
+    const navItems = useMemo(
+        () => [
+            { href: "/assistant", label: tNav("assistant"), icon: ChatSkeuoIcon },
+            { href: "/projects", label: tNav("projects"), icon: FolderSkeuoIcon },
+            { href: "/library", label: tNav("library"), icon: LibrarySkeuoIcon },
+            {
+                href: "/tabular-reviews",
+                label: tNav("tabularReviews"),
+                icon: TabularReviewSkeuoIcon,
+            },
+            { href: "/workflows", label: tNav("workflows"), icon: WorkflowSkeuoIcon },
+        ],
+        [tNav],
+    );
+
     const routeChatId = useMemo(() => {
         if (pathname.startsWith("/assistant/chat/")) {
             return pathname.split("/").pop() ?? null;
@@ -100,12 +108,63 @@ export function AppSidebar({ isOpen, onToggle }: AppSidebarProps) {
         (userId ? recentProjectsCache.get(userId)?.projects : undefined) ??
         null;
 
+    const loadRecentProjectsPage = useCallback(
+        async (offset: number) => {
+            if (!userId) {
+                setRecentProjects([]);
+                setHasMoreRecentProjects(false);
+                return;
+            }
+
+            loadingMoreRecentProjectsRef.current = true;
+            setLoadingMoreRecentProjects(true);
+            try {
+                const response = await listProjectSummaries({
+                    limit: RECENT_PROJECT_PAGE_SIZE + 1,
+                    offset,
+                });
+                const nextHasMore =
+                    response.length > RECENT_PROJECT_PAGE_SIZE;
+                const pageProjects = response.slice(
+                    0,
+                    RECENT_PROJECT_PAGE_SIZE,
+                );
+
+                setRecentProjects((prev) => {
+                    const existing = prev ?? [];
+                    const existingIds = new Set(existing.map((p) => p.id));
+                    const combined = [
+                        ...existing,
+                        ...pageProjects.filter(
+                            (project) => !existingIds.has(project.id),
+                        ),
+                    ];
+                    recentProjectsCache.set(userId, {
+                        projects: combined,
+                        hasMore: nextHasMore,
+                    });
+                    return combined;
+                });
+                setHasMoreRecentProjects(nextHasMore);
+            } catch {
+                if (offset === 0 && !recentProjectsCache.has(userId)) {
+                    setRecentProjects([]);
+                    setHasMoreRecentProjects(false);
+                }
+            } finally {
+                loadingMoreRecentProjectsRef.current = false;
+                setLoadingMoreRecentProjects(false);
+            }
+        },
+        [userId],
+    );
+
     useEffect(() => {
+        if (!isOpen) return;
+
         if (!userId) {
             setRecentProjects([]);
             setHasMoreRecentProjects(false);
-            setLoadingMoreRecentProjects(false);
-            loadingMoreRecentProjectsRef.current = false;
             return;
         }
 
@@ -113,90 +172,37 @@ export function AppSidebar({ isOpen, onToggle }: AppSidebarProps) {
         if (cached) {
             setRecentProjects(cached.projects);
             setHasMoreRecentProjects(cached.hasMore);
-        } else {
-            setRecentProjects(null);
-            setHasMoreRecentProjects(false);
-        }
-        const controller = new AbortController();
-        setLoadingMoreRecentProjects(false);
-        loadingMoreRecentProjectsRef.current = false;
-
-        listProjectSummaries({
-            limit: RECENT_PROJECT_PAGE_SIZE + 1,
-            signal: controller.signal,
-        })
-            .then((projects) => {
-                if (controller.signal.aborted) return;
-                const next = projects.slice(0, RECENT_PROJECT_PAGE_SIZE);
-                const hasMore = projects.length > RECENT_PROJECT_PAGE_SIZE;
-                recentProjectsCache.set(userId, { projects: next, hasMore });
-                setRecentProjects(next);
-                setHasMoreRecentProjects(hasMore);
-            })
-            .catch(() => {
-                if (controller.signal.aborted) return;
-                setRecentProjects([]);
-                setHasMoreRecentProjects(false);
-            });
-
-        return () => controller.abort();
-    }, [userId]);
-
-    const loadMoreRecentProjects = useCallback(async () => {
-        if (
-            !userId ||
-            recentProjects === null ||
-            !hasMoreRecentProjects ||
-            loadingMoreRecentProjectsRef.current
-        ) {
             return;
         }
 
-        loadingMoreRecentProjectsRef.current = true;
-        setLoadingMoreRecentProjects(true);
-        try {
-            const projects = await listProjectSummaries({
-                limit: RECENT_PROJECT_PAGE_SIZE + 1,
-                offset: recentProjects.length,
-            });
-            const page = projects.slice(0, RECENT_PROJECT_PAGE_SIZE);
-            setRecentProjects((current) => {
-                const existing = new Set(
-                    (current ?? []).map((project) => project.id),
-                );
-                const next = [
-                    ...(current ?? []),
-                    ...page.filter((project) => !existing.has(project.id)),
-                ];
-                recentProjectsCache.set(userId, {
-                    projects: next,
-                    hasMore: projects.length > RECENT_PROJECT_PAGE_SIZE,
-                });
-                return next;
-            });
-            setHasMoreRecentProjects(
-                projects.length > RECENT_PROJECT_PAGE_SIZE,
-            );
-        } catch {
-            // Keep the current page and allow the next scroll to retry.
-        } finally {
-            loadingMoreRecentProjectsRef.current = false;
-            setLoadingMoreRecentProjects(false);
-        }
-    }, [hasMoreRecentProjects, recentProjects, userId]);
+        void loadRecentProjectsPage(0);
+    }, [isOpen, userId, loadRecentProjectsPage]);
 
     const handleRecentProjectsScroll = useCallback(
-        (event: UIEvent<HTMLDivElement>) => {
-            if (isNearScrollEnd(event.currentTarget)) {
-                void loadMoreRecentProjects();
+        (e: UIEvent<HTMLDivElement>) => {
+            const target = e.currentTarget;
+            if (
+                !isNearScrollEnd(target) ||
+                loadingMoreRecentProjectsRef.current ||
+                !hasMoreRecentProjects
+            ) {
+                return;
             }
+
+            const currentLength = displayedRecentProjects?.length ?? 0;
+            void loadRecentProjectsPage(currentLength);
         },
-        [loadMoreRecentProjects],
+        [
+            hasMoreRecentProjects,
+            displayedRecentProjects,
+            loadRecentProjectsPage,
+        ],
     );
 
     const handleChatHistoryScroll = useCallback(
-        (event: UIEvent<HTMLDivElement>) => {
-            if (isNearScrollEnd(event.currentTarget)) {
+        (e: UIEvent<HTMLDivElement>) => {
+            const target = e.currentTarget;
+            if (isNearScrollEnd(target)) {
                 void loadMoreChats();
             }
         },
@@ -234,16 +240,14 @@ export function AppSidebar({ isOpen, onToggle }: AppSidebarProps) {
 
     const getUserTier = () => {
         if (!profile) return "";
-        return profile.tier || "Gratuit";
+        return profile.tier || "Free";
     };
 
     if (!user) return null;
 
     return (
         <>
-            {/* Mobile: tapping outside the expanded sidebar closes it. The
-                sidebar (z-[99]) sits above this scrim (z-[98]); md+ is
-                unaffected since the sidebar is part of the layout there. */}
+            {/* Mobile: tapping outside the expanded sidebar closes it. */}
             {isOpen && (
                 <div
                     className="fixed inset-0 z-[98] bg-gray-300/20 md:hidden"
@@ -291,14 +295,14 @@ export function AppSidebar({ isOpen, onToggle }: AppSidebarProps) {
                             "rounded-md",
                             APP_SURFACE_HOVER_CLASS,
                         )}
-                        title={isOpen ? "Fermer le menu latéral" : "Ouvrir le menu latéral"}
+                        title={isOpen ? tNav("closeSidebar") : tNav("openSidebar")}
                     >
                         <PanelLeft className="h-4 w-4" />
                     </button>
                 </div>
 
                 {/* Nav items */}
-                {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
+                {navItems.map(({ href, label, icon: Icon }) => {
                     const isActive =
                         href === "/assistant"
                             ? pathname === href
@@ -352,7 +356,7 @@ export function AppSidebar({ isOpen, onToggle }: AppSidebarProps) {
                                     shouldAnimate ? "sidebar-fade-in" : ""
                                 }`}
                             >
-                                <span>Projets récents</span>
+                                <span>{tNav("recentProjects")}</span>
                                 <ChevronDown
                                     className={`h-3.5 w-3.5 transition-transform ${
                                         projectsCollapsed ? "-rotate-90" : ""
@@ -391,7 +395,7 @@ export function AppSidebar({ isOpen, onToggle }: AppSidebarProps) {
                                                     : ""
                                             }`}
                                         >
-                                            Aucun projet pour le moment
+                                            {tNav("noRecentProjects")}
                                         </div>
                                     ) : (
                                         <div
@@ -460,7 +464,7 @@ export function AppSidebar({ isOpen, onToggle }: AppSidebarProps) {
                                     shouldAnimate ? "sidebar-fade-in" : ""
                                 }`}
                             >
-                                <span>Historique de l&apos;assistant</span>
+                                <span>{tNav("recentChats")}</span>
                                 <ChevronDown
                                     className={`h-3.5 w-3.5 transition-transform ${
                                         historyCollapsed ? "-rotate-90" : ""
@@ -497,7 +501,7 @@ export function AppSidebar({ isOpen, onToggle }: AppSidebarProps) {
                                                 : ""
                                         }`}
                                     >
-                                        Aucune conversation pour le moment
+                                        {tNav("noRecentChats")}
                                     </div>
                                 ) : (
                                     <>
@@ -596,6 +600,10 @@ export function AppSidebar({ isOpen, onToggle }: AppSidebarProps) {
                                         "bg-app-floating rounded-xl shadow-[0_6px_17px_rgba(15,23,42,0.1)] border border-white/70 backdrop-blur-xl",
                                     )}
                                 >
+                                    <LanguageSwitcher
+                                        variant="dropdown-item"
+                                        className="border-b border-gray-200/50 pb-2 mb-1"
+                                    />
                                     <button
                                         onClick={() => {
                                             router.push("/history");
@@ -609,7 +617,7 @@ export function AppSidebar({ isOpen, onToggle }: AppSidebarProps) {
                                         )}
                                     >
                                         <HistorySkeuoIcon className="h-4 w-4" />
-                                        Historique
+                                        {tNav("history")}
                                     </button>
                                     <button
                                         onClick={() => {
@@ -622,7 +630,7 @@ export function AppSidebar({ isOpen, onToggle }: AppSidebarProps) {
                                         )}
                                     >
                                         <SettingsSkeuoIcon className="h-4 w-4" />
-                                        Paramètres
+                                        {tNav("settings")}
                                     </button>
                                     <button
                                         onClick={() => {
@@ -637,7 +645,7 @@ export function AppSidebar({ isOpen, onToggle }: AppSidebarProps) {
                                         )}
                                     >
                                         <SignOutSkeuoIcon className="h-4 w-4" />
-                                        Se déconnecter
+                                        {tNav("signOut")}
                                     </button>
                                 </div>
                             )}

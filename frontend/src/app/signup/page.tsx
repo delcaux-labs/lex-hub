@@ -2,12 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { supabase } from "@/app/lib/supabase";
 import { Button } from "@/app/components/ui/button";
 import { Input } from "@/app/components/ui/input";
 import Link from "next/link";
 import { SiteLogo } from "@/app/components/site-logo";
 import { CheckCircle2 } from "lucide-react";
+import { LanguageSwitcher } from "@/app/components/shared/LanguageSwitcher";
 import { useAuth } from "@/app/contexts/AuthContext";
 import { updateUserProfile } from "@/app/lib/mikeApi";
 
@@ -23,6 +25,8 @@ const authToggleInactiveClassName =
     "inline-flex h-6 items-center rounded-full border border-transparent px-3 text-gray-500 transition-colors hover:bg-white/38 hover:text-gray-900";
 
 export default function SignupPage() {
+    const t = useTranslations("auth");
+    const tCommon = useTranslations("common");
     const router = useRouter();
     const { isAuthenticated, authLoading } = useAuth();
     const [email, setEmail] = useState("");
@@ -47,14 +51,18 @@ export default function SignupPage() {
 
         // Validate passwords match
         if (password !== confirmPassword) {
-            setError("Les mots de passe ne correspondent pas");
+            setError(
+                password === ""
+                    ? "Password is required"
+                    : "Passwords do not match",
+            );
             setLoading(false);
             return;
         }
 
         // Validate password length
         if (password.length < 6) {
-            setError("Le mot de passe doit comporter au moins 6 caractères");
+            setError("Password must be at least 6 characters");
             setLoading(false);
             return;
         }
@@ -92,7 +100,7 @@ export default function SignupPage() {
             setError(
                 error instanceof Error
                     ? error.message
-                    : "Une erreur est survenue lors de l'inscription",
+                    : "An error occurred during signup",
             );
         } finally {
             setLoading(false);
@@ -103,6 +111,9 @@ export default function SignupPage() {
     if (success) {
         return (
             <div className="min-h-dvh bg-gray-50/80 flex items-start justify-center px-6 pt-32 md:pt-40 pb-10 relative">
+                <div className="fixed top-4 right-4 md:top-8 md:right-8 z-50">
+                    <LanguageSwitcher />
+                </div>
                 <div className="absolute top-4 md:top-8 left-1/2 -translate-x-1/2">
                     <SiteLogo size="lg" asLink />
                 </div>
@@ -114,11 +125,8 @@ export default function SignupPage() {
                             <CheckCircle2 className="h-6 w-6 text-green-600" />
                         </div>
                         <h2 className="text-2xl font-bold text-gray-950 mb-3">
-                            Compte créé !
+                            {t("accountCreated")}
                         </h2>
-                        <p className="text-gray-600 leading-relaxed">
-                            Redirection vers la page d&apos;accueil...
-                        </p>
                     </div>
                 </div>
             </div>
@@ -128,6 +136,9 @@ export default function SignupPage() {
     // Default Signup Form View
     return (
         <div className="min-h-dvh bg-gray-50/80 flex items-start justify-center px-6 pt-32 md:pt-40 pb-10 relative">
+            <div className="fixed top-4 right-4 md:top-8 md:right-8 z-50">
+                <LanguageSwitcher />
+            </div>
             <div className="absolute top-4 md:top-8 left-1/2 -translate-x-1/2">
                 <SiteLogo size="lg" asLink />
             </div>
@@ -135,17 +146,17 @@ export default function SignupPage() {
                 <div className={`${authGlassCardClassName} mb-4`}>
                     <div className="flex justify-between items-center mb-6">
                         <h2 className="text-left text-2xl font-medium font-serif text-gray-950">
-                            Créer un compte
+                            {t("signUp")}
                         </h2>
                         <div className={authToggleClassName}>
                             <Link
                                 href="/login"
                                 className={authToggleInactiveClassName}
                             >
-                                Connexion
+                                {t("logIn")}
                             </Link>
                             <span className={authToggleActiveClassName}>
-                                Inscription
+                                {t("signUp")}
                             </span>
                         </div>
                     </div>
@@ -156,9 +167,9 @@ export default function SignupPage() {
                                 htmlFor="name"
                                 className="block text-sm font-medium text-gray-700 mb-2"
                             >
-                                Nom{" "}
+                                {t("fullName")}{" "}
                                 <span className="text-gray-400 font-normal">
-                                    (optionnel)
+                                    ({tCommon("optional")})
                                 </span>
                             </label>
                             <Input
@@ -166,7 +177,7 @@ export default function SignupPage() {
                                 type="text"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
-                                placeholder="Votre nom"
+                                placeholder={t("fullNamePlaceholder")}
                                 className={`w-full ${authInputClassName}`}
                             />
                         </div>
@@ -176,9 +187,9 @@ export default function SignupPage() {
                                 htmlFor="organisation"
                                 className="block text-sm font-medium text-gray-700 mb-2"
                             >
-                                Organisation{" "}
+                                {t("organisation")}{" "}
                                 <span className="text-gray-400 font-normal">
-                                    (optionnel)
+                                    ({tCommon("optional")})
                                 </span>
                             </label>
                             <Input
@@ -188,7 +199,7 @@ export default function SignupPage() {
                                 onChange={(e) =>
                                     setOrganisation(e.target.value)
                                 }
-                                placeholder="Votre organisation"
+                                placeholder={t("organisationPlaceholder")}
                                 className={`w-full ${authInputClassName}`}
                             />
                         </div>
@@ -198,14 +209,14 @@ export default function SignupPage() {
                                 htmlFor="email"
                                 className="block text-sm font-medium text-gray-700 mb-2"
                             >
-                                E-mail
+                                {t("email")}
                             </label>
                             <Input
                                 id="email"
                                 type="email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                placeholder="Entrez votre adresse e-mail"
+                                placeholder={t("emailPlaceholder")}
                                 required
                                 className={`w-full ${authInputClassName}`}
                             />
@@ -216,14 +227,14 @@ export default function SignupPage() {
                                 htmlFor="password"
                                 className="block text-sm font-medium text-gray-700 mb-2"
                             >
-                                Mot de passe
+                                {t("password")}
                             </label>
                             <Input
                                 id="password"
                                 type="password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                placeholder="Créez un mot de passe (min. 6 caractères)"
+                                placeholder={t("passwordPlaceholder")}
                                 required
                                 className={`w-full ${authInputClassName}`}
                             />
@@ -234,7 +245,7 @@ export default function SignupPage() {
                                 htmlFor="confirmPassword"
                                 className="block text-sm font-medium text-gray-700 mb-2"
                             >
-                                Confirmer le mot de passe
+                                {t("password")} (confirm)
                             </label>
                             <Input
                                 id="confirmPassword"
@@ -243,7 +254,7 @@ export default function SignupPage() {
                                 onChange={(e) =>
                                     setConfirmPassword(e.target.value)
                                 }
-                                placeholder="Confirmez votre mot de passe"
+                                placeholder={t("passwordPlaceholder")}
                                 required
                                 className={`w-full ${authInputClassName}`}
                             />
@@ -260,29 +271,29 @@ export default function SignupPage() {
                             disabled={loading}
                             className="w-full bg-black hover:bg-gray-900 text-white"
                         >
-                            {loading ? "Création du compte..." : "S'inscrire"}
+                            {loading ? t("creatingAccount") : t("signUp")}
                         </Button>
                     </form>
 
                     {/* Terms and Privacy */}
                     <div className="mt-4 text-center text-xs text-gray-500">
-                        En vous inscrivant, vous acceptez nos{" "}
+                        {t("termsAgreement")}{" "}
                         <Link
                             href="https://mikeoss.com/terms"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-blue-600 hover:underline"
                         >
-                            Conditions d&apos;utilisation
+                            {t("termsOfUse")}
                         </Link>{" "}
-                        et notre{" "}
+                        {t("and")}{" "}
                         <Link
                             href="https://mikeoss.com/privacy"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-blue-600 hover:underline"
                         >
-                            Politique de confidentialité
+                            {t("privacyPolicy")}
                         </Link>
                     </div>
                 </div>

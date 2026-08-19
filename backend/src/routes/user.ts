@@ -58,6 +58,7 @@ type UserProfileRow = {
     mfa_on_login: boolean | null;
     legal_research_us: boolean | null;
     quick_actions_visible: boolean | null;
+    preferred_locale: string | null;
 };
 
 function errorMessage(error: unknown): string {
@@ -166,6 +167,8 @@ function mcpOAuthPopupCsp(nonce: string) {
 }
 
 const PROFILE_SELECT =
+    "display_name, organisation, message_credits_used, credits_reset_date, tier, title_model, tabular_model, mfa_on_login, legal_research_us, quick_actions_visible, preferred_locale";
+const PROFILE_SELECT_NO_LOCALE =
     "display_name, organisation, message_credits_used, credits_reset_date, tier, title_model, tabular_model, mfa_on_login, legal_research_us, quick_actions_visible";
 const PROFILE_SELECT_NO_QUICK_ACTIONS =
     "display_name, organisation, message_credits_used, credits_reset_date, tier, title_model, tabular_model, mfa_on_login, legal_research_us";
@@ -186,9 +189,7 @@ function isMissingProfileColumn(error: unknown, column: string): boolean {
 }
 
 // Loads a profile while tolerating older databases that lack the
-// legal_research_us column. Tries the full select first, then falls back to
-// the legacy cascade (which also handles missing title_model / mfa_on_login)
-// and defaults the feature flag to enabled.
+// preferred_locale / legal_research_us / quick_actions_visible columns.
 async function selectProfile(
     db: ReturnType<typeof createServerSupabase>,
     userId: string,
@@ -204,6 +205,23 @@ async function selectProfile(
             : await fullQuery.maybeSingle();
     if (!full.error) return full;
 
+    if (isMissingProfileColumn(full.error, "preferred_locale")) {
+        const noLocaleQuery = db
+            .from("user_profiles")
+            .select(PROFILE_SELECT_NO_LOCALE)
+            .eq("user_id", userId);
+        const noLocale =
+            mode === "single"
+                ? await noLocaleQuery.single()
+                : await noLocaleQuery.maybeSingle();
+        if (!noLocale.error) {
+            if (noLocale.data && typeof noLocale.data === "object") {
+                Object.assign(noLocale.data, { preferred_locale: "fr" });
+            }
+            return noLocale;
+        }
+    }
+
     if (isMissingProfileColumn(full.error, "quick_actions_visible")) {
         const previousQuery = db
             .from("user_profiles")
@@ -215,7 +233,10 @@ async function selectProfile(
                 : await previousQuery.maybeSingle();
         if (!previous.error) {
             if (previous.data && typeof previous.data === "object") {
-                Object.assign(previous.data, { quick_actions_visible: true });
+                Object.assign(previous.data, {
+                    quick_actions_visible: true,
+                    preferred_locale: "fr",
+                });
             }
             return previous;
         }
@@ -227,7 +248,10 @@ async function selectProfile(
         if (!("legal_research_us" in row)) {
             Object.assign(row, { legal_research_us: true });
         }
-        Object.assign(row, { quick_actions_visible: true });
+        Object.assign(row, {
+            quick_actions_visible: true,
+            preferred_locale: "fr",
+        });
     }
     return legacy;
 }
@@ -320,6 +344,12 @@ function serializeProfile(row: UserProfileRow, apiKeyStatus?: ApiKeyStatus) {
         mfaOnLogin: row.mfa_on_login === true,
         legalResearchUs: row.legal_research_us !== false,
         quickActionsVisible: row.quick_actions_visible !== false,
+        preferredLocale:
+            row.preferred_locale === "de"
+                ? "de"
+                : row.preferred_locale === "en"
+                  ? "en"
+                  : "fr",
         ...(apiKeyStatus ? { apiKeyStatus } : {}),
     };
 }
@@ -334,6 +364,7 @@ function validateProfilePayload(body: unknown):
               tabular_model?: string;
               legal_research_us?: boolean;
               quick_actions_visible?: boolean;
+              preferred_locale?: string;
               updated_at: string;
           };
       }
@@ -350,6 +381,7 @@ function validateProfilePayload(body: unknown):
         "tabularModel",
         "legalResearchUs",
         "quickActionsVisible",
+        "preferredLocale",
     ]);
     const invalidField = Object.keys(raw).find(
         (key) => !allowedFields.has(key),
@@ -368,6 +400,7 @@ function validateProfilePayload(body: unknown):
         tabular_model?: string;
         legal_research_us?: boolean;
         quick_actions_visible?: boolean;
+        preferred_locale?: string;
         updated_at: string;
     } = { updated_at: new Date().toISOString() };
 
@@ -431,6 +464,20 @@ function validateProfilePayload(body: unknown):
             };
         }
         update.quick_actions_visible = raw.quickActionsVisible;
+    }
+
+    if ("preferredLocale" in raw) {
+        if (
+            raw.preferredLocale !== "fr" &&
+            raw.preferredLocale !== "en" &&
+            raw.preferredLocale !== "de"
+        ) {
+            return {
+                ok: false,
+                detail: "preferredLocale must be 'fr', 'en', or 'de'",
+            };
+        }
+        update.preferred_locale = raw.preferredLocale;
     }
 
     return { ok: true, update };

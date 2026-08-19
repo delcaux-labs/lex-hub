@@ -9,6 +9,7 @@ import React, {
     useCallback,
 } from "react";
 import { useAuth } from "@/app/contexts/AuthContext";
+import type { Locale } from "@/i18n/config";
 import {
     type ApiKeyState,
     type ApiKeyProvider,
@@ -32,6 +33,7 @@ interface UserProfile {
     mfaOnLogin: boolean;
     legalResearchUs: boolean;
     quickActionsVisible: boolean;
+    preferredLocale: Locale;
     apiKeys: ApiKeyState;
 }
 
@@ -47,6 +49,7 @@ interface UserProfileContextType {
     updateMfaOnLogin: (enabled: boolean) => Promise<boolean>;
     updateLegalResearchUs: (enabled: boolean) => Promise<boolean>;
     updateQuickActionsVisible: (visible: boolean) => Promise<boolean>;
+    updatePreferredLocale: (locale: Locale) => Promise<boolean>;
     updateApiKey: (
         provider: ApiKeyProvider,
         value: string | null,
@@ -91,6 +94,7 @@ function toProfile(data: ApiUserProfile): UserProfile {
 
     return {
         ...profile,
+        preferredLocale: profile.preferredLocale ?? "fr",
         mfaOnLogin: profile.mfaOnLogin === true,
         apiKeys,
     };
@@ -124,6 +128,7 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
                 mfaOnLogin: false,
                 legalResearchUs: true,
                 quickActionsVisible: true,
+                preferredLocale: "fr",
                 apiKeys: emptyApiKeys(),
             });
         } finally {
@@ -251,6 +256,30 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
         [user],
     );
 
+    const updatePreferredLocale = useCallback(
+        async (locale: Locale): Promise<boolean> => {
+            if (typeof document !== "undefined") {
+                document.cookie = `NEXT_LOCALE=${locale}; path=/; max-age=31536000; SameSite=Lax`;
+            }
+            if (!user) {
+                setProfile((prev) => (prev ? { ...prev, preferredLocale: locale } : null));
+                return true;
+            }
+            try {
+                const updated = await updateUserProfile({
+                    preferredLocale: locale,
+                });
+                setProfile((prev) =>
+                    prev ? { ...prev, ...toProfile(updated) } : null,
+                );
+                return true;
+            } catch {
+                return false;
+            }
+        },
+        [user],
+    );
+
     const updateApiKey = useCallback(
         async (
             provider: ApiKeyProvider,
@@ -313,6 +342,7 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
                 updateMfaOnLogin,
                 updateLegalResearchUs,
                 updateQuickActionsVisible,
+                updatePreferredLocale,
                 updateApiKey,
                 reloadProfile,
                 incrementMessageCredits,

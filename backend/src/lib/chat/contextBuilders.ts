@@ -253,9 +253,10 @@ export function buildMessages(
   docIndex?: DocIndex,
   includeResearchTools = true,
   nonce?: string,
+  locale?: string,
 ) {
   const formatted: unknown[] = [];
-  let systemContent = buildSystemPrompt(includeResearchTools);
+  let systemContent = buildSystemPrompt(includeResearchTools, locale);
 
   if (systemPromptExtra) {
     systemContent += `\n\n${systemPromptExtra.trim()}`;

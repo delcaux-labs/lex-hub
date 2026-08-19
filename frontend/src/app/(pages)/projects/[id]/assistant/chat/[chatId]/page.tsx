@@ -11,6 +11,7 @@ import {
     useState,
 } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import {
     ChevronLeft,
     ChevronRight,
@@ -104,6 +105,7 @@ const CHAT_DEFAULT = 420;
 const DEFAULT_ASSISTANT_BOTTOM_PADDING = 116;
 
 function AssistantGreeting({ username }: { username: string }) {
+    const tAssistant = useTranslations("assistant");
     const { profile } = useUserProfile();
     const [loaded, setLoaded] = useState(false);
     const [iconOffset, setIconOffset] = useState(0);
@@ -152,7 +154,7 @@ function AssistantGreeting({ username }: { username: string }) {
                             "transform 900ms cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 800ms ease-in-out 300ms",
                     }}
                 >
-                    Bonjour, {username}
+                    {tAssistant("helloUser", { name: username })}
                 </h1>
             </div>
         </div>

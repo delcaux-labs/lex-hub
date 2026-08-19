@@ -3,8 +3,10 @@
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Loader2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { SiteLogo } from "@/app/components/site-logo";
 import { PillButton } from "@/app/components/ui/pill-button";
+import { LanguageSwitcher } from "@/app/components/shared/LanguageSwitcher";
 import { useAuth } from "@/app/contexts/AuthContext";
 import { supabase } from "@/app/lib/supabase";
 import {
@@ -23,6 +25,8 @@ const authGlassCardClassName =
     "rounded-2xl border border-white/70 bg-white/72 px-8 py-8 shadow-[0_4px_14px_rgba(15,23,42,0.045),inset_0_1px_0_rgba(255,255,255,0.86),inset_0_-8px_18px_rgba(255,255,255,0.12)] backdrop-blur-2xl";
 
 export default function VerifyMfaPage() {
+    const tAuth = useTranslations("auth");
+    const tCommon = useTranslations("common");
     const router = useRouter();
     const searchParams = useSearchParams();
     const { user, authLoading, signOut } = useAuth();
@@ -68,7 +72,7 @@ export default function VerifyMfaPage() {
                 setSelectedFactorId(verified[0]?.id ?? "");
                 if (verified.length === 0) {
                     setError(
-                        "Aucun facteur d'authentification vérifié n'est disponible pour ce compte.",
+                        "No verified authentication factor is available for this account.",
                     );
                 }
             } catch (loadError) {
@@ -76,7 +80,7 @@ export default function VerifyMfaPage() {
                 setError(
                     loadError instanceof Error
                         ? loadError.message
-                        : "Impossible de charger la vérification de l'authentificateur.",
+                        : "Unable to load authenticator verification.",
                 );
             } finally {
                 if (!cancelled) setLoading(false);
@@ -119,17 +123,19 @@ export default function VerifyMfaPage() {
 
     return (
         <div className="relative flex min-h-dvh items-start justify-center bg-gray-50/80 px-6 pb-10 pt-32 md:pt-40">
+            <div className="fixed top-4 right-4 md:top-8 md:right-8 z-50">
+                <LanguageSwitcher />
+            </div>
             <div className="absolute left-1/2 top-4 -translate-x-1/2 md:top-8">
                 <SiteLogo size="lg" asLink />
             </div>
             <div className={`w-full max-w-md ${authGlassCardClassName}`}>
                 <div className="mb-8 space-y-2">
                     <h1 className="text-2xl font-serif">
-                        Vérifiez votre identité
+                        {tAuth("verifyMfa")}
                     </h1>
                     <p className="text-sm text-gray-500">
-                        Entrez le code à six chiffres de votre application
-                        d&apos;authentification pour continuer.
+                        {tAuth("verifyMfaSubtitle")}
                     </p>
                 </div>
 
@@ -137,12 +143,11 @@ export default function VerifyMfaPage() {
                     {loading ? (
                         <div className="flex h-13 items-center justify-center text-sm text-gray-500">
                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            Chargement de l&apos;authentificateur...
+                            {tCommon("loading")}
                         </div>
                     ) : factors.length === 0 ? (
                         <p className="rounded-lg bg-gray-100 px-3 py-2 text-sm text-gray-600">
-                            Aucun facteur d&apos;authentification vérifié
-                            n&apos;est disponible pour cette session.
+                            No verified authentication factor available.
                         </p>
                     ) : (
                         <>
@@ -160,7 +165,7 @@ export default function VerifyMfaPage() {
                                             value={factor.id}
                                         >
                                             {factor.friendly_name ||
-                                                "Application d'authentification"}
+                                                "Authenticator app"}
                                         </option>
                                     ))}
                                 </select>
@@ -185,7 +190,7 @@ export default function VerifyMfaPage() {
                             disabled={verifying}
                             className="px-3 py-1.5 text-sm font-medium text-gray-600 transition-colors hover:text-gray-950 disabled:cursor-not-allowed disabled:text-gray-400"
                         >
-                            Annuler
+                            {tCommon("cancel")}
                         </button>
                         <PillButton
                             tone="black"
@@ -197,10 +202,10 @@ export default function VerifyMfaPage() {
                             {verifying ? (
                                 <span className="inline-flex items-center gap-1.5">
                                     <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                                    Vérification...
+                                    {tAuth("verifying")}
                                 </span>
                             ) : (
-                                "Vérifier"
+                                tAuth("verify")
                             )}
                         </PillButton>
                     </div>

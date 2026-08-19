@@ -3,9 +3,11 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Trash2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { PillButton } from "@/app/components/ui/pill-button";
 import { FieldLabel } from "@/app/components/ui/form-field";
 import { SettingsTextInput } from "@/app/components/settings/SettingsTextInput";
+import { LanguageSwitcher } from "@/app/components/shared/LanguageSwitcher";
 import { useAuth } from "@/app/contexts/AuthContext";
 import { useUserProfile } from "@/app/contexts/UserProfileContext";
 import { ConfirmPopup } from "@/app/components/popups/ConfirmPopup";
@@ -23,6 +25,10 @@ const devLog = (...args: Parameters<typeof console.log>) => {
 };
 
 export default function SettingsPage() {
+    const tAccount = useTranslations("settings.account");
+    const tCommon = useTranslations("common");
+    const tLang = useTranslations("language");
+    const tPopups = useTranslations("popups");
     const router = useRouter();
     const { user, signOut, updateEmail } = useAuth();
     const { profile, updateDisplayName, updateOrganisation } = useUserProfile();
@@ -82,7 +88,7 @@ export default function SettingsPage() {
                 return;
             }
             setDeleteConfirm(false);
-            alert("Impossible de supprimer le compte. Veuillez réessayer.");
+            alert("Error deleting account. Please try again.");
         }
     };
 
@@ -106,8 +112,8 @@ export default function SettingsPage() {
             setEmailSaved(true);
             setEmailStatus(
                 pendingEmail
-                    ? `Confirmation envoyée à ${pendingEmail}. Votre adresse actuelle reste ${updatedUser.email} jusqu'à ce que la modification soit confirmée.`
-                    : "E-mail mis à jour.",
+                    ? `Confirmation sent to ${pendingEmail}. Your current email remains ${updatedUser.email} until confirmed.`
+                    : "Email updated.",
             );
             setTimeout(() => setEmailSaved(false), 2000);
         } catch (error: unknown) {
@@ -115,11 +121,15 @@ export default function SettingsPage() {
             const message =
                 error instanceof Error
                     ? error.message
-                    : "Impossible de mettre à jour l'adresse e-mail. Veuillez réessayer.";
+                    : "Error updating email. Please try again.";
 
             if (isAlreadyRegisteredEmailError(message)) {
                 setEmail(user?.pendingEmail || user?.email || "");
                 setEmailWarning(message);
+                return;
+            }
+            if (isMfaRequiredError(error)) {
+                setEmailMfaOpen(true);
                 return;
             }
 
@@ -138,7 +148,7 @@ export default function SettingsPage() {
             setSaved(true);
             setTimeout(() => setSaved(false), 2000);
         } else {
-            alert("Impossible de mettre à jour le nom affiché. Veuillez réessayer.");
+            alert("Error updating display name. Please try again.");
         }
     };
 
@@ -151,7 +161,7 @@ export default function SettingsPage() {
             setOrgSaved(true);
             setTimeout(() => setOrgSaved(false), 2000);
         } else {
-            alert("Impossible de mettre à jour l'organisation. Veuillez réessayer.");
+            alert("Error updating organisation. Please try again.");
         }
     };
 
@@ -159,16 +169,28 @@ export default function SettingsPage() {
 
     return (
         <div className="space-y-8">
+            {/* Language Selection */}
+            <section className="space-y-3">
+                <h2 className="text-2xl font-medium font-serif text-gray-900">
+                    {tLang("selectLanguage")}
+                </h2>
+                <SettingsSection>
+                    <div className="p-4">
+                        <LanguageSwitcher variant="settings" />
+                    </div>
+                </SettingsSection>
+            </section>
+
             {/* Profile Settings */}
             <section className="space-y-3">
                 <h2 className="text-2xl font-medium font-serif text-gray-900">
-                    Profil
+                    {tAccount("profileInformation")}
                 </h2>
                 <SettingsSection>
                     <div className="space-y-8 p-4">
                         <div>
                             <FieldLabel className="text-sm text-gray-600">
-                                Nom affiché
+                                {tAccount("displayName")}
                             </FieldLabel>
                             <div className="space-y-2">
                                 <SettingsTextInput
@@ -177,7 +199,7 @@ export default function SettingsPage() {
                                     onChange={(e) =>
                                         setDisplayName(e.target.value)
                                     }
-                                    placeholder="Entrez votre nom"
+                                    placeholder={tAccount("displayName")}
                                 />
                                 <div className="flex justify-end">
                                     <button
@@ -191,17 +213,17 @@ export default function SettingsPage() {
                                         className="text-xs font-medium text-gray-700 transition-colors hover:text-gray-950 disabled:cursor-not-allowed disabled:text-gray-400"
                                     >
                                         {isSavingName
-                                            ? "Enregistrement..."
+                                            ? tCommon("saving")
                                             : saved
-                                              ? "Enregistré"
-                                              : "Enregistrer"}
+                                              ? tCommon("saved")
+                                              : tCommon("save")}
                                     </button>
                                 </div>
                             </div>
                         </div>
                         <div>
                             <FieldLabel className="text-sm text-gray-600">
-                                Organisation
+                                {tAccount("organisation")}
                             </FieldLabel>
                             <div className="space-y-2">
                                 <SettingsTextInput
@@ -210,7 +232,7 @@ export default function SettingsPage() {
                                     onChange={(e) =>
                                         setOrganisation(e.target.value)
                                     }
-                                    placeholder="Entrez votre organisation"
+                                    placeholder={tAccount("organisation")}
                                 />
                                 <div className="flex justify-end">
                                     <button
@@ -225,10 +247,10 @@ export default function SettingsPage() {
                                         className="text-xs font-medium text-gray-700 transition-colors hover:text-gray-950 disabled:cursor-not-allowed disabled:text-gray-400"
                                     >
                                         {isSavingOrg
-                                            ? "Enregistrement..."
+                                            ? tCommon("saving")
                                             : orgSaved
-                                              ? "Enregistré"
-                                              : "Enregistrer"}
+                                              ? tCommon("saved")
+                                              : tCommon("save")}
                                     </button>
                                 </div>
                             </div>
@@ -240,7 +262,7 @@ export default function SettingsPage() {
             {/* Email */}
             <section className="space-y-3">
                 <h2 className="text-2xl font-medium font-serif text-gray-900">
-                    E-mail
+                    {tAccount("email")}
                 </h2>
                 <SettingsSection>
                     <div className="space-y-2 p-4">
@@ -253,7 +275,7 @@ export default function SettingsPage() {
                                 setEmailWarning(null);
                                 setEmailSaved(false);
                             }}
-                            placeholder="Entrez votre e-mail"
+                            placeholder={tAccount("email")}
                         />
                         {emailStatus ? (
                             <p className="text-xs text-gray-500">
@@ -261,12 +283,12 @@ export default function SettingsPage() {
                             </p>
                         ) : user.pendingEmail ? (
                             <p className="text-xs text-gray-500">
-                                En attente de confirmation : {user.pendingEmail}
+                                Pending confirmation: {user.pendingEmail}
                             </p>
                         ) : null}
                         {emailStatus && (
                             <p className="text-xs text-gray-400">
-                                E-mail actuel : {user.email}
+                                Current email: {user.email}
                             </p>
                         )}
                         <div className="flex justify-end">
@@ -283,10 +305,10 @@ export default function SettingsPage() {
                                 className="text-xs font-medium text-gray-700 transition-colors hover:text-gray-950 disabled:cursor-not-allowed disabled:text-gray-400"
                             >
                                 {isSavingEmail
-                                    ? "Enregistrement..."
+                                    ? tCommon("saving")
                                     : emailSaved
-                                      ? "Enregistré"
-                                      : "Enregistrer"}
+                                      ? tCommon("saved")
+                                      : tCommon("save")}
                             </button>
                         </div>
                     </div>
@@ -296,12 +318,12 @@ export default function SettingsPage() {
             {/* Plan */}
             <section className="space-y-3">
                 <h2 className="text-2xl font-medium font-serif text-gray-900">
-                    Formule d'utilisation
+                    {tAccount("tier")}
                 </h2>
                 <SettingsSection>
                     <div className="p-4">
-                        <p className="text-base font-medium text-gray-500 capitalize">
-                            {profile?.tier === "free" || !profile?.tier ? "Gratuit" : profile.tier}
+                        <p className="text-base font-medium text-gray-700 capitalize">
+                            {profile?.tier || "Free"}
                         </p>
                     </div>
                 </SettingsSection>
@@ -310,18 +332,16 @@ export default function SettingsPage() {
             {/* Danger Zone */}
             <section className="space-y-3">
                 <h2 className="text-2xl font-medium font-serif text-red-600">
-                    Zone de danger
+                    {tAccount("deleteAccount")}
                 </h2>
                 <SettingsSection>
                     <div className="flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between">
                         <div className="space-y-1">
                             <p className="text-sm font-medium text-gray-700">
-                                Supprimer le compte
+                                {tAccount("deleteAccount")}
                             </p>
                             <p className="text-sm text-gray-500">
-                                Supprimez définitivement votre compte et toutes
-                                les données associées. Cette action est
-                                irréversible.
+                                {tAccount("deleteAccountWarning")}
                             </p>
                         </div>
                         <PillButton
@@ -332,18 +352,18 @@ export default function SettingsPage() {
                             className="w-full shrink-0 sm:w-auto"
                         >
                             <Trash2 className="h-4 w-4 shrink-0" />
-                            Supprimer le compte
+                            {tAccount("deleteAccount")}
                         </PillButton>
                     </div>
                 </SettingsSection>
             </section>
             <ConfirmPopup
                 open={deleteConfirm}
-                title="Supprimer le compte ?"
-                message="Cette action supprimera définitivement votre compte et toutes les données associées. Cette action est irréversible."
-                confirmLabel="Supprimer"
+                title={tAccount("deleteAccount")}
+                message={tAccount("deleteAccountWarning")}
+                confirmLabel={tCommon("delete")}
                 confirmStatus={isDeleting ? "loading" : "idle"}
-                cancelLabel="Annuler"
+                cancelLabel={tCommon("cancel")}
                 onCancel={() => {
                     if (isDeleting) return;
                     setDeleteConfirm(false);
@@ -352,7 +372,7 @@ export default function SettingsPage() {
             />
             <WarningPopup
                 open={!!emailWarning}
-                title="Adresse e-mail déjà enregistrée"
+                title={tPopups("warningTitle")}
                 message={emailWarning}
                 onClose={() => setEmailWarning(null)}
             />
@@ -366,8 +386,8 @@ export default function SettingsPage() {
                     setAccountDeleteMfaOpen(false);
                     void handleDeleteAccount();
                 }}
-                title="Vérification à deux facteurs requise"
-                message="La suppression du compte est une action sensible. Saisissez un code depuis votre application d'authentification pour continuer."
+                title={tPopups("mfaRequiredTitle")}
+                message={tPopups("mfaRequiredDesc")}
             />
             <MfaVerificationPopup
                 open={emailMfaOpen}
@@ -377,8 +397,8 @@ export default function SettingsPage() {
                     setEmailMfaOpen(false);
                     void handleSaveEmail();
                 }}
-                title="Vérification à deux facteurs requise"
-                message="La modification de l'e-mail est une action sensible. Saisissez un code depuis votre application d'authentification pour continuer."
+                title={tPopups("mfaRequiredTitle")}
+                message={tPopups("mfaRequiredDesc")}
             />
         </div>
     );
