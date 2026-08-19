@@ -46,27 +46,143 @@ const QUICK_ACTION_DEFAULTS: Partial<
   },
 };
 
+const DEFAULT_WORKFLOW_LOCALIZATIONS: Record<
+  string,
+  Partial<
+    Record<
+      (typeof DEFAULT_WORKFLOW_IDS)[number],
+      {
+        title: string;
+        language: string;
+        quickActionName?: string;
+        quickActionPrompt?: string;
+      }
+    >
+  >
+> = {
+  fr: {
+    "builtin-proofread": {
+      title: "Relecture et correction",
+      language: "French",
+      quickActionName: "Relecture et correction",
+      quickActionPrompt: "Exécuter ce workflow sur les documents sélectionnés.",
+    },
+    "builtin-compare-documents": {
+      title: "Comparer des documents",
+      language: "French",
+      quickActionName: "Comparer des documents",
+      quickActionPrompt: "Exécuter ce workflow sur les documents sélectionnés.",
+    },
+    "builtin-extract-key-terms": {
+      title: "Extraire les termes clés",
+      language: "French",
+      quickActionName: "Extraire les termes clés",
+      quickActionPrompt: "Exécuter ce workflow sur les documents sélectionnés.",
+    },
+    "builtin-draft-from-template": {
+      title: "Rédiger à partir d'un modèle",
+      language: "French",
+      quickActionName: "Rédiger à partir d'un modèle",
+      quickActionPrompt: "Exécuter ce workflow sur les documents sélectionnés.",
+    },
+    "builtin-commercial-agreement-tabular-review": {
+      title: "Revue tabulaire d'accords commerciaux",
+      language: "French",
+    },
+  },
+  de: {
+    "builtin-proofread": {
+      title: "Korrekturlesen und Überarbeiten",
+      language: "German",
+      quickActionName: "Korrekturlesen und Überarbeiten",
+      quickActionPrompt: "Diesen Workflow auf die ausgewählten Dokumente anwenden.",
+    },
+    "builtin-compare-documents": {
+      title: "Dokumente vergleichen",
+      language: "German",
+      quickActionName: "Dokumente vergleichen",
+      quickActionPrompt: "Diesen Workflow auf die ausgewählten Dokumente anwenden.",
+    },
+    "builtin-extract-key-terms": {
+      title: "Wichtige Klauseln extrahieren",
+      language: "German",
+      quickActionName: "Wichtige Klauseln extrahieren",
+      quickActionPrompt: "Diesen Workflow auf die ausgewählten Dokumente anwenden.",
+    },
+    "builtin-draft-from-template": {
+      title: "Entwurf aus Vorlage erstellen",
+      language: "German",
+      quickActionName: "Entwurf aus Vorlage erstellen",
+      quickActionPrompt: "Diesen Workflow auf die ausgewählten Dokumente anwenden.",
+    },
+    "builtin-commercial-agreement-tabular-review": {
+      title: "Tabellarische Prüfung von Handelsverträgen",
+      language: "German",
+    },
+  },
+  en: {
+    "builtin-proofread": {
+      title: "Proofread",
+      language: "English",
+      quickActionName: "Proofread",
+      quickActionPrompt: DEFAULT_QUICK_ACTION_PROMPT,
+    },
+    "builtin-compare-documents": {
+      title: "Compare Documents",
+      language: "English",
+      quickActionName: "Compare Documents",
+      quickActionPrompt: DEFAULT_QUICK_ACTION_PROMPT,
+    },
+    "builtin-extract-key-terms": {
+      title: "Extract Key Terms",
+      language: "English",
+      quickActionName: "Extract Key Terms",
+      quickActionPrompt: DEFAULT_QUICK_ACTION_PROMPT,
+    },
+    "builtin-draft-from-template": {
+      title: "Draft from Template",
+      language: "English",
+      quickActionName: "Draft from Template",
+      quickActionPrompt: DEFAULT_QUICK_ACTION_PROMPT,
+    },
+    "builtin-commercial-agreement-tabular-review": {
+      title: "Commercial Agreement Tabular Review",
+      language: "English",
+    },
+  },
+};
+
 function workflowById(id: string): SystemWorkflow {
   const workflow = SYSTEM_WORKFLOWS.find((item) => item.id === id);
   if (!workflow) throw new Error(`Default workflow '${id}' is missing`);
   return workflow;
 }
 
-export function defaultWorkflowPayloads() {
+export function defaultWorkflowPayloads(locale: string = "fr") {
+  const normLocale = locale === "en" ? "en" : locale === "de" ? "de" : "fr";
+  const localized = DEFAULT_WORKFLOW_LOCALIZATIONS[normLocale] || {};
   return DEFAULT_WORKFLOW_IDS.map((id) => {
     const workflow = workflowById(id);
     const action = QUICK_ACTION_DEFAULTS[id];
+    const loc = localized[id];
+    const title = loc?.title ?? workflow.metadata.title;
+    const language = loc?.language ?? workflow.metadata.language;
+    const quickActionName = action
+      ? (loc?.quickActionName ?? loc?.title ?? workflow.metadata.title)
+      : null;
+    const quickActionPrompt = loc?.quickActionPrompt ?? action?.prompt ?? null;
+
     return {
       default_key: id.replace(/^builtin-/, ""),
-      title: workflow.metadata.title,
+      title,
       type: workflow.metadata.type,
       prompt_md: workflow.skill_md,
       columns_config: workflow.columns_config,
-      language: workflow.metadata.language,
+      language,
       practice: workflow.metadata.practice,
       jurisdictions: workflow.metadata.jurisdictions,
-      quick_action_name: action ? workflow.metadata.title : null,
-      quick_action_prompt: action?.prompt ?? null,
+      quick_action_name: quickActionName,
+      quick_action_prompt: quickActionPrompt,
       document_upload: action?.documentUpload ?? false,
       sort_order: action?.sortOrder ?? null,
     };
@@ -88,11 +204,29 @@ export function resetEnsuredDefaultUsersForTests(): void {
 export async function ensureDefaultWorkflows(
   userId: string,
   db: Db,
+  preferredLocale?: string,
 ): Promise<number> {
   if (ensuredDefaultUsers.has(userId)) return 0;
+
+  let locale = preferredLocale;
+  if (!locale && typeof db.from === "function") {
+    try {
+      const { data: profile } = await db
+        .from("user_profiles")
+        .select("preferred_locale")
+        .eq("user_id", userId)
+        .maybeSingle();
+      locale =
+        (profile as { preferred_locale?: string } | null)?.preferred_locale ||
+        "fr";
+    } catch {
+      locale = "fr";
+    }
+  }
+
   const { data, error } = await db.rpc("install_missing_default_workflows", {
     p_user_id: userId,
-    p_defaults: defaultWorkflowPayloads(),
+    p_defaults: defaultWorkflowPayloads(locale || "fr"),
   });
   if (error) throw error;
   ensuredDefaultUsers.add(userId);

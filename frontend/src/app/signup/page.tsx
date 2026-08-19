@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { supabase } from "@/app/lib/supabase";
 import { Button } from "@/app/components/ui/button";
 import { Input } from "@/app/components/ui/input";
@@ -27,6 +27,7 @@ const authToggleInactiveClassName =
 export default function SignupPage() {
     const t = useTranslations("auth");
     const tCommon = useTranslations("common");
+    const locale = useLocale();
     const router = useRouter();
     const { isAuthenticated, authLoading } = useAuth();
     const [email, setEmail] = useState("");
@@ -78,18 +79,17 @@ export default function SignupPage() {
             if (data.session) {
                 const trimmedName = name.trim();
                 const trimmedOrg = organisation.trim();
-                if (trimmedName || trimmedOrg) {
-                    try {
-                        await updateUserProfile({
-                            ...(trimmedName && { displayName: trimmedName }),
-                            ...(trimmedOrg && { organisation: trimmedOrg }),
-                        });
-                    } catch (profileError) {
-                        console.error(
-                            "[signup] failed to persist profile fields",
-                            profileError,
-                        );
-                    }
+                try {
+                    await updateUserProfile({
+                        ...(trimmedName && { displayName: trimmedName }),
+                        ...(trimmedOrg && { organisation: trimmedOrg }),
+                        preferredLocale: (locale as "fr" | "en" | "de") || "fr",
+                    });
+                } catch (profileError) {
+                    console.error(
+                        "[signup] failed to persist profile fields",
+                        profileError,
+                    );
                 }
             }
             setSuccess(true);

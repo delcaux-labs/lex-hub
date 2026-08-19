@@ -50,7 +50,12 @@ export async function getUserModelSettings(
         title_model: resolveModel(profileData?.title_model, resolveTitleModel(api_keys)),
         tabular_model: resolveModel(profileData?.tabular_model, DEFAULT_TABULAR_MODEL),
         legal_research_us: profileData?.legal_research_us !== false,
-        preferred_locale: profileData?.preferred_locale === "en" ? "en" : "fr",
+        preferred_locale:
+            profileData?.preferred_locale === "de"
+                ? "de"
+                : profileData?.preferred_locale === "en"
+                  ? "en"
+                  : "fr",
         api_keys,
     };
 }

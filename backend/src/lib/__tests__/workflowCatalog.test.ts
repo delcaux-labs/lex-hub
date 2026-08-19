@@ -54,6 +54,32 @@ describe("workflow catalog", () => {
     );
   });
 
+  it("localizes default workflows according to the requested locale", () => {
+    const frDefaults = defaultWorkflowPayloads("fr");
+    expect(frDefaults.find((w) => w.default_key === "proofread")?.title).toBe(
+      "Relecture et correction",
+    );
+    expect(frDefaults.find((w) => w.default_key === "proofread")?.language).toBe(
+      "French",
+    );
+
+    const deDefaults = defaultWorkflowPayloads("de");
+    expect(deDefaults.find((w) => w.default_key === "proofread")?.title).toBe(
+      "Korrekturlesen und Überarbeiten",
+    );
+    expect(deDefaults.find((w) => w.default_key === "proofread")?.language).toBe(
+      "German",
+    );
+
+    const enDefaults = defaultWorkflowPayloads("en");
+    expect(enDefaults.find((w) => w.default_key === "proofread")?.title).toBe(
+      "Proofread",
+    );
+    expect(enDefaults.find((w) => w.default_key === "proofread")?.language).toBe(
+      "English",
+    );
+  });
+
   it("offers every non-default repository workflow as an add-on", () => {
     const seeds = workflowAddonSeeds();
     expect(seeds).toHaveLength(
