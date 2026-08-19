@@ -2,7 +2,17 @@ import { createRef } from "react";
 import { act, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import { NextIntlClientProvider } from "next-intl";
+import fr from "../../../../messages/fr.json";
 import { listWorkflows } from "@/app/lib/mikeApi";
+
+function renderWithIntl(ui: React.ReactElement) {
+    return render(
+        <NextIntlClientProvider locale="fr" messages={fr}>
+            {ui}
+        </NextIntlClientProvider>,
+    );
+}
 import type { Document, Workflow } from "../shared/types";
 import { ChatInput, type ChatInputHandle } from "./ChatInput";
 
@@ -68,7 +78,7 @@ describe("ChatInput workflow slash commands", () => {
             file_type: "docx",
         } as Document;
 
-        render(
+        renderWithIntl(
             <ChatInput
                 ref={ref}
                 onSubmit={vi.fn()}
@@ -92,7 +102,7 @@ describe("ChatInput workflow slash commands", () => {
     it("attaches the selected workflow without submitting", async () => {
         const onSubmit = vi.fn();
         const user = userEvent.setup();
-        render(
+        renderWithIntl(
             <ChatInput
                 onSubmit={onSubmit}
                 onCancel={vi.fn()}
@@ -132,7 +142,7 @@ describe("ChatInput workflow slash commands", () => {
     it("replaces an existing draft with an explicitly supplied workflow prompt", async () => {
         const ref = createRef<ChatInputHandle>();
         const user = userEvent.setup();
-        render(
+        renderWithIntl(
             <ChatInput
                 ref={ref}
                 onSubmit={vi.fn()}
@@ -184,7 +194,7 @@ describe("ChatInput workflow slash commands", () => {
         ];
         const onSubmit = vi.fn();
         const user = userEvent.setup();
-        render(
+        renderWithIntl(
             <ChatInput
                 onSubmit={onSubmit}
                 onCancel={vi.fn()}
