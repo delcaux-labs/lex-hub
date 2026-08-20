@@ -203,8 +203,8 @@ services:
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       # Local Ollama running on the host. Override OLLAMA_MODEL to change the tag.
-      - OLLAMA_BASE_URL=https://openrouter.ai/api/v1
-      - OLLAMA_API_KEY=${OPENROUTER_API_KEY}
+      - OLLAMA_BASE_URL=https://api.tensorx.ai/v1
+      - OLLAMA_API_KEY=${TENSORX_API_KEY}
       # Telemetry / Tracing (MLflow OTLP)
       - OTEL_TRACING_ENABLED=${OTEL_TRACING_ENABLED:-true}
       - OTEL_EXPORTER_OTLP_ENDPOINT=${OTEL_EXPORTER_OTLP_ENDPOINT:-http://mlflow:5000}
@@ -235,11 +235,7 @@ services:
     volumes:
       - mlflow_data:/mlflow
     command: >
-      mlflow server
-      --host 0.0.0.0
-      --port 5000
-      --backend-store-uri sqlite:////mlflow/mlflow.db
-      --default-artifact-root /mlflow/artifacts
+      mlflow server --host 0.0.0.0 --port 5000 --backend-store-uri sqlite:////mlflow/mlflow.db --default-artifact-root /mlflow/artifacts
     restart: unless-stopped
 
   frontend:
