@@ -201,10 +201,10 @@ services:
       - OLLAMA_BASE_URL=https://api.tensorx.ai/v1
       - OLLAMA_API_KEY=${TENSORX_API_KEY}
       # Telemetry / Tracing (MLflow OTLP)
-      - OTEL_TRACING_ENABLED=${OTEL_TRACING_ENABLED:-true}
-      - OTEL_EXPORTER_OTLP_ENDPOINT=${OTEL_EXPORTER_OTLP_ENDPOINT:-http://mlflow:5000}
-      - OTEL_SERVICE_NAME=${OTEL_SERVICE_NAME:-lex-hub-backend}
-      - OTEL_EXPORTER_OTLP_HEADERS=${OTEL_EXPORTER_OTLP_HEADERS:-x-mlflow-experiment-id=0}
+      - OTEL_TRACING_ENABLED=true
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://mlflow:5000
+      - OTEL_SERVICE_NAME=lex-hub-backend
+      - OTEL_EXPORTER_OTLP_HEADERS=x-mlflow-experiment-id=0
     extra_hosts:
       - "host.docker.internal:host-gateway"
     depends_on:
@@ -240,9 +240,9 @@ services:
     environment:
       - INTERNAL_GATEWAY_URL=${INTERNAL_GATEWAY_URL:-http://gateway:8000}
       - INTERNAL_BACKEND_URL=${INTERNAL_BACKEND_URL:-http://backend:3001}
-      - NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL:-http://localhost:54321}
+      - NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL:-}
       - NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY=${NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY}
-      - NEXT_PUBLIC_API_BASE_URL=${NEXT_PUBLIC_API_BASE_URL:-http://localhost:3001}
+      - NEXT_PUBLIC_API_BASE_URL=${NEXT_PUBLIC_API_BASE_URL:-}
     ports:
       # Dokploy's own dashboard occupies 3000 — set FRONTEND_PORT there.
       - "${FRONTEND_PORT:-3000}:3000"
