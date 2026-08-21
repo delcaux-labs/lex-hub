@@ -43,8 +43,18 @@ interface ServerChatDetailOut {
     messages: ServerMessage[];
 }
 
-const API_BASE =
-    process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001";
+function getApiBaseUrl(): string {
+    const envUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+    if (envUrl && !envUrl.includes("__NEXT_PUBLIC_API_BASE_URL__")) {
+        return envUrl;
+    }
+    if (typeof window !== "undefined") {
+        return `${window.location.origin}/api/backend`;
+    }
+    return "http://localhost:3001";
+}
+
+const API_BASE = getApiBaseUrl();
 const isDev = process.env.NODE_ENV !== "production";
 const devLog = (...args: Parameters<typeof console.log>) => {
     if (isDev) console.log(...args);
