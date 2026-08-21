@@ -174,7 +174,7 @@ services:
 
   backend:
     build: ./backend
-    env_file: .env
+    #env_file: .env
     ports:
       - "${BACKEND_PORT:-3001}:3001"
     environment:
@@ -236,7 +236,7 @@ services:
   frontend:
     build:
       context: ./frontend
-    env_file: .env
+    #env_file: .env
     environment:
       - INTERNAL_GATEWAY_URL=${INTERNAL_GATEWAY_URL:-http://gateway:8000}
       - INTERNAL_BACKEND_URL=${INTERNAL_BACKEND_URL:-http://backend:3001}
