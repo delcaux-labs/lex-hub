@@ -13,7 +13,7 @@ set -e
 # Only run replacement if the placeholders are still present in the bundle.
 if grep -rq '__NEXT_PUBLIC_SUPABASE_URL__' /app/.next 2>/dev/null; then
   echo "[entrypoint] Injecting runtime NEXT_PUBLIC_* values..."
-  find /app/.next -type f -name '*.js' | while read f; do
+  find /app/.next -type f \( -name '*.js' -o -name '*.mjs' -o -name '*.json' -o -name '*.html' \) | while read f; do
     sed -i \
       -e "s|__NEXT_PUBLIC_SUPABASE_URL__|${NEXT_PUBLIC_SUPABASE_URL}|g" \
       -e "s|__NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY__|${NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY}|g" \

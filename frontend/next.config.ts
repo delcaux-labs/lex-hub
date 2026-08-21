@@ -20,6 +20,16 @@ if (process.env.NODE_ENV === "production") {
     }
 }
 
+const internalGatewayUrl =
+    process.env.INTERNAL_GATEWAY_URL ||
+    process.env.GATEWAY_URL ||
+    "http://gateway:8000";
+
+const internalBackendUrl =
+    process.env.INTERNAL_BACKEND_URL ||
+    process.env.BACKEND_URL ||
+    "http://backend:3001";
+
 const nextConfig: NextConfig = {
     /* config options here */
     reactCompiler: true,
@@ -35,6 +45,18 @@ const nextConfig: NextConfig = {
             {
                 source: "/sitemap_:slug.xml",
                 destination: "/api/sitemap/sitemap_:slug.xml",
+            },
+            {
+                source: "/auth/v1/:path*",
+                destination: `${internalGatewayUrl}/auth/v1/:path*`,
+            },
+            {
+                source: "/rest/v1/:path*",
+                destination: `${internalGatewayUrl}/rest/v1/:path*`,
+            },
+            {
+                source: "/api/backend/:path*",
+                destination: `${internalBackendUrl}/:path*`,
             },
         ];
     },
