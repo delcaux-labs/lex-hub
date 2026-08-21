@@ -357,5 +357,10 @@
         "goToSettings": "Zu den Einstellungen",
         "mfaRequiredTitle": "Sicherheitsüberprüfung erforderlich",
         "mfaRequiredDesc": "Bitte geben Sie Ihren Authentifizierungscode ein, um diese vertrauliche Aktion zu bestätigen."
+    },
+    "tiers": {
+        "free": "Kostenlos",
+        "pro": "Pro",
+        "enterprise": "Enterprise"
     }
 }

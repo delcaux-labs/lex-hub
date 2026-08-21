@@ -17,6 +17,7 @@ import {
 } from "@/app/components/popups/MfaVerificationPopup";
 import { WarningPopup } from "@/app/components/popups/WarningPopup";
 import { deleteAccount, isMfaRequiredError } from "@/app/lib/mikeApi";
+import { formatUserTier } from "@/app/lib/tier";
 import { SettingsSection } from "./SettingsSection";
 
 const isDev = process.env.NODE_ENV !== "production";
@@ -29,6 +30,7 @@ export default function SettingsPage() {
     const tCommon = useTranslations("common");
     const tLang = useTranslations("language");
     const tPopups = useTranslations("popups");
+    const tTiers = useTranslations("tiers");
     const router = useRouter();
     const { user, signOut, updateEmail } = useAuth();
     const { profile, updateDisplayName, updateOrganisation } = useUserProfile();
@@ -323,7 +325,7 @@ export default function SettingsPage() {
                 <SettingsSection>
                     <div className="p-4">
                         <p className="text-base font-medium text-gray-700 capitalize">
-                            {profile?.tier || "Free"}
+                            {formatUserTier(profile?.tier, tTiers)}
                         </p>
                     </div>
                 </SettingsSection>

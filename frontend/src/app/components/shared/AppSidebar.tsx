@@ -30,6 +30,7 @@ import { HistorySkeuoIcon } from "@/app/components/shared/HistorySkeuoIcon";
 import { ProjectSvgIcon } from "@/app/components/shared/FolderSvgIcon";
 import { LanguageSwitcher } from "@/app/components/shared/LanguageSwitcher";
 import { listProjectSummaries } from "@/app/lib/mikeApi";
+import { formatUserTier } from "@/app/lib/tier";
 import type { Project } from "@/app/components/shared/types";
 import { cn } from "@/app/lib/utils";
 import {
@@ -59,6 +60,7 @@ interface AppSidebarProps {
 export function AppSidebar({ isOpen, onToggle }: AppSidebarProps) {
     const tNav = useTranslations("nav");
     const tCommon = useTranslations("common");
+    const tTiers = useTranslations("tiers");
     const { user, signOut } = useAuth();
     const { profile } = useUserProfile();
     const { chats, loadingMoreChats, loadMoreChats, setCurrentChatId } =
@@ -240,7 +242,7 @@ export function AppSidebar({ isOpen, onToggle }: AppSidebarProps) {
 
     const getUserTier = () => {
         if (!profile) return "";
-        return profile.tier || "Free";
+        return formatUserTier(profile.tier, tTiers);
     };
 
     if (!user) return null;

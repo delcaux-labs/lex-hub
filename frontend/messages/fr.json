@@ -357,5 +357,10 @@
         "goToSettings": "Aller aux paramètres",
         "mfaRequiredTitle": "Vérification de sécurité requise",
         "mfaRequiredDesc": "Veuillez valider le code d'authentification pour confirmer cette action sensible."
+    },
+    "tiers": {
+        "free": "Gratuit",
+        "pro": "Pro",
+        "enterprise": "Entreprise"
     }
 }

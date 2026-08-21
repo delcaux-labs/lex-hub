@@ -357,5 +357,10 @@
         "goToSettings": "Go to Settings",
         "mfaRequiredTitle": "Security Verification Required",
         "mfaRequiredDesc": "Please enter your authentication code to confirm this sensitive action."
+    },
+    "tiers": {
+        "free": "Free",
+        "pro": "Pro",
+        "enterprise": "Enterprise"
     }
 }
