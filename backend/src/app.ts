@@ -131,19 +131,43 @@ export function configuredAllowedOrigins(
   );
 }
 
+export function isOriginAllowed(
+  origin: string,
+  allowedOrigins: Set<string>,
+): boolean {
+  if (allowedOrigins.has(origin)) return true;
+
+  for (const pattern of allowedOrigins) {
+    if (pattern === "*") return true;
+
+    if (
+      pattern === "localhost" &&
+      /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)
+    ) {
+      return true;
+    }
+
+    if (pattern.includes("*")) {
+      const strippedPattern = pattern.replace(/^https?:\/\//, "");
+      const regexPattern = strippedPattern
+        .replace(/\./g, "\\.")
+        .replace(/\*/g, ".*");
+      const regex = new RegExp(`^https?:\\/\\/${regexPattern}(:\\d+)?$`);
+      if (regex.test(origin)) return true;
+    }
+  }
+
+  return false;
+}
+
 const allowedOrigins = configuredAllowedOrigins();
 
 app.use(
   cors({
     origin: (origin, callback) => {
       // Allow server-to-server requests (no Origin header) and any
-      // explicitly listed origin. A disallowed origin resolves to `false`
-      // (cors omits the Access-Control-Allow-Origin header and the browser
-      // blocks the response) rather than calling back with an Error —
-      // throwing here would propagate to Express's default handler and turn
-      // every disallowed cross-origin request, including preflight, into an
-      // HTTP 500.
-      callback(null, !origin || allowedOrigins.has(origin));
+      // explicitly listed or wildcard-matched origin.
+      callback(null, !origin || isOriginAllowed(origin, allowedOrigins));
     },
     credentials: true,
     allowedHeaders: ["Authorization", "Content-Type"],

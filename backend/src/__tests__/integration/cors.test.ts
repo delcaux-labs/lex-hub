@@ -18,11 +18,22 @@ vi.mock("@supabase/supabase-js", () => ({
     })),
 }));
 
-import { app, configuredAllowedOrigins } from "../../app";
+import { app, configuredAllowedOrigins, isOriginAllowed } from "../../app";
 
 const ALLOWED_ORIGIN = process.env.FRONTEND_URL ?? "http://localhost:3000";
 
 describe("CORS allowlist", () => {
+    it("matches wildcards and bare localhost properly", () => {
+        const allowed = new Set(["localhost", "*.abedi-tech.com"]);
+        expect(isOriginAllowed("http://localhost:3000", allowed)).toBe(true);
+        expect(isOriginAllowed("http://localhost:5173", allowed)).toBe(true);
+        expect(isOriginAllowed("http://127.0.0.1:3000", allowed)).toBe(true);
+        expect(isOriginAllowed("https://app.abedi-tech.com", allowed)).toBe(true);
+        expect(isOriginAllowed("http://sub.abedi-tech.com:8080", allowed)).toBe(true);
+        expect(isOriginAllowed("https://evil.com", allowed)).toBe(false);
+        expect(isOriginAllowed("https://notabedi-tech.com", allowed)).toBe(false);
+    });
+
     it("includes deployed Word and explicitly configured client origins", () => {
         const origins = configuredAllowedOrigins({
             FRONTEND_URL: "https://app.example.com",
