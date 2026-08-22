@@ -142,8 +142,11 @@ export async function parsePdfWithDocling(
     if (resolvedOptions.pageRange) {
       conversionOptions.page_range = resolvedOptions.pageRange;
     }
-    if (resolvedOptions.vlmPipelinePreset) {
-      conversionOptions.vlm_pipeline_preset = resolvedOptions.vlmPipelinePreset;
+    const vlmPreset =
+      resolvedOptions.vlmPipelinePreset ??
+      process.env.DOCLING_VLM_PRESET?.replace(/^["']|["']$/g, "")?.trim();
+    if (vlmPreset) {
+      conversionOptions.vlm_pipeline_preset = vlmPreset;
     }
     if (resolvedOptions.vlmPipelineModelApi) {
       conversionOptions.vlm_pipeline_model_api =
