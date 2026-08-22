@@ -205,7 +205,7 @@ services:
       - OTEL_EXPORTER_OTLP_ENDPOINT=http://mlflow:5000
       - OTEL_SERVICE_NAME=lex-hub-backend
       - OTEL_EXPORTER_OTLP_HEADERS=x-mlflow-experiment-id=0
-      - DOCLING_SERVICE_URL=${DOCLING_SERVICE_URL:-http://docling-service:5001}
+      - DOCLING_SERVICE_URL=${DOCLING_SERVICE_URL:-http://docling-serve:5001}
       - DOCLING_PIPELINE="vlm"
       - DOCLING_VLM_PRESET="openrouter_minimax"
     extra_hosts:
