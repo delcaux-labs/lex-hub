@@ -4,7 +4,7 @@ dist
 out
 build
 .open-next
-
+*.pdf
 .env
 .env.*
 !.env.example

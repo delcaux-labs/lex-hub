@@ -31,6 +31,7 @@ import {
 } from "../../documentTypes";
 import { extractPresentationText } from "../../officeText";
 import { spreadsheetToLLMText } from "../../spreadsheet";
+import { parsePdfWithDocling } from "../../doclingClient";
 
 
 export function citationReminder(
@@ -54,7 +55,26 @@ export function citationReminder(
   ].join("\n");
 }
 
-export async function extractPdfText(buf: ArrayBuffer): Promise<string> {
+export async function extractPdfText(
+  buf: ArrayBuffer,
+  filename: string = "document.pdf",
+): Promise<string> {
+  // Attempt Docling VLM conversion first if service is configured
+  try {
+    const doclingResult = await parsePdfWithDocling(buf, filename);
+    if (doclingResult && doclingResult.markdown) {
+      devLog(
+        `[extractPdfText] parsed via docling VLM (pages=${doclingResult.numPages}, len=${doclingResult.markdown.length}) for filename="${filename}"`,
+      );
+      return doclingResult.markdown;
+    }
+  } catch (e) {
+    devLog(
+      `[extractPdfText] docling parse failed (${e}), falling back to pdfjs-dist`,
+    );
+  }
+
+  // Fallback to local pdfjs-dist
   try {
     const pdfjsLib = await import("pdfjs-dist/legacy/build/pdf.mjs" as string);
     const pdf = await (
@@ -1526,7 +1546,7 @@ export async function readDocumentContent(
     let text: string;
     const fileType = docInfo.file_type?.toLowerCase?.() ?? "";
     if (fileType === "pdf") {
-      text = await extractPdfText(raw);
+      text = await extractPdfText(raw, docInfo.filename);
       devLog(
         `[read_document] pdf extracted length=${text.length} for filename="${docInfo.filename}"`,
       );
@@ -1575,6 +1595,7 @@ export async function readDocumentContent(
           pdfBuf.byteOffset,
           pdfBuf.byteOffset + pdfBuf.byteLength,
         ) as ArrayBuffer,
+        docInfo.filename,
       );
       devLog(
         `[read_document] legacy Office PDF extraction length=${text.length} for filename="${docInfo.filename}"`,

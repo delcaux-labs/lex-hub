@@ -12,6 +12,7 @@ import {
 } from "../lib/documentTypes";
 import { extractPresentationText } from "../lib/officeText";
 import { spreadsheetToLLMText } from "../lib/spreadsheet";
+import { parsePdfWithDocling } from "../lib/doclingClient";
 import {
     AssistantStreamError,
     buildCancelledAssistantMessage,
@@ -2032,9 +2033,22 @@ async function extractDocumentMarkdown(
     return extractDocxMarkdown(buf);
 }
 
-async function extractPdfMarkdown(buf: ArrayBuffer): Promise<string> {
+async function extractPdfMarkdown(
+    buf: ArrayBuffer,
+    filename: string = "document.pdf",
+): Promise<string> {
+    // Attempt Docling VLM conversion first if service is configured
     try {
-    const pdfjsLib = await import("pdfjs-dist/legacy/build/pdf.mjs" as string);
+        const doclingResult = await parsePdfWithDocling(buf, filename);
+        if (doclingResult && doclingResult.markdown) {
+            return doclingResult.markdown;
+        }
+    } catch {
+        // Fall back to local pdfjs-dist
+    }
+
+    try {
+        const pdfjsLib = await import("pdfjs-dist/legacy/build/pdf.mjs" as string);
         const pdf = await (
             pdfjsLib as unknown as {
                 getDocument: (opts: unknown) => {
