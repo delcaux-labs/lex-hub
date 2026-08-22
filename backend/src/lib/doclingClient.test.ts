@@ -39,15 +39,15 @@ describe("doclingClient", () => {
   });
 
   describe("getDoclingClient", () => {
-    it("returns null if DOCLING_SERVICE_URL is not set and no baseUrl provided", () => {
+    it("returns null if DOCLING_SERVICE_URL is not set and no baseUrl provided", async () => {
       delete process.env.DOCLING_SERVICE_URL;
-      const client = getDoclingClient();
+      const client = await getDoclingClient();
       expect(client).toBeNull();
       expect(mockCreateAPIClient).not.toHaveBeenCalled();
     });
 
-    it("creates a DoclingAPIClient when service URL is provided", () => {
-      const client = getDoclingClient("http://localhost:5001");
+    it("creates a DoclingAPIClient when service URL is provided", async () => {
+      const client = await getDoclingClient("http://localhost:5001");
       expect(client).not.toBeNull();
       expect(mockCreateAPIClient).toHaveBeenCalledWith("http://localhost:5001", {
         timeout: 180000,

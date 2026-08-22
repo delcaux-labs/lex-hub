@@ -1,4 +1,4 @@
-import { createAPIClient, type DoclingAPIClient } from "docling-sdk";
+import type { DoclingAPIClient } from "docling-sdk" with { "resolution-mode": "import" };
 
 export interface DoclingConvertResult {
   markdown: string;
@@ -35,15 +35,16 @@ const DEFAULT_TIMEOUT_MS = 180_000;
  * Creates and returns a configured Docling SDK API client,
  * or null if no service URL is configured.
  */
-export function getDoclingClient(
+export async function getDoclingClient(
   baseUrl?: string,
   timeoutMs: number = DEFAULT_TIMEOUT_MS,
-): DoclingAPIClient | null {
+): Promise<DoclingAPIClient | null> {
   const serviceUrl = baseUrl || process.env.DOCLING_SERVICE_URL?.trim();
   if (!serviceUrl) {
     return null;
   }
 
+  const { createAPIClient } = await import("docling-sdk");
   return createAPIClient(serviceUrl.replace(/\/+$/, ""), {
     timeout: timeoutMs,
   });
@@ -53,7 +54,7 @@ export function getDoclingClient(
  * Checks if the Docling service is reachable and healthy.
  */
 export async function isDoclingAvailable(baseUrl?: string): Promise<boolean> {
-  const client = getDoclingClient(baseUrl, 5_000);
+  const client = await getDoclingClient(baseUrl, 5_000);
   if (!client) {
     return false;
   }
@@ -93,7 +94,7 @@ export async function parsePdfWithDocling(
       ? Number(process.env.DOCLING_TIMEOUT_MS)
       : DEFAULT_TIMEOUT_MS);
 
-  const client = getDoclingClient(serviceUrl, timeoutMs);
+  const client = await getDoclingClient(serviceUrl, timeoutMs);
   if (!client) {
     return null;
   }
